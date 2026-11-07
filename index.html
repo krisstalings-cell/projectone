@@ -1,12 +1,113 @@
-1
-ض
-ش
-ظ
-ظ
-ظ
 
-ی
-ب
-ب
-ب
-ب
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECT ONE | Podcast Hub</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080b12;color:#eee;font-family:Tahoma}
+header{padding:30px;text-align:center;background:#111827;border-bottom:1px solid #b99a50}
+h1,h2,h3{color:#e6c66f}
+main{max-width:1100px;margin:30px auto;padding:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.card{background:#151c29;border:1px solid #51452c;border-radius:12px;padding:20px}
+a,button{display:inline-block;background:#b99a50;color:#111;padding:10px 15px;border:0;border-radius:6px;text-decoration:none;cursor:pointer;font-weight:bold}
+input{width:100%;padding:12px;margin:8px 0;background:#222;color:white;border:1px solid #66552e;border-radius:6px}
+small{color:#aaa}
+</style>
+</head>
+<body>
+
+<header>
+<h1>PROJECT ONE</h1>
+<p>Podcast Management Center</p>
+<p>مرکز مدیریت پادکست</p>
+</header>
+
+<main>
+<h2>۱. مدیریت انتشار</h2>
+<div class="grid">
+<div class="card">
+<h3>RabtHost</h3>
+<p>میزبانی فایل‌های صوتی و دریافت RSS</p>
+<a href="https://rabthost.com" target="_blank">ورود</a>
+</div>
+<div class="card">
+<h3>Apple Podcasts</h3>
+<p>انتشار پادکست در اپل</p>
+<a href="https://podcastsconnect.apple.com" target="_blank">ورود</a>
+</div>
+<div class="card">
+<h3>Spotify</h3>
+<p>مدیریت و انتشار پادکست</p>
+<a href="https://creators.spotify.com" target="_blank">ورود</a>
+</div>
+<div class="card">
+<h3>Castbox</h3>
+<p>انتشار و مدیریت پادکست</p>
+<a href="https://castbox.fm" target="_blank">ورود</a>
+</div>
+<div class="card">
+<h3>Fidibo</h3>
+<p>دسترسی به محتوای صوتی</p>
+<a href="https://fidibo.com" target="_blank">ورود</a>
+</div>
+</div>
+
+<h2>۲. مدیریت RSS</h2>
+<div class="card">
+<p>لینک RSS پادکست را اینجا ثبت کن:</p>
+<input id="rss" placeholder="لینک RSS را وارد کن">
+<button onclick="copyRSS()">کپی لینک RSS</button>
+<p id="message"></p>
+</div>
+
+<h2>۳. مدیریت قسمت‌ها</h2>
+<div class="card">
+<input id="episode" placeholder="عنوان قسمت جدید">
+<input id="number" type="number" placeholder="شماره قسمت">
+<button onclick="addEpisode()">ثبت قسمت</button>
+<div id="episodes"></div>
+</div>
+
+<h2>۴. تولید و ویرایش</h2>
+<div class="grid">
+<div class="card">
+<h3>Audacity</h3>
+<p>ضبط، ویرایش و پاک‌سازی صدا</p>
+<a href="https://www.audacityteam.org/" target="_blank">دریافت نرم‌افزار</a>
+</div>
+<div class="card">
+<h3>تبلیغات و درآمد</h3>
+<p>مدیریت اسپانسر و همکاری در فروش</p>
+</div>
+<div class="card">
+<h3>آمار پادکست</h3>
+<p>پیگیری پخش و شنوندگان</p>
+</div>
+</div>
+</main>
+
+<script>
+function copyRSS(){
+const value=document.getElementById('rss').value;
+if(!value)return;
+navigator.clipboard.writeText(value).then(()=>{
+document.getElementById('message').textContent='لینک کپی شد';
+});
+}
+function addEpisode(){
+const title=document.getElementById('episode').value;
+const number=document.getElementById('number').value;
+if(!title||!number)return;
+const item=document.createElement('p');
+item.textContent='قسمت '+number+' : '+title;
+document.getElementById('episodes').appendChild(item);
+document.getElementById('episode').value='';
+document.getElementById('number').value='';
+}
+</script>
+</body>
+</html>
