@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PROJECT ONE | Podcast Studio</title>
+<title>PROJECT ONE | مرکز فرماندهی</title>
 <style>
 :root{
   --bg:#090909;--panel:#151515;--panel2:#1d1d1d;
@@ -96,17 +96,149 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
  .grid,.checklist{grid-template-columns:1fr}
  .episode-head{align-items:flex-start;flex-direction:column}
 }
+
+.home-hero{background:linear-gradient(135deg,#211a0b,#111 58%,#090909);border:1px solid #5a4824;border-radius:18px;padding:22px;margin:4px 0 18px}
+.home-kicker{color:var(--gold);font-size:12px;letter-spacing:2px}
+.home-title{font-size:25px;color:var(--gold2);font-weight:bold;margin:4px 0}
+.home-desc{color:var(--muted);font-size:13px}
+.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.home-stat{background:#0c0c0c;border:1px solid var(--line);border-radius:11px;padding:12px;text-align:center}
+.home-stat strong{display:block;color:var(--gold);font-size:22px}
+.home-stat span{font-size:11px;color:var(--muted)}
+.module-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.module-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px;min-height:145px;display:flex;flex-direction:column;justify-content:space-between}
+.module-card.active{border-color:var(--gold);background:linear-gradient(145deg,#211b0e,#151515)}
+.module-icon{font-size:25px;margin-bottom:6px}
+.module-card h3{margin:0 0 5px;font-size:16px}
+.module-card p{font-size:12px;color:var(--muted);margin:0 0 12px}
+.module-status{font-size:11px;color:var(--gold);margin-bottom:8px}
+.module-card button{width:100%}
+.module-card button:disabled{background:#242424;color:#817b6e;border-color:#403a2d;opacity:1}
+.home-note{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.home-note .field{min-width:0}
+.home-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.home-nav a{color:var(--gold);border:1px solid var(--line);border-radius:8px;padding:6px 10px;text-decoration:none;font-size:12px}
+.module-anchor{scroll-margin-top:12px}
+@media(max-width:700px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.module-grid,.home-note{grid-template-columns:1fr}.home-title{font-size:21px}}
+
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">PROJECT ONE</div>
-  <div style="color:var(--gold);font-size:17px">PODCAST STUDIO</div>
-  <div class="subtitle">استودیوی مدیریت، تولید و آماده‌سازی انتشار پادکست</div>
+  <div style="color:var(--gold);font-size:17px">INTERNATIONAL · COMMAND CENTER</div>
+  <div class="subtitle">خودت را بشناس؛ جهان را دگرگون کن.</div>
 </header>
 
+
 <main>
+<section class="home-hero" id="home">
+  <div class="home-kicker">PROJECT ONE · CONTROL CENTER</div>
+  <div class="home-title">مرکز فرماندهی پروژه</div>
+  <div class="home-desc">یک نقطه شروع برای مدیریت مسیر آگاهی، تولید محتوا و اجرای پروژه‌های PROJECT ONE.</div>
+  <div class="home-stats">
+    <div class="home-stat"><strong id="homeEpisodeCount">۰</strong><span>قسمت‌های پادکست</span></div>
+    <div class="home-stat"><strong id="homeReadyCount">۰</strong><span>آماده انتشار</span></div>
+    <div class="home-stat"><strong id="homePublishedCount">۰</strong><span>منتشرشده</span></div>
+  </div>
+  <div class="home-nav">
+    <a href="#modules">ماژول‌ها</a>
+    <a href="#today-focus">تمرکز امروز</a>
+    <a href="#podcast-module">ورود به استودیوی پادکست</a>
+  </div>
+</section>
+
+<section class="panel" id="modules">
+  <h2>ماژول‌های PROJECT ONE</h2>
+  <div class="module-grid">
+    <article class="module-card active">
+      <div>
+        <div class="module-icon">🎙️</div>
+        <h3>استودیوی پادکست</h3>
+        <p>مدیریت قسمت‌ها، چک‌لیست تولید، اطلاعات انتشار و پشتیبان‌گیری.</p>
+        <div class="module-status">● فعال</div>
+      </div>
+      <button onclick="document.getElementById('podcast-module').scrollIntoView({behavior:'smooth'})">ورود به استودیو</button>
+    </article>
+    <article class="module-card">
+      <div>
+        <div class="module-icon">📚</div>
+        <h3>کتابخانه و کتاب‌ها</h3>
+        <p>مدیریت کتاب‌ها، فصل‌ها، یادداشت‌ها و مسیر مطالعه.</p>
+        <div class="module-status">در حال توسعه</div>
+      </div>
+      <button disabled>به‌زودی</button>
+    </article>
+    <article class="module-card">
+      <div>
+        <div class="module-icon">🎬</div>
+        <h3>استودیوی ویدئو</h3>
+        <p>مدیریت سناریو، تولید ویدئو، ریلز و خروجی‌های تصویری.</p>
+        <div class="module-status">در حال توسعه</div>
+      </div>
+      <button disabled>به‌زودی</button>
+    </article>
+    <article class="module-card">
+      <div>
+        <div class="module-icon">✍️</div>
+        <h3>مرکز محتوا</h3>
+        <p>ایده‌ها، نوشته‌ها، پست‌ها و برنامه انتشار در شبکه‌ها.</p>
+        <div class="module-status">در حال توسعه</div>
+      </div>
+      <button disabled>به‌زودی</button>
+    </article>
+    <article class="module-card">
+      <div>
+        <div class="module-icon">🎯</div>
+        <h3>اهداف و وظایف</h3>
+        <p>هدف اصلی، اولویت‌ها، اقدام بعدی و پیگیری پیشرفت.</p>
+        <div class="module-status">در حال توسعه</div>
+      </div>
+      <button disabled>به‌زودی</button>
+    </article>
+    <article class="module-card">
+      <div>
+        <div class="module-icon">🗂️</div>
+        <h3>مرکز اسناد</h3>
+        <p>دسترسی یکپارچه به فایل‌ها، منابع و دانش PROJECT ONE.</p>
+        <div class="module-status">در حال توسعه</div>
+      </div>
+      <button disabled>به‌زودی</button>
+    </article>
+  </div>
+</section>
+
+<section class="panel" id="today-focus">
+  <h2>تمرکز امروز</h2>
+  <p class="small">اطلاعات این بخش فقط در همین مرورگر ذخیره می‌شود.</p>
+  <div class="home-note">
+    <div class="field">
+      <label for="mainGoal">هدف اصلی</label>
+      <input id="mainGoal" placeholder="مهم‌ترین هدف امروز">
+    </div>
+    <div class="field">
+      <label for="nextAction">اقدام بعدی دقیق</label>
+      <input id="nextAction" placeholder="همین حالا دقیقاً چه کاری انجام می‌دهم؟">
+    </div>
+  </div>
+  <label for="priorities">سه اولویت امروز</label>
+  <textarea id="priorities" placeholder="۱. ...&#10;۲. ...&#10;۳. ..."></textarea>
+  <div class="actions">
+    <button onclick="saveHomeFocus()">ذخیره تمرکز امروز</button>
+    <span id="focusSaved" class="small" aria-live="polite"></span>
+  </div>
+</section>
+
+<div id="podcast-module" class="module-anchor">
+  <section class="panel">
+    <div class="episode-head">
+      <h2>استودیوی پادکست</h2>
+      <a href="#home" style="color:var(--gold);font-size:12px;text-decoration:none">↑ بازگشت به مرکز فرماندهی</a>
+    </div>
+    <p class="small">ماژول فعال تولید و مدیریت پادکست PROJECT ONE</p>
+  </section>
 
 <section class="panel">
   <h2>داشبورد پادکست</h2>
@@ -176,6 +308,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
   <p class="small">فایل پشتیبان شامل تنظیمات و اطلاعات قسمت‌هاست.</p>
 </section>
 
+</div>
 </main>
 
 <footer>PROJECT ONE INTERNATIONAL · Know Yourself. Transform the World.</footer>
@@ -584,6 +717,46 @@ function importData(event){
 
 loadSettings();
 render();
+
+const HOME_FOCUS_KEY = "project_one_home_focus_v1";
+function loadHomeFocus(){
+  try{
+    const data=JSON.parse(localStorage.getItem(HOME_FOCUS_KEY)||"{}");
+    document.getElementById("mainGoal").value=data.mainGoal||"";
+    document.getElementById("nextAction").value=data.nextAction||"";
+    document.getElementById("priorities").value=data.priorities||"";
+  }catch(e){}
+}
+function saveHomeFocus(){
+  const data={
+    mainGoal:document.getElementById("mainGoal").value,
+    nextAction:document.getElementById("nextAction").value,
+    priorities:document.getElementById("priorities").value
+  };
+  localStorage.setItem(HOME_FOCUS_KEY,JSON.stringify(data));
+  document.getElementById("focusSaved").textContent="ذخیره شد ✓";
+}
+function syncHomeStats(){
+  const pairs=[
+    ["total","homeEpisodeCount"],
+    ["ready","homeReadyCount"],
+    ["published","homePublishedCount"]
+  ];
+  pairs.forEach(([from,to])=>{
+    const source=document.getElementById(from), target=document.getElementById(to);
+    if(source && target) target.textContent=source.textContent;
+  });
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  loadHomeFocus();
+  syncHomeStats();
+  const ids=["total","ready","published"];
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) new MutationObserver(syncHomeStats).observe(el,{childList:true,characterData:true,subtree:true});
+  });
+});
+
 </script>
 </body>
 </html>
