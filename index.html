@@ -1,2 +1,1191 @@
-site projectone
-سلام
+import os
+import sys
+import json
+import shutil
+import subprocess
+from pathlib import Path
+
+from PySide6.QtCore import Qt, QThread, Signal, QSize
+from PySide6.QtGui import QColor, QPixmap, QPainter, QFont
+from PySide6.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
+    QGridLayout, QLabel, QPushButton, QListWidget, QListWidgetItem,
+    QFileDialog, QMessageBox, QDoubleSpinBox, QComboBox, QSlider,
+    QProgressBar, QGroupBox, QSplitter, QLineEdit, QInputDialog
+)
+
+APP_NAME = "PROJECT ONE Movie Maker PRO"
+
+IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".bmp", ".webp"}
+VIDEO_EXTS = {".mp4", ".mov", ".mkv", ".avi", ".webm", ".m4v"}
+AUDIO_EXTS = {".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac"}
+
+FFMPEG_DEFAULT = (
+    r"C:\Users\Shira\AppData\Local\Microsoft\WinGet\Packages"
+    r"\Gyan.FFmpeg.Shared_Microsoft.Winget.Source_8wekyb3d8bbwe"
+    r"\ffmpeg-9.0.2-full_build-shared\bin\ffmpeg.exe"
+)
+
+
+def find_ffmpeg():
+    configured = os.environ.get("FFMPEG")
+    if configured and os.path.isfile(configured):
+        return configured
+
+    found = shutil.which("ffmpeg")
+    if found:
+        return found
+
+    if os.path.isfile(FFMPEG_DEFAULT):
+        return FFMPEG_DEFAULT
+
+    return None
+
+
+def ffprobe_path(ffmpeg):
+    folder = os.path.dirname(ffmpeg)
+    candidate = os.path.join(folder, "ffprobe.exe")
+    if os.path.isfile(candidate):
+        return candidate
+    return shutil.which("ffprobe")
+
+
+def media_duration(path, ffmpeg):
+    probe = ffprobe_path(ffmpeg) if ffmpeg else None
+    if not probe:
+        return 5.0
+
+    try:
+        result = subprocess.run(
+            [
+                probe, "-v", "error",
+                "-show_entries", "format=duration",
+                "-of", "default=noprint_wrappers=1:nokey=1",
+                path
+            ],
+            capture_output=True,
+            text=True,
+            errors="replace",
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)
+        )
+        return max(0.1, float(result.stdout.strip()))
+    except Exception:
+        return 5.0
+
+
+class ExportWorker(QThread):
+    status = Signal(str)
+    success = Signal(str)
+    failure = Signal(str)
+
+    def __init__(self, clips, music, output, ffmpeg, settings):
+        super().__init__()
+        self.clips = [dict(c) for c in clips]
+        self.music = music
+        self.output = output
+        self.ffmpeg = ffmpeg
+        self.settings = settings
+
+    def run(self):
+        try:
+            self.export_video()
+            self.success.emit(self.output)
+        except Exception as exc:
+            self.failure.emit(str(exc))
+
+    def export_video(self):
+        clips = sorted(
+            self.clips,
+            key=lambda c: (c["track"], c["start"])
+        )
+
+        visual = [
+            c for c in clips
+            if c["kind"] in ("image", "video")
+            and c["track"] in (0, 1)
+        ]
+
+        texts = [c for c in clips if c["kind"] == "text"]
+        audios = [c for c in clips if c["kind"] == "audio"]
+
+        if not visual:
+            raise RuntimeError(
+                "برای خروجی، حداقل یک عکس یا ویدئو به ترک V1 یا V2 اضافه کن."
+            )
+
+        for c in visual + audios:
+            if not c.get("path") or not os.path.isfile(c["path"]):
+                raise RuntimeError(
+                    "فایل رسانه پیدا نشد: " + str(c.get("path"))
+                )
+
+        width, height = self.settings["size"]
+        fps = self.settings["fps"]
+        crf = self.settings["crf"]
+
+        duration = max(
+            c["start"] + c["duration"]
+            for c in visual + texts + audios
+        )
+
+        args = [self.ffmpeg, "-y"]
+        filters = []
+
+        args += [
+            "-f", "lavfi", "-i",
+            f"color=c=black:s={width}x{height}:r={fps}:d={duration}"
+        ]
+
+        input_info = []
+
+        for clip in visual + audios:
+            idx = len(input_info) + 1
+
+            if clip["kind"] == "image":
+                args += [
+                    "-loop", "1",
+                    "-t", str(clip["duration"]),
+                    "-i", clip["path"]
+                ]
+            else:
+                args += ["-i", clip["path"]]
+
+            input_info.append((clip, idx))
+
+        current = "base"
+        filters.append("[0:v]format=yuv420p[base]")
+
+        layer_count = 0
+
+        for clip, idx in input_info:
+            if clip["kind"] not in ("image", "video"):
+                continue
+
+            start = float(clip["start"])
+            end = start + float(clip["duration"])
+
+            label = f"layer{layer_count}"
+            out = f"comp{layer_count}"
+
+            vf = (
+                f"[{idx}:v]"
+                f"scale={width}:{height}:"
+                "force_original_aspect_ratio=decrease,"
+                f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2:color=black,"
+                "setsar=1,"
+                f"trim=duration={clip['duration']},"
+                "setpts=PTS-STARTPTS"
+            )
+
+            effect = clip.get("effect", "بدون افکت")
+
+            if effect == "سیاه و سفید":
+                vf += ",hue=s=0"
+
+            elif effect == "روشن":
+                vf += ",eq=brightness=0.08"
+
+            elif effect == "کنتراست":
+                vf += ",eq=contrast=1.2:saturation=1.1"
+
+            elif effect == "سینمایی":
+                vf += ",eq=contrast=1.12:saturation=0.85"
+
+            elif effect == "سپیا":
+                vf += (
+                    ",colorchannelmixer="
+                    ".393:.769:.189:0:"
+                    ".349:.686:.168:0:"
+                    ".272:.534:.131"
+                )
+
+            filters.append(vf + f"[{label}]")
+
+            filters.append(
+                f"[{current}][{label}]"
+                f"overlay=0:0:"
+                f"enable='between(t,{start},{end})'"
+                f"[{out}]"
+            )
+
+            current = out
+            layer_count += 1
+
+        for i, clip in enumerate(texts):
+            text = (
+                clip.get("text", "")
+                .replace("\\", "\\\\")
+                .replace(":", "\\:")
+                .replace("'", "\\'")
+                .replace("%", "\\%")
+            )
+
+            start = float(clip["start"])
+            end = start + float(clip["duration"])
+            out = f"textout{i}"
+
+            filters.append(
+                f"[{current}]drawtext=text='{text}':"
+                "fontcolor=white:"
+                f"fontsize={clip.get('fontsize', 42)}:"
+                "borderw=2:bordercolor=black:"
+                "x=(w-text_w)/2:y=h-text_h-60:"
+                f"enable='between(t,{start},{end})'"
+                f"[{out}]"
+            )
+
+            current = out
+
+        filters.append(f"[{current}]format=yuv420p[outv]")
+
+        audio_labels = []
+
+        for i, (clip, idx) in enumerate(input_info):
+            if clip["kind"] != "audio":
+                continue
+
+            start_ms = int(float(clip["start"]) * 1000)
+            out = f"aud{i}"
+
+            filters.append(
+                f"[{idx}:a]"
+                f"atrim=duration={clip['duration']},"
+                "asetpts=PTS-STARTPTS,"
+                f"adelay={start_ms}|{start_ms}"
+                f"[{out}]"
+            )
+
+            audio_labels.append(f"[{out}]")
+
+        if self.music and os.path.isfile(self.music):
+            args += ["-stream_loop", "-1", "-i", self.music]
+
+            music_idx = 1 + len(input_info)
+
+            filters.append(
+                f"[{music_idx}:a]"
+                f"atrim=duration={duration},"
+                f"volume={self.settings['volume']},"
+                "asetpts=PTS-STARTPTS[bgmusic]"
+            )
+
+            audio_labels.append("[bgmusic]")
+
+        if audio_labels:
+            filters.append(
+                "".join(audio_labels)
+                + f"amix=inputs={len(audio_labels)}:"
+                "duration=longest:dropout_transition=2[aout]"
+            )
+
+        args += [
+            "-filter_complex",
+            ";".join(filters),
+            "-map", "[outv]"
+        ]
+
+        if audio_labels:
+            args += [
+                "-map", "[aout]",
+                "-c:a", "aac",
+                "-b:a", "192k"
+            ]
+
+        args += [
+            "-c:v", "libx264",
+            "-preset", "medium",
+            "-crf", str(crf),
+            "-pix_fmt", "yuv420p",
+            "-r", str(fps),
+            "-t", str(duration),
+            "-movflags", "+faststart",
+            self.output
+        ]
+
+        self.status.emit("FFmpeg در حال ساخت فایل MP4 است...")
+
+        result = subprocess.run(
+            args,
+            capture_output=True,
+            text=True,
+            errors="replace",
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)
+        )
+
+        if result.returncode != 0:
+            raise RuntimeError(
+                result.stderr[-6000:] or "خطای ناشناخته FFmpeg"
+            )
+
+
+class MovieMaker(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle(APP_NAME)
+        self.resize(1450, 900)
+
+        self.ffmpeg = find_ffmpeg()
+        self.clips = []
+        self.media = []
+        self.music = None
+        self.selected_id = None
+        self.worker = None
+        self.project_path = None
+
+        self.build_ui()
+        self.refresh()
+
+    def build_ui(self):
+        self.setStyleSheet("""
+            QMainWindow,QWidget {
+                background:#151515;
+                color:#eeeeee;
+                font-family:Segoe UI;
+                font-size:13px;
+            }
+
+            QGroupBox {
+                border:1px solid #746039;
+                border-radius:8px;
+                margin-top:10px;
+                padding:9px;
+                color:#e6c66f;
+                font-weight:bold;
+            }
+
+            QPushButton {
+                background:#302a1e;
+                border:1px solid #8a7138;
+                border-radius:6px;
+                padding:7px;
+            }
+
+            QPushButton:hover {
+                background:#514329;
+            }
+
+            QLineEdit,QComboBox,QDoubleSpinBox,QListWidget {
+                background:#222222;
+                border:1px solid #555555;
+                border-radius:4px;
+                padding:5px;
+            }
+
+            QSlider::groove:horizontal {
+                height:5px;
+                background:#444444;
+            }
+
+            QSlider::handle:horizontal {
+                background:#e6c66f;
+                width:13px;
+                margin:-5px 0;
+            }
+
+            QProgressBar {
+                border:1px solid #555;
+                text-align:center;
+            }
+
+            QProgressBar::chunk {
+                background:#b59647;
+            }
+        """)
+
+        root = QWidget()
+        self.setCentralWidget(root)
+        main = QVBoxLayout(root)
+
+        header = QHBoxLayout()
+
+        title = QLabel("PROJECT ONE  /  MOVIE MAKER PRO")
+        title.setStyleSheet(
+            "font-size:22px;font-weight:bold;color:#e6c66f;"
+        )
+
+        header.addWidget(title)
+        header.addStretch()
+        header.addWidget(QLabel("MULTI-TRACK VIDEO STUDIO"))
+
+        main.addLayout(header)
+
+        toolbar = QHBoxLayout()
+
+        actions = [
+            ("افزودن رسانه", self.add_media),
+            ("افزودن متن", self.add_text),
+            ("افزودن صدا", self.add_audio),
+            ("حذف کلیپ", self.delete_clip),
+            ("ذخیره پروژه", self.save_project),
+            ("بازکردن پروژه", self.load_project)
+        ]
+
+        for text, action in actions:
+            button = QPushButton(text)
+            button.clicked.connect(action)
+            toolbar.addWidget(button)
+
+        main.addLayout(toolbar)
+
+        split = QSplitter(Qt.Horizontal)
+
+        left = QWidget()
+        left_layout = QVBoxLayout(left)
+
+        media_box = QGroupBox("کتابخانه رسانه")
+        media_layout = QVBoxLayout(media_box)
+
+        self.media_list = QListWidget()
+        self.media_list.itemDoubleClicked.connect(
+            self.add_selected_media
+        )
+
+        media_layout.addWidget(self.media_list)
+
+        add_button = QPushButton(
+            "افزودن رسانه انتخاب‌شده به تایم‌لاین"
+        )
+        add_button.clicked.connect(self.add_selected_media)
+        media_layout.addWidget(add_button)
+
+        left_layout.addWidget(media_box, 2)
+
+        inspector = QGroupBox("تنظیمات کلیپ")
+        grid = QGridLayout(inspector)
+
+        grid.addWidget(QLabel("نام کلیپ"), 0, 0)
+
+        self.name_edit = QLineEdit()
+        grid.addWidget(self.name_edit, 0, 1)
+
+        grid.addWidget(QLabel("ترک"), 1, 0)
+
+        self.track_combo = QComboBox()
+        self.track_combo.addItems([
+            "V1 · تصویر پایه",
+            "V2 · لایه رویی",
+            "T1 · متن",
+            "A1 · صدا",
+            "A2 · موسیقی"
+        ])
+        grid.addWidget(self.track_combo, 1, 1)
+
+        grid.addWidget(QLabel("شروع (ثانیه)"), 2, 0)
+
+        self.start_spin = QDoubleSpinBox()
+        self.start_spin.setRange(0, 99999)
+        self.start_spin.setDecimals(2)
+        grid.addWidget(self.start_spin, 2, 1)
+
+        grid.addWidget(QLabel("مدت (ثانیه)"), 3, 0)
+
+        self.duration_spin = QDoubleSpinBox()
+        self.duration_spin.setRange(0.1, 99999)
+        self.duration_spin.setDecimals(2)
+        grid.addWidget(self.duration_spin, 3, 1)
+
+        grid.addWidget(QLabel("متن روی تصویر"), 4, 0)
+
+        self.text_edit = QLineEdit()
+        grid.addWidget(self.text_edit, 4, 1)
+
+        grid.addWidget(QLabel("افکت"), 5, 0)
+
+        self.effect_combo = QComboBox()
+        self.effect_combo.addItems([
+            "بدون افکت",
+            "سیاه و سفید",
+            "سپیا",
+            "روشن",
+            "کنتراست",
+            "سینمایی"
+        ])
+        grid.addWidget(self.effect_combo, 5, 1)
+
+        apply_btn = QPushButton("اعمال تغییرات کلیپ")
+        apply_btn.clicked.connect(self.apply_clip_changes)
+        grid.addWidget(apply_btn, 6, 0, 1, 2)
+
+        left_layout.addWidget(inspector, 2)
+
+        center = QWidget()
+        center_layout = QVBoxLayout(center)
+
+        preview_box = QGroupBox("مانیتور پیش‌نمایش")
+        preview_layout = QVBoxLayout(preview_box)
+
+        self.preview = QLabel("برای شروع، رسانه اضافه کن")
+        self.preview.setAlignment(Qt.AlignCenter)
+        self.preview.setMinimumSize(500, 300)
+
+        self.preview.setStyleSheet(
+            "background:#050505;"
+            "border:1px solid #746039;"
+            "border-radius:7px;"
+        )
+
+        preview_layout.addWidget(self.preview, 1)
+
+        self.preview_time = QLabel("انتخابی وجود ندارد")
+        self.preview_time.setAlignment(Qt.AlignCenter)
+        preview_layout.addWidget(self.preview_time)
+
+        center_layout.addWidget(preview_box, 3)
+
+        timeline_box = QGroupBox("تایم‌لاین چندترکی")
+        timeline_layout = QVBoxLayout(timeline_box)
+
+        self.timeline = QListWidget()
+        self.timeline.currentItemChanged.connect(
+            self.timeline_selected
+        )
+        self.timeline.setMinimumHeight(250)
+
+        timeline_layout.addWidget(self.timeline)
+
+        timeline_layout.addWidget(QLabel(
+            "V1: تصویر/ویدئو پایه | V2: لایه رویی | "
+            "T1: متن | A1/A2: صدا"
+        ))
+
+        center_layout.addWidget(timeline_box, 2)
+
+        export_box = QGroupBox("تنظیمات خروجی")
+        export_grid = QGridLayout(export_box)
+
+        export_grid.addWidget(QLabel("اندازه"), 0, 0)
+
+        self.size_combo = QComboBox()
+        self.size_combo.addItem(
+            "Full HD افقی", (1920, 1080)
+        )
+        self.size_combo.addItem(
+            "HD افقی", (1280, 720)
+        )
+        self.size_combo.addItem(
+            "عمودی شبکه‌های اجتماعی", (1080, 1920)
+        )
+        self.size_combo.addItem(
+            "مربع", (1080, 1080)
+        )
+
+        export_grid.addWidget(self.size_combo, 0, 1)
+
+        export_grid.addWidget(QLabel("نرخ فریم"), 0, 2)
+
+        self.fps_combo = QComboBox()
+        self.fps_combo.addItems(["24", "25", "30", "50", "60"])
+        self.fps_combo.setCurrentText("30")
+
+        export_grid.addWidget(self.fps_combo, 0, 3)
+
+        export_grid.addWidget(QLabel("کیفیت"), 1, 0)
+
+        self.quality_combo = QComboBox()
+        self.quality_combo.addItem("کیفیت بالا", 18)
+        self.quality_combo.addItem("متعادل", 23)
+        self.quality_combo.addItem("حجم کمتر", 28)
+        self.quality_combo.setCurrentIndex(1)
+
+        export_grid.addWidget(self.quality_combo, 1, 1)
+
+        music_button = QPushButton("انتخاب موسیقی پس‌زمینه")
+        music_button.clicked.connect(self.choose_music)
+        export_grid.addWidget(music_button, 1, 2)
+
+        self.music_label = QLabel("موسیقی انتخاب نشده")
+        export_grid.addWidget(self.music_label, 1, 3)
+
+        export_grid.addWidget(QLabel("حجم موسیقی"), 2, 0)
+
+        self.volume_slider = QSlider(Qt.Horizontal)
+        self.volume_slider.setRange(0, 100)
+        self.volume_slider.setValue(70)
+        export_grid.addWidget(self.volume_slider, 2, 1)
+
+        self.export_btn = QPushButton("رندر و ساخت MP4")
+        self.export_btn.clicked.connect(self.export)
+        export_grid.addWidget(self.export_btn, 2, 2, 1, 2)
+
+        self.progress = QProgressBar()
+        self.progress.setRange(0, 0)
+        self.progress.setVisible(False)
+        export_grid.addWidget(self.progress, 3, 0, 1, 4)
+
+        self.status = QLabel("آماده")
+        self.status.setWordWrap(True)
+        export_grid.addWidget(self.status, 4, 0, 1, 4)
+
+        center_layout.addWidget(export_box, 1)
+
+        split.addWidget(left)
+        split.addWidget(center)
+        split.setSizes([340, 1050])
+
+        main.addWidget(split, 1)
+
+    def add_media(self):
+        paths, _ = QFileDialog.getOpenFileNames(
+            self,
+            "انتخاب رسانه",
+            "",
+            "Media (*.png *.jpg *.jpeg *.bmp *.webp "
+            "*.mp4 *.mov *.mkv *.avi *.webm *.m4v "
+            "*.mp3 *.wav *.m4a *.aac *.ogg *.flac)"
+        )
+
+        for path in paths:
+            if path not in self.media:
+                self.media.append(path)
+
+                item = QListWidgetItem(Path(path).name)
+                item.setToolTip(path)
+
+                self.media_list.addItem(item)
+
+    def add_selected_media(self):
+        item = self.media_list.currentItem()
+
+        if not item:
+            return
+
+        path = item.toolTip()
+        ext = Path(path).suffix.lower()
+
+        if ext in IMAGE_EXTS:
+            kind, track, duration = "image", 0, 5.0
+
+        elif ext in VIDEO_EXTS:
+            kind, track = "video", 0
+            duration = media_duration(path, self.ffmpeg)
+
+        elif ext in AUDIO_EXTS:
+            kind, track = "audio", 3
+            duration = media_duration(path, self.ffmpeg)
+
+        else:
+            return
+
+        start = max(
+            (
+                c["start"] + c["duration"]
+                for c in self.clips
+                if c["track"] == track
+            ),
+            default=0.0
+        )
+
+        clip = {
+            "id": os.urandom(8).hex(),
+            "name": Path(path).name,
+            "path": path,
+            "kind": kind,
+            "track": track,
+            "start": start,
+            "duration": duration,
+            "text": "",
+            "effect": "بدون افکت",
+            "fontsize": 42
+        }
+
+        self.clips.append(clip)
+        self.refresh()
+        self.select_clip(clip["id"])
+
+    def add_text(self):
+        text, ok = QInputDialog.getMultiLineText(
+            self,
+            "افزودن متن",
+            "متن فارسی یا انگلیسی:"
+        )
+
+        if not ok or not text.strip():
+            return
+
+        clip = {
+            "id": os.urandom(8).hex(),
+            "name": text[:24],
+            "path": "",
+            "kind": "text",
+            "track": 2,
+            "start": 0.0,
+            "duration": 3.0,
+            "text": text,
+            "effect": "بدون افکت",
+            "fontsize": 42
+        }
+
+        self.clips.append(clip)
+        self.refresh()
+        self.select_clip(clip["id"])
+
+    def add_audio(self):
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "انتخاب فایل صوتی",
+            "",
+            "Audio (*.mp3 *.wav *.m4a *.aac *.ogg *.flac)"
+        )
+
+        if not path:
+            return
+
+        clip = {
+            "id": os.urandom(8).hex(),
+            "name": Path(path).name,
+            "path": path,
+            "kind": "audio",
+            "track": 3,
+            "start": 0.0,
+            "duration": media_duration(path, self.ffmpeg),
+            "text": "",
+            "effect": "بدون افکت",
+            "fontsize": 42
+        }
+
+        self.clips.append(clip)
+        self.refresh()
+        self.select_clip(clip["id"])
+
+    def selected_clip(self):
+        return next(
+            (c for c in self.clips if c["id"] == self.selected_id),
+            None
+        )
+
+    def select_clip(self, clip_id):
+        self.selected_id = clip_id
+        clip = self.selected_clip()
+
+        if not clip:
+            return
+
+        for widget, value in [
+            (self.name_edit, clip.get("name", "")),
+            (self.text_edit, clip.get("text", ""))
+        ]:
+            widget.blockSignals(True)
+            widget.setText(str(value))
+            widget.blockSignals(False)
+
+        for widget, value in [
+            (self.start_spin, clip.get("start", 0)),
+            (self.duration_spin, clip.get("duration", 5))
+        ]:
+            widget.blockSignals(True)
+            widget.setValue(float(value))
+            widget.blockSignals(False)
+
+        self.track_combo.blockSignals(True)
+        self.track_combo.setCurrentIndex(
+            int(clip.get("track", 0))
+        )
+        self.track_combo.blockSignals(False)
+
+        self.effect_combo.blockSignals(True)
+        self.effect_combo.setCurrentText(
+            clip.get("effect", "بدون افکت")
+        )
+        self.effect_combo.blockSignals(False)
+
+        self.show_preview(clip)
+
+    def timeline_selected(self, current, previous):
+        if current and current.data(Qt.UserRole):
+            self.select_clip(current.data(Qt.UserRole))
+
+    def apply_clip_changes(self):
+        clip = self.selected_clip()
+
+        if not clip:
+            return
+
+        clip["name"] = (
+            self.name_edit.text().strip() or clip["name"]
+        )
+        clip["track"] = self.track_combo.currentIndex()
+        clip["start"] = float(self.start_spin.value())
+        clip["duration"] = float(self.duration_spin.value())
+        clip["text"] = self.text_edit.text()
+        clip["effect"] = self.effect_combo.currentText()
+
+        self.refresh()
+        self.select_clip(clip["id"])
+
+    def delete_clip(self):
+        clip = self.selected_clip()
+
+        if not clip:
+            return
+
+        self.clips = [
+            c for c in self.clips
+            if c["id"] != clip["id"]
+        ]
+
+        self.selected_id = None
+        self.refresh()
+
+    def choose_music(self):
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "موسیقی پس‌زمینه",
+            "",
+            "Audio (*.mp3 *.wav *.m4a *.aac *.ogg *.flac)"
+        )
+
+        if path:
+            self.music = path
+            self.music_label.setText(Path(path).name)
+
+    def show_preview(self, clip):
+        path = clip.get("path", "")
+
+        if clip["kind"] == "text":
+            pix = QPixmap(960, 540)
+            pix.fill(QColor("#202020"))
+
+            painter = QPainter(pix)
+            painter.setPen(QColor("white"))
+            painter.setFont(
+                QFont("Segoe UI", clip.get("fontsize", 42))
+            )
+
+            painter.drawText(
+                pix.rect().adjusted(35, 35, -35, -35),
+                Qt.AlignCenter | Qt.TextWordWrap,
+                clip.get("text", "")
+            )
+
+            painter.end()
+
+            self.preview.setPixmap(
+                pix.scaled(
+                    self.preview.size(),
+                    Qt.KeepAspectRatio,
+                    Qt.SmoothTransformation
+                )
+            )
+
+            self.preview_time.setText("پیش‌نمایش متن")
+            return
+
+        if path and Path(path).suffix.lower() in IMAGE_EXTS:
+            pix = QPixmap(path)
+
+            if pix.isNull():
+                self.preview.setText("تصویر قابل خواندن نیست")
+                return
+
+            if clip.get("effect") == "سیاه و سفید":
+                image = pix.toImage().convertToFormat(
+                    pix.toImage().Format.Format_Grayscale8
+                )
+                pix = QPixmap.fromImage(image)
+
+            painter = QPainter(pix)
+
+            if clip.get("effect") == "روشن":
+                painter.fillRect(
+                    pix.rect(),
+                    QColor(255, 255, 255, 30)
+                )
+
+            if clip.get("text"):
+                painter.setPen(QColor("white"))
+                painter.setFont(
+                    QFont("Segoe UI", clip.get("fontsize", 42))
+                )
+
+                painter.drawText(
+                    pix.rect().adjusted(20, 20, -20, -20),
+                    Qt.AlignHCenter | Qt.AlignBottom | Qt.TextWordWrap,
+                    clip["text"]
+                )
+
+            painter.end()
+
+            self.preview.setPixmap(
+                pix.scaled(
+                    self.preview.size(),
+                    Qt.KeepAspectRatio,
+                    Qt.SmoothTransformation
+                )
+            )
+
+            self.preview_time.setText(
+                f"شروع: {clip['start']:.2f} ثانیه | "
+                f"مدت: {clip['duration']:.2f} ثانیه"
+            )
+            return
+
+        if clip["kind"] == "video":
+            self.preview.setPixmap(QPixmap())
+            self.preview.setText(
+                "کلیپ ویدئویی انتخاب شده:\n"
+                + clip.get("name", "")
+                + "\nپیش‌نمایش ویدئوی زنده در این نسخه فعال نیست."
+            )
+
+            self.preview_time.setText(
+                f"شروع: {clip['start']:.2f} | "
+                f"مدت: {clip['duration']:.2f}"
+            )
+            return
+
+        self.preview.setPixmap(QPixmap())
+        self.preview.setText("این کلیپ صوتی است.")
+
+        self.preview_time.setText(
+            f"شروع: {clip['start']:.2f} | "
+            f"مدت: {clip['duration']:.2f}"
+        )
+
+    def refresh(self):
+        if not hasattr(self, "timeline"):
+            return
+
+        self.timeline.blockSignals(True)
+        self.timeline.clear()
+
+        lanes = [
+            ("V1 · تصویر / ویدئو", 0),
+            ("V2 · لایه تصویری", 1),
+            ("T1 · متن", 2),
+            ("A1 · صدا", 3),
+            ("A2 · موسیقی", 4)
+        ]
+
+        colors = {
+            0: "#315c55",
+            1: "#37537a",
+            2: "#735a26",
+            3: "#6b3e56",
+            4: "#5a4930"
+        }
+
+        for title, track in lanes:
+            heading = QListWidgetItem(title)
+            heading.setFlags(Qt.ItemIsEnabled)
+            heading.setForeground(QColor("#e6c66f"))
+            heading.setBackground(QColor("#29251e"))
+            self.timeline.addItem(heading)
+
+            track_clips = sorted(
+                [
+                    c for c in self.clips
+                    if c["track"] == track
+                ],
+                key=lambda c: c["start"]
+            )
+
+            for clip in track_clips:
+                label = (
+                    clip["text"][:18]
+                    if clip["kind"] == "text"
+                    else clip["name"]
+                )
+
+                item = QListWidgetItem(
+                    f"  {label} | شروع {clip['start']:.1f}s"
+                    f" | مدت {clip['duration']:.1f}s"
+                )
+
+                item.setData(Qt.UserRole, clip["id"])
+                item.setBackground(QColor(colors[track]))
+                item.setForeground(QColor("white"))
+                item.setSizeHint(QSize(200, 34))
+
+                self.timeline.addItem(item)
+
+        self.timeline.blockSignals(False)
+
+        if self.selected_id:
+            for i in range(self.timeline.count()):
+                item = self.timeline.item(i)
+
+                if item.data(Qt.UserRole) == self.selected_id:
+                    self.timeline.setCurrentItem(item)
+                    break
+
+    def save_project(self):
+        path, _ = QFileDialog.getSaveFileName(
+            self,
+            "ذخیره پروژه",
+            "PROJECT_ONE_project.json",
+            "PROJECT ONE Project (*.json)"
+        )
+
+        if not path:
+            return
+
+        data = {
+            "version": 1,
+            "clips": self.clips,
+            "music": self.music,
+            "media": self.media
+        }
+
+        try:
+            with open(path, "w", encoding="utf-8") as file:
+                json.dump(
+                    data,
+                    file,
+                    ensure_ascii=False,
+                    indent=2
+                )
+
+            self.project_path = path
+            self.status.setText("پروژه ذخیره شد: " + path)
+
+        except Exception as exc:
+            QMessageBox.critical(
+                self, "خطای ذخیره", str(exc)
+            )
+
+    def load_project(self):
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "بازکردن پروژه",
+            "",
+            "PROJECT ONE Project (*.json)"
+        )
+
+        if not path:
+            return
+
+        try:
+            with open(path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+
+            self.clips = data.get("clips", [])
+            self.music = data.get("music")
+            self.media = data.get("media", [])
+            self.project_path = path
+
+            self.media_list.clear()
+
+            for media_path in self.media:
+                item = QListWidgetItem(Path(media_path).name)
+                item.setToolTip(media_path)
+                self.media_list.addItem(item)
+
+            self.music_label.setText(
+                Path(self.music).name
+                if self.music
+                else "موسیقی انتخاب نشده"
+            )
+
+            self.selected_id = None
+            self.refresh()
+            self.status.setText("پروژه بارگذاری شد.")
+
+        except Exception as exc:
+            QMessageBox.critical(
+                self, "خطای پروژه", str(exc)
+            )
+
+    def export(self):
+        if not self.ffmpeg:
+            QMessageBox.critical(
+                self,
+                "FFmpeg پیدا نشد",
+                "FFmpeg پیدا نشد. مسیر آن را در FFMPEG_DEFAULT تنظیم کن."
+            )
+            return
+
+        if not self.clips:
+            QMessageBox.warning(
+                self, "تایم‌لاین", "تایم‌لاین خالی است."
+            )
+            return
+
+        output, _ = QFileDialog.getSaveFileName(
+            self,
+            "خروجی MP4",
+            "PROJECT_ONE_output.mp4",
+            "MP4 (*.mp4)"
+        )
+
+        if not output:
+            return
+
+        if not output.lower().endswith(".mp4"):
+            output += ".mp4"
+
+        settings = {
+            "size": self.size_combo.currentData(),
+            "fps": int(self.fps_combo.currentText()),
+            "crf": self.quality_combo.currentData(),
+            "volume": self.volume_slider.value() / 100.0
+        }
+
+        self.export_btn.setEnabled(False)
+        self.progress.setVisible(True)
+        self.status.setText("آماده‌سازی خروجی...")
+
+        self.worker = ExportWorker(
+            self.clips,
+            self.music,
+            output,
+            self.ffmpeg,
+            settings
+        )
+
+        self.worker.status.connect(self.status.setText)
+        self.worker.success.connect(self.export_success)
+        self.worker.failure.connect(self.export_failure)
+        self.worker.start()
+
+    def export_success(self, path):
+        self.export_btn.setEnabled(True)
+        self.progress.setVisible(False)
+        self.status.setText("خروجی ساخته شد: " + path)
+
+        QMessageBox.information(
+            self,
+            "پایان رندر",
+            "فایل ذخیره شد:\n" + path
+        )
+
+    def export_failure(self, message):
+        self.export_btn.setEnabled(True)
+        self.progress.setVisible(False)
+        self.status.setText("رندر ناموفق بود.")
+
+        QMessageBox.critical(
+            self,
+            "خطای رندر",
+            message
+        )
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        clip = self.selected_clip()
+
+        if clip:
+            self.show_preview(clip)
+
+
+def main():
+    app = QApplication(sys.argv)
+    app.setApplicationName(APP_NAME)
+
+    window = MovieMaker()
+    window.show()
+
+    if not window.ffmpeg:
+        QMessageBox.warning(
+            window,
+            "FFmpeg",
+            "برنامه اجرا شد، اما FFmpeg پیدا نشد.\n"
+            "مسیر FFmpeg را در کد تنظیم کن."
+        )
+
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
