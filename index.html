@@ -1,375 +1,260 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PROJECT ONE | Podcast Hub</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-background:#080b12;
-color:#eee;
-font-family:Tahoma,sans-serif;
-}
-
-header{
-padding:25px;
-text-align:center;
-background:#111827;
-border-bottom:1px solid #b99a50;
-}
-
-h1,h2,h3{color:#e6c66f}
-
-main{
-max-width:1000px;
-margin:25px auto;
-padding:15px;
-}
-
-.card{
-background:#151c29;
-border:1px solid #51452c;
-border-radius:12px;
-padding:18px;
-margin-bottom:18px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-}
-
-input,textarea,select{
-width:100%;
-padding:12px;
-margin:7px 0;
-background:#080b12;
-color:white;
-border:1px solid #51452c;
-border-radius:7px;
-font-family:Tahoma;
-}
-
-textarea{min-height:90px}
-
-button,.link{
-display:inline-block;
-padding:10px 15px;
-background:#b99a50;
-color:#111;
-border:0;
-border-radius:7px;
-cursor:pointer;
-text-decoration:none;
-font-weight:bold;
-margin:4px 0;
-}
-
-button:hover,.link:hover{
-background:#e6c66f;
-}
-
-.item{
-background:#202b3b;
-padding:12px;
-border-radius:8px;
-margin-top:10px;
-}
-
-.small{color:#aaa;font-size:12px}
-
-footer{
-text-align:center;
-padding:25px;
-color:#888;
-}
+body{margin:0;background:#090d14;color:#eee;font-family:Tahoma,sans-serif}
+header{text-align:center;padding:25px 12px;border-bottom:1px solid #b99a50}
+h1,h2,h3{color:#dfbd70}
+header p,.muted{color:#aaa;font-size:13px}
+main{max-width:850px;margin:25px auto;padding:12px}
+.card{background:#141c29;border:1px solid #394354;border-radius:10px;padding:17px;margin-bottom:16px}
+input,textarea,select{width:100%;padding:12px;margin:7px 0;background:#090f19;color:white;border:1px solid #455166;border-radius:6px;font-family:Tahoma}
+textarea{min-height:110px;resize:vertical;line-height:1.9}
+button{background:#c5a45b;color:#111;border:0;border-radius:6px;padding:11px 16px;margin:5px;cursor:pointer;font-weight:bold}
+.danger{background:#913d46;color:white}
+.episode{background:#0c1420;border:1px solid #344154;border-radius:8px;padding:14px;margin:12px 0}
+.episode p{line-height:1.9;white-space:pre-wrap}
+a{color:#dfbd70}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stats div{flex:1;min-width:100px;background:#141c29;padding:14px;border-radius:8px;text-align:center}
+footer{text-align:center;color:#777;padding:20px;font-size:12px}
 </style>
 </head>
-
 <body>
 
 <header>
 <h1>PROJECT ONE</h1>
-<p>Podcast Management Hub</p>
-<p>خودت را بشناس؛ جهان را دگرگون کن.</p>
+<p>Podcast Hub | خودت را بشناس؛ جهان را دگرگون کن</p>
 </header>
 
 <main>
 
-<div class="grid">
-<div class="card">
-<h3>تعداد قسمت‌ها</h3>
-<h2 id="count">۰</h2>
+<div class="stats">
+<div>کل قسمت‌ها<h2 id="count">۰</h2></div>
+<div>منتشرشده<h2 id="published">۰</h2></div>
+<div>در حال تولید<h2 id="pending">۰</h2></div>
 </div>
 
-<div class="card">
-<h3>منتشرشده</h3>
-<h2 id="published">۰</h2>
-</div>
-
-<div class="card">
-<h3>در حال تولید</h3>
-<h2 id="pending">۰</h2>
-</div>
-</div>
-
-<div class="card">
-<h2>مدیریت RSS</h2>
-<input id="rss" placeholder="لینک RSS ربط‌هاست">
-
+<section class="card">
+<h2>RSS مرکزی</h2>
+<input id="rss" placeholder="لینک RSS اصلی پادکست">
 <button onclick="saveRSS()">ذخیره RSS</button>
 <button onclick="copyRSS()">کپی RSS</button>
+<p id="rssMessage" class="muted"></p>
+</section>
 
-<p id="rssMessage" class="small"></p>
-</div>
-
-<div class="card">
-<h2>پلتفرم‌های انتشار</h2>
-
-<div class="grid">
-<a class="link" href="https://rabthost.com" target="_blank">RabtHost</a>
-
-<a class="link" href="https://podcastsconnect.apple.com" target="_blank">Apple Podcasts</a>
-
-<a class="link" href="https://creators.spotify.com" target="_blank">Spotify</a>
-
-<a class="link" href="https://castbox.fm" target="_blank">Castbox</a>
-
-<a class="link" href="https://fidibo.com" target="_blank">Fidibo</a>
-</div>
-</div>
-
-<div class="card">
+<section class="card">
 <h2>ثبت قسمت جدید</h2>
-
 <input id="season" type="number" placeholder="شماره فصل">
-
 <input id="number" type="number" placeholder="شماره قسمت">
-
 <input id="title" placeholder="عنوان قسمت">
 
-<textarea id="description" placeholder="توضیحات قسمت"></textarea>
+<h3>مقدمه</h3>
+<textarea id="intro" placeholder="متن مقدمه"></textarea>
 
-<textarea id="script" placeholder="متن سناریو"></textarea>
+<h3>بدنه</h3>
+<textarea id="bodyText" placeholder="متن اصلی سناریو"></textarea>
+
+<h3>جمع‌بندی</h3>
+<textarea id="ending" placeholder="جمع‌بندی و پایان قسمت"></textarea>
 
 <select id="status">
-<option value="ایده">ایده</option>
-<option value="سناریونویسی">سناریونویسی</option>
-<option value="ضبط">ضبط</option>
-<option value="تدوین">تدوین</option>
-<option value="آماده انتشار">آماده انتشار</option>
-<option value="منتشرشده">منتشرشده</option>
+<option>ایده</option>
+<option>سناریونویسی</option>
+<option>آماده ضبط</option>
+<option>ضبط شده</option>
+<option>در حال تدوین</option>
+<option>آماده انتشار</option>
+<option>منتشرشده</option>
 </select>
 
-<input id="audio" placeholder="لینک فایل صوتی">
-
+<input id="audio" placeholder="لینک فایل صوتی (فعلاً اختیاری)">
 <button onclick="addEpisode()">ثبت قسمت</button>
-</div>
+<p class="muted" id="message"></p>
+</section>
 
-<div class="card">
+<section class="card">
 <h2>آرشیو قسمت‌ها</h2>
 <div id="episodes"></div>
-</div>
+</section>
 
-<div class="card">
+<section class="card">
 <h2>پشتیبان اطلاعات</h2>
-
 <button onclick="exportData()">دریافت نسخه پشتیبان</button>
-
-<button onclick="document.getElementById('importFile').click()">بازیابی اطلاعات</button>
-
-<input type="file" id="importFile" accept=".json" hidden onchange="importData(event)">
-
-<p class="small">اطلاعات در حافظه مرورگر ذخیره می‌شوند.</p>
-</div>
+<button onclick="document.getElementById('backup').click()">بازیابی نسخه پشتیبان</button>
+<input id="backup" type="file" accept=".json" hidden onchange="importData(event)">
+<p class="muted">اطلاعات در همین مرورگر ذخیره می‌شوند. برای نگهداری امن، مرتب پشتیبان بگیر.</p>
+</section>
 
 </main>
 
-<footer>
-PROJECT ONE INTERNATIONAL
-</footer>
+<footer>PROJECT ONE INTERNATIONAL</footer>
 
 <script>
+let episodes=[];
+try{
+episodes=JSON.parse(localStorage.getItem("po_episodes")||"[]");
+if(!Array.isArray(episodes))episodes=[];
+}catch(e){episodes=[]}
 
-let episodes=JSON.parse(localStorage.getItem("po_episodes")||"[]");
+const $=id=>document.getElementById(id);
 
-document.getElementById("rss").value=
-localStorage.getItem("po_rss")||"";
+$("rss").value=localStorage.getItem("po_rss")||"";
 
-function save(){
+function persist(){
 localStorage.setItem("po_episodes",JSON.stringify(episodes));
 render();
 }
 
 function saveRSS(){
-let value=document.getElementById("rss").value.trim();
-localStorage.setItem("po_rss",value);
-document.getElementById("rssMessage").textContent="RSS ذخیره شد.";
+localStorage.setItem("po_rss",$("rss").value.trim());
+$("rssMessage").textContent="لینک RSS ذخیره شد.";
 }
 
-function copyRSS(){
-let value=document.getElementById("rss").value.trim();
+async function copyRSS(){
+let value=$("rss").value.trim();
 if(!value)return alert("ابتدا لینک RSS را وارد کن.");
-
-navigator.clipboard.writeText(value)
-.then(()=>alert("لینک RSS کپی شد."))
-.catch(()=>alert("کپی خودکار در این مرورگر ممکن نیست."));
+try{
+await navigator.clipboard.writeText(value);
+alert("RSS کپی شد.");
+}catch(e){
+alert("کپی خودکار ممکن نیست؛ لینک را دستی کپی کن.");
+}
 }
 
 function addEpisode(){
-
-let title=document.getElementById("title").value.trim();
-
+let title=$("title").value.trim();
 if(!title)return alert("عنوان قسمت را وارد کن.");
 
 episodes.push({
 id:Date.now(),
-season:document.getElementById("season").value,
-number:document.getElementById("number").value,
-title:title,
-description:document.getElementById("description").value,
-script:document.getElementById("script").value,
-status:document.getElementById("status").value,
-audio:document.getElementById("audio").value
+season:$("season").value||"1",
+number:$("number").value||"",
+title,
+intro:$("intro").value,
+body:$("bodyText").value,
+ending:$("ending").value,
+status:$("status").value,
+audio:$("audio").value
 });
 
-save();
+persist();
 
-["season","number","title","description","script","audio"]
-.forEach(id=>document.getElementById(id).value="");
+["season","number","title","intro","bodyText","ending","audio"]
+.forEach(id=>$(id).value="");
 
+$("message").textContent="قسمت با موفقیت ثبت شد.";
 }
 
-function changeStatus(id,value){
-let item=episodes.find(e=>e.id===id);
-if(item){
-item.status=value;
-save();
-}
+function updateStatus(id,value){
+let e=episodes.find(x=>x.id===id);
+if(e){e.status=value;persist();}
 }
 
 function removeEpisode(id){
 if(!confirm("این قسمت حذف شود؟"))return;
 episodes=episodes.filter(e=>e.id!==id);
-save();
+persist();
 }
 
 function render(){
-
-let box=document.getElementById("episodes");
-box.innerHTML="";
+let box=$("episodes");
+box.replaceChildren();
 
 episodes.forEach(e=>{
-
 let div=document.createElement("div");
-div.className="item";
+div.className="episode";
 
-let heading=document.createElement("h3");
-heading.textContent="فصل "+(e.season||"۱")+" | قسمت "+(e.number||"-")+" : "+e.title;
-div.appendChild(heading);
+let h=document.createElement("h3");
+h.textContent=`فصل ${e.season} | قسمت ${e.number} : ${e.title}`;
+div.appendChild(h);
 
-let desc=document.createElement("p");
-desc.textContent=e.description||"بدون توضیحات";
-div.appendChild(desc);
-
-let status=document.createElement("select");
-
-["ایده","سناریونویسی","ضبط","تدوین","آماده انتشار","منتشرشده"]
-.forEach(s=>{
-let option=document.createElement("option");
-option.value=s;
-option.textContent=s;
-option.selected=e.status===s;
-status.appendChild(option);
+[
+["مقدمه",e.intro],
+["بدنه",e.body],
+["جمع‌بندی",e.ending]
+].forEach(([label,value])=>{
+if(!value)return;
+let p=document.createElement("p");
+p.textContent=label+" : "+value;
+div.appendChild(p);
 });
 
-status.onchange=()=>changeStatus(e.id,status.value);
-div.appendChild(status);
+let select=document.createElement("select");
+["ایده","سناریونویسی","آماده ضبط","ضبط شده","در حال تدوین","آماده انتشار","منتشرشده"].forEach(s=>{
+let op=document.createElement("option");
+op.value=s;
+op.textContent=s;
+op.selected=e.status===s;
+select.appendChild(op);
+});
+select.onchange=()=>updateStatus(e.id,select.value);
+div.appendChild(select);
 
 if(e.audio){
 let a=document.createElement("a");
 a.href=e.audio;
 a.target="_blank";
+a.rel="noopener";
 a.textContent="مشاهده فایل صوتی";
-a.className="link";
 div.appendChild(a);
 }
 
 let del=document.createElement("button");
+del.className="danger";
 del.textContent="حذف قسمت";
 del.onclick=()=>removeEpisode(e.id);
 div.appendChild(del);
 
 box.appendChild(div);
-
 });
 
-document.getElementById("count").textContent=episodes.length;
-
-document.getElementById("published").textContent=
-episodes.filter(e=>e.status==="منتشرشده").length;
-
-document.getElementById("pending").textContent=
-episodes.filter(e=>e.status!=="منتشرشده").length;
-
+$("count").textContent=episodes.length;
+$("published").textContent=episodes.filter(e=>e.status==="منتشرشده").length;
+$("pending").textContent=episodes.filter(e=>e.status!=="منتشرشده").length;
 }
 
 function exportData(){
-
 let data={
 rss:localStorage.getItem("po_rss")||"",
-episodes:episodes
+episodes
 };
-
 let blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-
+let url=URL.createObjectURL(blob);
 let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
+a.href=url;
 a.download="PROJECT_ONE_BACKUP.json";
 a.click();
-URL.revokeObjectURL(a.href);
-
+URL.revokeObjectURL(url);
 }
 
 function importData(event){
-
 let file=event.target.files[0];
 if(!file)return;
-
 let reader=new FileReader();
-
-reader.onload=function(){
-
+reader.onload=()=>{
 try{
 let data=JSON.parse(reader.result);
-
 if(!Array.isArray(data.episodes))throw new Error();
-
 episodes=data.episodes;
 localStorage.setItem("po_rss",data.rss||"");
-document.getElementById("rss").value=data.rss||"";
-
-save();
+$("rss").value=data.rss||"";
+persist();
 alert("اطلاعات بازیابی شد.");
-
-}catch{
+}catch(e){
 alert("فایل پشتیبان معتبر نیست.");
 }
-
 };
-
 reader.readAsText(file);
-
+event.target.value="";
 }
 
 render();
-
 </script>
-
 </body>
 </html>
