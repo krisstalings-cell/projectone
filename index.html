@@ -1,762 +1,375 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PROJECT ONE | مرکز فرماندهی</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECT ONE | Podcast Hub</title>
+
 <style>
-:root{
-  --bg:#090909;--panel:#151515;--panel2:#1d1d1d;
-  --gold:#d6b15e;--gold2:#f1d58a;--text:#f4f0e6;
-  --muted:#aaa18e;--line:#393326;--green:#50c78b;
-  --red:#e46d6d;
-}
 *{box-sizing:border-box}
+
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Tahoma,Arial,sans-serif;line-height:1.8;
+margin:0;
+background:#080b12;
+color:#eee;
+font-family:Tahoma,sans-serif;
 }
+
 header{
-  padding:28px 18px;text-align:center;
-  border-bottom:1px solid var(--line);
-  background:linear-gradient(140deg,#17130b,#090909 65%);
-}
-.logo{font-size:30px;font-weight:bold;letter-spacing:3px;color:var(--gold)}
-.subtitle{color:var(--muted);font-size:13px}
-main{max-width:1100px;margin:auto;padding:20px}
-h2,h3{color:var(--gold2);margin-top:0}
-.panel{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:14px;padding:18px;margin:16px 0;
-}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.stat{
-  background:var(--panel2);padding:14px;border-radius:10px;
-  text-align:center;border:1px solid var(--line);
-}
-.stat strong{display:block;font-size:25px;color:var(--gold)}
-.stat span{font-size:12px;color:var(--muted)}
-button,select,input,textarea{font:inherit}
-button{
-  border:1px solid var(--gold);background:var(--gold);
-  color:#17130b;padding:9px 15px;border-radius:8px;
-  cursor:pointer;font-weight:bold;
-}
-button.secondary{background:transparent;color:var(--gold)}
-button.danger{background:#492222;color:#fff;border-color:#713838}
-button:disabled{opacity:.35;cursor:not-allowed}
-input,select,textarea{
-  width:100%;background:#101010;color:var(--text);
-  border:1px solid #48402e;border-radius:8px;padding:10px;
-  outline:none;
-}
-input:focus,select:focus,textarea:focus{border-color:var(--gold)}
-textarea{min-height:85px;resize:vertical}
-label{display:block;color:var(--muted);font-size:13px;margin:9px 0 5px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.episode{
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:12px;padding:14px;margin:12px 0;
-}
-.episode-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.episode-title{font-weight:bold;color:var(--gold2)}
-.tag{
-  font-size:11px;border:1px solid var(--line);
-  padding:3px 8px;border-radius:20px;color:var(--muted);
-}
-.tag.good{color:var(--green);border-color:var(--green)}
-.tag.bad{color:var(--red);border-color:var(--red)}
-.progress{height:7px;background:#333;border-radius:10px;overflow:hidden;margin:10px 0}
-.progress div{height:100%;background:var(--gold);width:0%;transition:.2s}
-.checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.check{
-  background:#111;border:1px solid #383326;
-  padding:9px;border-radius:8px;font-size:13px;
-}
-.check input{width:auto;margin-left:7px;accent-color:var(--gold)}
-.check label{display:inline;color:var(--text);margin:0}
-.section-title{
-  border-bottom:1px solid var(--line);padding-bottom:8px;
-  margin:22px 0 10px;color:var(--gold);
-}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.small{font-size:12px;color:var(--muted)}
-.notice{
-  padding:12px;border-radius:8px;background:#211d12;
-  border:1px solid #5b4925;color:#e7d6a9;font-size:13px;
-}
-.result{margin-top:10px;padding:10px;border-radius:8px;font-size:13px}
-.result.good{background:#10271c;color:#8ce0b2}
-.result.bad{background:#301818;color:#f0a0a0}
-.hidden{display:none}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
-@media(max-width:650px){
- .stats{grid-template-columns:repeat(2,1fr)}
- .grid,.checklist{grid-template-columns:1fr}
- .episode-head{align-items:flex-start;flex-direction:column}
+padding:25px;
+text-align:center;
+background:#111827;
+border-bottom:1px solid #b99a50;
 }
 
-.home-hero{background:linear-gradient(135deg,#211a0b,#111 58%,#090909);border:1px solid #5a4824;border-radius:18px;padding:22px;margin:4px 0 18px}
-.home-kicker{color:var(--gold);font-size:12px;letter-spacing:2px}
-.home-title{font-size:25px;color:var(--gold2);font-weight:bold;margin:4px 0}
-.home-desc{color:var(--muted);font-size:13px}
-.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-.home-stat{background:#0c0c0c;border:1px solid var(--line);border-radius:11px;padding:12px;text-align:center}
-.home-stat strong{display:block;color:var(--gold);font-size:22px}
-.home-stat span{font-size:11px;color:var(--muted)}
-.module-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.module-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px;min-height:145px;display:flex;flex-direction:column;justify-content:space-between}
-.module-card.active{border-color:var(--gold);background:linear-gradient(145deg,#211b0e,#151515)}
-.module-icon{font-size:25px;margin-bottom:6px}
-.module-card h3{margin:0 0 5px;font-size:16px}
-.module-card p{font-size:12px;color:var(--muted);margin:0 0 12px}
-.module-status{font-size:11px;color:var(--gold);margin-bottom:8px}
-.module-card button{width:100%}
-.module-card button:disabled{background:#242424;color:#817b6e;border-color:#403a2d;opacity:1}
-.home-note{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.home-note .field{min-width:0}
-.home-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.home-nav a{color:var(--gold);border:1px solid var(--line);border-radius:8px;padding:6px 10px;text-decoration:none;font-size:12px}
-.module-anchor{scroll-margin-top:12px}
-@media(max-width:700px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-stats{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:480px){.module-grid,.home-note{grid-template-columns:1fr}.home-title{font-size:21px}}
+h1,h2,h3{color:#e6c66f}
 
+main{
+max-width:1000px;
+margin:25px auto;
+padding:15px;
+}
+
+.card{
+background:#151c29;
+border:1px solid #51452c;
+border-radius:12px;
+padding:18px;
+margin-bottom:18px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+input,textarea,select{
+width:100%;
+padding:12px;
+margin:7px 0;
+background:#080b12;
+color:white;
+border:1px solid #51452c;
+border-radius:7px;
+font-family:Tahoma;
+}
+
+textarea{min-height:90px}
+
+button,.link{
+display:inline-block;
+padding:10px 15px;
+background:#b99a50;
+color:#111;
+border:0;
+border-radius:7px;
+cursor:pointer;
+text-decoration:none;
+font-weight:bold;
+margin:4px 0;
+}
+
+button:hover,.link:hover{
+background:#e6c66f;
+}
+
+.item{
+background:#202b3b;
+padding:12px;
+border-radius:8px;
+margin-top:10px;
+}
+
+.small{color:#aaa;font-size:12px}
+
+footer{
+text-align:center;
+padding:25px;
+color:#888;
+}
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">PROJECT ONE</div>
-  <div style="color:var(--gold);font-size:17px">INTERNATIONAL · COMMAND CENTER</div>
-  <div class="subtitle">خودت را بشناس؛ جهان را دگرگون کن.</div>
+<h1>PROJECT ONE</h1>
+<p>Podcast Management Hub</p>
+<p>خودت را بشناس؛ جهان را دگرگون کن.</p>
 </header>
 
-
 <main>
-<section class="home-hero" id="home">
-  <div class="home-kicker">PROJECT ONE · CONTROL CENTER</div>
-  <div class="home-title">مرکز فرماندهی پروژه</div>
-  <div class="home-desc">یک نقطه شروع برای مدیریت مسیر آگاهی، تولید محتوا و اجرای پروژه‌های PROJECT ONE.</div>
-  <div class="home-stats">
-    <div class="home-stat"><strong id="homeEpisodeCount">۰</strong><span>قسمت‌های پادکست</span></div>
-    <div class="home-stat"><strong id="homeReadyCount">۰</strong><span>آماده انتشار</span></div>
-    <div class="home-stat"><strong id="homePublishedCount">۰</strong><span>منتشرشده</span></div>
-  </div>
-  <div class="home-nav">
-    <a href="#modules">ماژول‌ها</a>
-    <a href="#today-focus">تمرکز امروز</a>
-    <a href="#podcast-module">ورود به استودیوی پادکست</a>
-  </div>
-</section>
 
-<section class="panel" id="modules">
-  <h2>ماژول‌های PROJECT ONE</h2>
-  <div class="module-grid">
-    <article class="module-card active">
-      <div>
-        <div class="module-icon">🎙️</div>
-        <h3>استودیوی پادکست</h3>
-        <p>مدیریت قسمت‌ها، چک‌لیست تولید، اطلاعات انتشار و پشتیبان‌گیری.</p>
-        <div class="module-status">● فعال</div>
-      </div>
-      <button onclick="document.getElementById('podcast-module').scrollIntoView({behavior:'smooth'})">ورود به استودیو</button>
-    </article>
-    <article class="module-card">
-      <div>
-        <div class="module-icon">📚</div>
-        <h3>کتابخانه و کتاب‌ها</h3>
-        <p>مدیریت کتاب‌ها، فصل‌ها، یادداشت‌ها و مسیر مطالعه.</p>
-        <div class="module-status">در حال توسعه</div>
-      </div>
-      <button disabled>به‌زودی</button>
-    </article>
-    <article class="module-card">
-      <div>
-        <div class="module-icon">🎬</div>
-        <h3>استودیوی ویدئو</h3>
-        <p>مدیریت سناریو، تولید ویدئو، ریلز و خروجی‌های تصویری.</p>
-        <div class="module-status">در حال توسعه</div>
-      </div>
-      <button disabled>به‌زودی</button>
-    </article>
-    <article class="module-card">
-      <div>
-        <div class="module-icon">✍️</div>
-        <h3>مرکز محتوا</h3>
-        <p>ایده‌ها، نوشته‌ها، پست‌ها و برنامه انتشار در شبکه‌ها.</p>
-        <div class="module-status">در حال توسعه</div>
-      </div>
-      <button disabled>به‌زودی</button>
-    </article>
-    <article class="module-card">
-      <div>
-        <div class="module-icon">🎯</div>
-        <h3>اهداف و وظایف</h3>
-        <p>هدف اصلی، اولویت‌ها، اقدام بعدی و پیگیری پیشرفت.</p>
-        <div class="module-status">در حال توسعه</div>
-      </div>
-      <button disabled>به‌زودی</button>
-    </article>
-    <article class="module-card">
-      <div>
-        <div class="module-icon">🗂️</div>
-        <h3>مرکز اسناد</h3>
-        <p>دسترسی یکپارچه به فایل‌ها، منابع و دانش PROJECT ONE.</p>
-        <div class="module-status">در حال توسعه</div>
-      </div>
-      <button disabled>به‌زودی</button>
-    </article>
-  </div>
-</section>
-
-<section class="panel" id="today-focus">
-  <h2>تمرکز امروز</h2>
-  <p class="small">اطلاعات این بخش فقط در همین مرورگر ذخیره می‌شود.</p>
-  <div class="home-note">
-    <div class="field">
-      <label for="mainGoal">هدف اصلی</label>
-      <input id="mainGoal" placeholder="مهم‌ترین هدف امروز">
-    </div>
-    <div class="field">
-      <label for="nextAction">اقدام بعدی دقیق</label>
-      <input id="nextAction" placeholder="همین حالا دقیقاً چه کاری انجام می‌دهم؟">
-    </div>
-  </div>
-  <label for="priorities">سه اولویت امروز</label>
-  <textarea id="priorities" placeholder="۱. ...&#10;۲. ...&#10;۳. ..."></textarea>
-  <div class="actions">
-    <button onclick="saveHomeFocus()">ذخیره تمرکز امروز</button>
-    <span id="focusSaved" class="small" aria-live="polite"></span>
-  </div>
-</section>
-
-<div id="podcast-module" class="module-anchor">
-  <section class="panel">
-    <div class="episode-head">
-      <h2>استودیوی پادکست</h2>
-      <a href="#home" style="color:var(--gold);font-size:12px;text-decoration:none">↑ بازگشت به مرکز فرماندهی</a>
-    </div>
-    <p class="small">ماژول فعال تولید و مدیریت پادکست PROJECT ONE</p>
-  </section>
-
-<section class="panel">
-  <h2>داشبورد پادکست</h2>
-  <div class="stats">
-    <div class="stat"><strong id="total">0</strong><span>کل قسمت‌ها</span></div>
-    <div class="stat"><strong id="ready">0</strong><span>آماده انتشار</span></div>
-    <div class="stat"><strong id="published">0</strong><span>منتشرشده</span></div>
-    <div class="stat"><strong id="incomplete">0</strong><span>نیازمند تکمیل</span></div>
-  </div>
-</section>
-
-<section class="panel">
-  <h2>تنظیمات انتشار پادکست</h2>
-  <div class="grid">
-    <div>
-      <label>نام میزبان پادکست</label>
-      <input id="host" placeholder="مثلاً RabtHost">
-    </div>
-    <div>
-      <label>آدرس صفحه پادکست</label>
-      <input id="podcastUrl" placeholder="https://...">
-    </div>
-    <div>
-      <label>لینک RSS</label>
-      <input id="rss" placeholder="لینک RSS">
-    </div>
-    <div>
-      <label>لینک کاور اصلی پادکست</label>
-      <input id="mainCover" placeholder="آدرس تصویر کاور">
-    </div>
-  </div>
-  <div class="actions">
-    <button onclick="saveSettings()">ذخیره تنظیمات</button>
-    <button class="secondary" onclick="copyRSS()">کپی لینک RSS</button>
-  </div>
-  <p class="small">این بخش اطلاعات را در مرورگر همین دستگاه ذخیره می‌کند.</p>
-</section>
-
-<section class="panel">
-  <h2>استاندارد تولید و انتشار</h2>
-  <div class="notice">
-    <b>استاندارد فایل صوتی:</b><br>
-    صدای گفتار: MP3، مونو، 128 kbps، 44.1 kHz<br>
-    موسیقی: MP3، استریو، 192 kbps، 44.1 kHz<br><br>
-    <b>استاندارد کاور:</b><br>
-    مربع 3000×3000، فرمت JPG یا PNG، پس‌زمینه یکدست و عنوان خوانا.<br><br>
-    <b>تگ‌های ID3:</b><br>
-    Title، Artist، Album و Cover Art باید داخل فایل MP3 ثبت شوند.
-  </div>
-</section>
-
-<section class="panel">
-  <div class="episode-head">
-    <h2>مدیریت قسمت‌ها</h2>
-    <button onclick="addEpisode()">+ افزودن قسمت جدید</button>
-  </div>
-  <div id="episodes"></div>
-</section>
-
-<section class="panel">
-  <h2>پشتیبان‌گیری</h2>
-  <div class="actions">
-    <button onclick="exportData()">دریافت نسخه پشتیبان JSON</button>
-    <button class="secondary" onclick="document.getElementById('importFile').click()">بازیابی نسخه پشتیبان</button>
-    <input id="importFile" type="file" accept=".json" class="hidden" onchange="importData(event)">
-  </div>
-  <p class="small">فایل پشتیبان شامل تنظیمات و اطلاعات قسمت‌هاست.</p>
-</section>
-
+<div class="grid">
+<div class="card">
+<h3>تعداد قسمت‌ها</h3>
+<h2 id="count">۰</h2>
 </div>
+
+<div class="card">
+<h3>منتشرشده</h3>
+<h2 id="published">۰</h2>
+</div>
+
+<div class="card">
+<h3>در حال تولید</h3>
+<h2 id="pending">۰</h2>
+</div>
+</div>
+
+<div class="card">
+<h2>مدیریت RSS</h2>
+<input id="rss" placeholder="لینک RSS ربط‌هاست">
+
+<button onclick="saveRSS()">ذخیره RSS</button>
+<button onclick="copyRSS()">کپی RSS</button>
+
+<p id="rssMessage" class="small"></p>
+</div>
+
+<div class="card">
+<h2>پلتفرم‌های انتشار</h2>
+
+<div class="grid">
+<a class="link" href="https://rabthost.com" target="_blank">RabtHost</a>
+
+<a class="link" href="https://podcastsconnect.apple.com" target="_blank">Apple Podcasts</a>
+
+<a class="link" href="https://creators.spotify.com" target="_blank">Spotify</a>
+
+<a class="link" href="https://castbox.fm" target="_blank">Castbox</a>
+
+<a class="link" href="https://fidibo.com" target="_blank">Fidibo</a>
+</div>
+</div>
+
+<div class="card">
+<h2>ثبت قسمت جدید</h2>
+
+<input id="season" type="number" placeholder="شماره فصل">
+
+<input id="number" type="number" placeholder="شماره قسمت">
+
+<input id="title" placeholder="عنوان قسمت">
+
+<textarea id="description" placeholder="توضیحات قسمت"></textarea>
+
+<textarea id="script" placeholder="متن سناریو"></textarea>
+
+<select id="status">
+<option value="ایده">ایده</option>
+<option value="سناریونویسی">سناریونویسی</option>
+<option value="ضبط">ضبط</option>
+<option value="تدوین">تدوین</option>
+<option value="آماده انتشار">آماده انتشار</option>
+<option value="منتشرشده">منتشرشده</option>
+</select>
+
+<input id="audio" placeholder="لینک فایل صوتی">
+
+<button onclick="addEpisode()">ثبت قسمت</button>
+</div>
+
+<div class="card">
+<h2>آرشیو قسمت‌ها</h2>
+<div id="episodes"></div>
+</div>
+
+<div class="card">
+<h2>پشتیبان اطلاعات</h2>
+
+<button onclick="exportData()">دریافت نسخه پشتیبان</button>
+
+<button onclick="document.getElementById('importFile').click()">بازیابی اطلاعات</button>
+
+<input type="file" id="importFile" accept=".json" hidden onchange="importData(event)">
+
+<p class="small">اطلاعات در حافظه مرورگر ذخیره می‌شوند.</p>
+</div>
+
 </main>
 
-<footer>PROJECT ONE INTERNATIONAL · Know Yourself. Transform the World.</footer>
+<footer>
+PROJECT ONE INTERNATIONAL
+</footer>
 
 <script>
-const KEY="project_one_podcast_studio_v2";
 
-const initialEpisodes=[
- {title:"آیا واقعاً خودت را می‌شناسی؟",number:1,status:"ایده",description:"",notes:""},
- {title:"منیت؛ تصویری که از خود ساخته‌ایم",number:2,status:"ایده",description:"",notes:""},
- {title:"چرا افکارمان را با واقعیت اشتباه می‌گیریم؟",number:3,status:"ایده",description:"",notes:""},
- {title:"مشاهده بدون قضاوت و انتخاب",number:4,status:"ایده",description:"",notes:""},
- {title:"از آگاهی تا تحول واقعی",number:5,status:"ایده",description:"",notes:""}
-];
+let episodes=JSON.parse(localStorage.getItem("po_episodes")||"[]");
 
-function blankChecks(){
- return {
-  audioReady:false,
-  mp3Ready:false,
-  coverSize:false,
-  coverFormat:false,
-  coverBackground:false,
-  coverReadable:false,
-  id3Title:false,
-  id3Artist:false,
-  id3Album:false,
-  id3Cover:false
- };
+document.getElementById("rss").value=
+localStorage.getItem("po_rss")||"";
+
+function save(){
+localStorage.setItem("po_episodes",JSON.stringify(episodes));
+render();
 }
 
-function newEpisode(number){
- return {
-  id:Date.now().toString()+Math.random().toString(16).slice(2),
-  title:"قسمت جدید",
-  number,
-  status:"ایده",
-  description:"",
-  notes:"",
-  audioFile:"",
-  coverUrl:"",
-  profile:"",
-  id3Title:"",
-  id3Artist:"PROJECT ONE",
-  id3Album:"PROJECT ONE Podcast",
-  checks:blankChecks()
- };
-}
-
-function loadData(){
- try{
-  const saved=JSON.parse(localStorage.getItem(KEY));
-  if(saved && Array.isArray(saved.episodes)){
-   saved.episodes.forEach(e=>{
-    e.checks={...blankChecks(),...(e.checks||{})};
-   });
-   return saved;
-  }
- }catch(e){}
- return {
-  settings:{host:"",podcastUrl:"",rss:"",mainCover:""},
-  episodes:initialEpisodes.map((e,i)=>({
-   ...newEpisode(i+1),...e,checks:blankChecks()
-  }))
- };
-}
-
-let data=loadData();
-
-function persist(){
- localStorage.setItem(KEY,JSON.stringify(data));
- updateStats();
-}
-
-function saveSettings(){
- data.settings={
-  host:document.getElementById("host").value,
-  podcastUrl:document.getElementById("podcastUrl").value,
-  rss:document.getElementById("rss").value,
-  mainCover:document.getElementById("mainCover").value
- };
- persist();
- alert("تنظیمات ذخیره شد.");
-}
-
-function loadSettings(){
- const s=data.settings||{};
- document.getElementById("host").value=s.host||"";
- document.getElementById("podcastUrl").value=s.podcastUrl||"";
- document.getElementById("rss").value=s.rss||"";
- document.getElementById("mainCover").value=s.mainCover||"";
+function saveRSS(){
+let value=document.getElementById("rss").value.trim();
+localStorage.setItem("po_rss",value);
+document.getElementById("rssMessage").textContent="RSS ذخیره شد.";
 }
 
 function copyRSS(){
- const value=document.getElementById("rss").value;
- if(!value){alert("ابتدا لینک RSS را وارد کنید.");return;}
- navigator.clipboard.writeText(value)
-  .then(()=>alert("لینک RSS کپی شد."))
-  .catch(()=>alert("کپی خودکار انجام نشد؛ لینک را دستی کپی کنید."));
-}
+let value=document.getElementById("rss").value.trim();
+if(!value)return alert("ابتدا لینک RSS را وارد کن.");
 
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-function isComplete(e){
- const c=e.checks||blankChecks();
- return !!(
-  e.audioFile && c.audioReady &&
-  e.profile && c.mp3Ready &&
-  e.coverUrl && c.coverSize && c.coverFormat &&
-  c.coverBackground && c.coverReadable &&
-  e.id3Title && e.id3Artist && e.id3Album &&
-  c.id3Title && c.id3Artist && c.id3Album && c.id3Cover
- );
-}
-
-function missingItems(e){
- const c=e.checks||blankChecks();
- const missing=[];
- if(!e.audioFile)missing.push("نام یا مسیر فایل صوتی وارد نشده");
- if(!c.audioReady)missing.push("ضبط و تدوین فایل صوتی تأیید نشده");
- if(!e.profile)missing.push("کیفیت خروجی MP3 انتخاب نشده");
- if(!c.mp3Ready)missing.push("خروجی MP3 تأیید نشده");
- if(!e.coverUrl)missing.push("آدرس یا نام فایل کاور وارد نشده");
- if(!c.coverSize)missing.push("ابعاد 3000×3000 تأیید نشده");
- if(!c.coverFormat)missing.push("فرمت JPG یا PNG تأیید نشده");
- if(!c.coverBackground)missing.push("پس‌زمینه یکدست تأیید نشده");
- if(!c.coverReadable)missing.push("خوانایی عنوان کاور تأیید نشده");
- if(!e.id3Title||!c.id3Title)missing.push("تگ ID3 Title تکمیل نشده");
- if(!e.id3Artist||!c.id3Artist)missing.push("تگ ID3 Artist تکمیل نشده");
- if(!e.id3Album||!c.id3Album)missing.push("تگ ID3 Album تکمیل نشده");
- if(!c.id3Cover)missing.push("قرارگیری Cover Art داخل MP3 تأیید نشده");
- return missing;
-}
-
-function completion(e){
- const missing=missingItems(e);
- return Math.round((13-missing.length)/13*100);
-}
-
-function updateStats(){
- const total=data.episodes.length;
- const ready=data.episodes.filter(e=>isComplete(e)&&e.status!=="منتشرشده").length;
- const published=data.episodes.filter(e=>e.status==="منتشرشده").length;
- const incomplete=data.episodes.filter(e=>!isComplete(e)).length;
- document.getElementById("total").textContent=total;
- document.getElementById("ready").textContent=ready;
- document.getElementById("published").textContent=published;
- document.getElementById("incomplete").textContent=incomplete;
+navigator.clipboard.writeText(value)
+.then(()=>alert("لینک RSS کپی شد."))
+.catch(()=>alert("کپی خودکار در این مرورگر ممکن نیست."));
 }
 
 function addEpisode(){
- const max=Math.max(0,...data.episodes.map(e=>Number(e.number)||0));
- data.episodes.push(newEpisode(max+1));
- persist();
- render();
+
+let title=document.getElementById("title").value.trim();
+
+if(!title)return alert("عنوان قسمت را وارد کن.");
+
+episodes.push({
+id:Date.now(),
+season:document.getElementById("season").value,
+number:document.getElementById("number").value,
+title:title,
+description:document.getElementById("description").value,
+script:document.getElementById("script").value,
+status:document.getElementById("status").value,
+audio:document.getElementById("audio").value
+});
+
+save();
+
+["season","number","title","description","script","audio"]
+.forEach(id=>document.getElementById(id).value="");
+
 }
 
-function setField(id,key,value){
- const e=data.episodes.find(x=>x.id===id);
- if(!e)return;
- e[key]=value;
- persist();
- updateEpisodeSummary(id);
+function changeStatus(id,value){
+let item=episodes.find(e=>e.id===id);
+if(item){
+item.status=value;
+save();
+}
 }
 
-function setCheck(id,key,value){
- const e=data.episodes.find(x=>x.id===id);
- if(!e)return;
- e.checks[key]=value;
- persist();
- updateEpisodeSummary(id);
-}
-
-function setStatus(id,value){
- const e=data.episodes.find(x=>x.id===id);
- if(!e)return;
- if((value==="آماده انتشار"||value==="منتشرشده")&&!isComplete(e)){
-  alert("این قسمت هنوز آماده انتشار نیست.\n\n"+missingItems(e).map(x=>"• "+x).join("\n"));
-  render();
-  return;
- }
- e.status=value;
- persist();
- render();
-}
-
-function updateEpisodeSummary(id){
- const e=data.episodes.find(x=>x.id===id);
- if(!e)return;
- const p=document.getElementById("progress-"+id);
- const t=document.getElementById("percent-"+id);
- const result=document.getElementById("result-"+id);
- if(p)p.style.width=completion(e)+"%";
- if(t)t.textContent=completion(e)+"٪ تکمیل";
- if(result){
-  if(isComplete(e)){
-   result.className="result good";
-   result.textContent="تمام استانداردهای ثبت‌شده تکمیل شده‌اند. این قسمت آماده انتشار است.";
-  }else{
-   result.className="result bad";
-   result.textContent="موارد باقی‌مانده: "+missingItems(e).join("، ");
-  }
- }
-}
-
-function checkItem(id,key,label){
- const e=data.episodes.find(x=>x.id===id);
- const checked=!!e.checks[key];
- return `<div class="check">
- <input type="checkbox" id="${id}-${key}" ${checked?"checked":""}
- onchange="setCheck('${id}','${key}',this.checked)">
- <label for="${id}-${key}">${label}</label></div>`;
+function removeEpisode(id){
+if(!confirm("این قسمت حذف شود؟"))return;
+episodes=episodes.filter(e=>e.id!==id);
+save();
 }
 
 function render(){
- const root=document.getElementById("episodes");
- root.innerHTML="";
- data.episodes.forEach(e=>{
-  const complete=isComplete(e);
-  const statusOptions=["ایده","نگارش متن","آماده ضبط","در حال ضبط","در حال تدوین","آماده انتشار","منتشرشده"];
-  const options=statusOptions.map(s=>
-   `<option value="${s}" ${e.status===s?"selected":""}
-   ${(s==="آماده انتشار"||s==="منتشرشده")&&!complete?"disabled":""}>${s}</option>`
-  ).join("");
 
-  const card=document.createElement("div");
-  card.className="episode";
-  card.innerHTML=`
-   <div class="episode-head">
-    <div>
-     <div class="episode-title">قسمت ${escapeHTML(e.number)}: ${escapeHTML(e.title)}</div>
-     <div class="small">پیشرفت آماده‌سازی: <span id="percent-${e.id}">${completion(e)}٪ تکمیل</span></div>
-    </div>
-    <span class="tag ${complete?"good":"bad"}">${complete?"استانداردها تکمیل":"ناقص"}</span>
-   </div>
-   <div class="progress"><div id="progress-${e.id}" style="width:${completion(e)}%"></div></div>
+let box=document.getElementById("episodes");
+box.innerHTML="";
 
-   <div class="grid">
-    <div>
-     <label>شماره قسمت</label>
-     <input type="number" value="${escapeHTML(e.number)}"
-      onchange="setField('${e.id}','number',this.value)">
-    </div>
-    <div>
-     <label>عنوان قسمت</label>
-     <input value="${escapeHTML(e.title)}"
-      onchange="setField('${e.id}','title',this.value)">
-    </div>
-   </div>
+episodes.forEach(e=>{
 
-   <label>وضعیت قسمت</label>
-   <select onchange="setStatus('${e.id}',this.value)">${options}</select>
+let div=document.createElement("div");
+div.className="item";
 
-   <label>توضیحات قسمت</label>
-   <textarea onchange="setField('${e.id}','description',this.value)"
-   placeholder="خلاصه و توضیحات این قسمت...">${escapeHTML(e.description)}</textarea>
+let heading=document.createElement("h3");
+heading.textContent="فصل "+(e.season||"۱")+" | قسمت "+(e.number||"-")+" : "+e.title;
+div.appendChild(heading);
 
-   <h3 class="section-title">۱. بررسی فایل صوتی</h3>
-   <label>نام فایل صوتی یا مسیر آن</label>
-   <input value="${escapeHTML(e.audioFile)}"
-    placeholder="مثلاً episode-01.mp3"
-    onchange="setField('${e.id}','audioFile',this.value)">
-   <div class="checklist">
-    ${checkItem(e.id,"audioReady","ضبط و تدوین صوت کامل شده است")}
-   </div>
-   <label>نوع خروجی MP3</label>
-   <select onchange="setField('${e.id}','profile',this.value)">
-    <option value="">انتخاب کیفیت خروجی</option>
-    <option value="voice" ${e.profile==="voice"?"selected":""}>گفتار: 128 kbps مونو، 44.1 kHz</option>
-    <option value="music" ${e.profile==="music"?"selected":""}>موسیقی: 192 kbps استریو، 44.1 kHz</option>
-   </select>
-   <div class="checklist">
-    ${checkItem(e.id,"mp3Ready","فایل MP3 با کیفیت انتخاب‌شده خروجی گرفته شده است")}
-   </div>
-   <p class="small">نرم‌افزار پیشنهادی تدوین و خروجی: Audacity</p>
+let desc=document.createElement("p");
+desc.textContent=e.description||"بدون توضیحات";
+div.appendChild(desc);
 
-   <h3 class="section-title">۲. بررسی کاور قسمت</h3>
-   <label>نام فایل یا آدرس کاور</label>
-   <input value="${escapeHTML(e.coverUrl)}"
-    placeholder="episode-cover.jpg"
-    onchange="setField('${e.id}','coverUrl',this.value)">
-   <div class="checklist">
-    ${checkItem(e.id,"coverSize","ابعاد تصویر 3000×3000 و مربع است")}
-    ${checkItem(e.id,"coverFormat","فرمت تصویر JPG یا PNG است")}
-    ${checkItem(e.id,"coverBackground","پس‌زمینه یکدست است")}
-    ${checkItem(e.id,"coverReadable","عنوان در اندازه کوچک خواناست")}
-   </div>
+let status=document.createElement("select");
 
-   <h3 class="section-title">۳. اطلاعات ID3 داخل فایل MP3</h3>
-   <div class="grid">
-    <div>
-     <label>Title</label>
-     <input value="${escapeHTML(e.id3Title)}"
-      placeholder="عنوان قسمت"
-      onchange="setField('${e.id}','id3Title',this.value)">
-     ${checkItem(e.id,"id3Title","تگ Title داخل MP3 ثبت شده است")}
-    </div>
-    <div>
-     <label>Artist</label>
-     <input value="${escapeHTML(e.id3Artist)}"
-      onchange="setField('${e.id}','id3Artist',this.value)">
-     ${checkItem(e.id,"id3Artist","تگ Artist داخل MP3 ثبت شده است")}
-    </div>
-    <div>
-     <label>Album</label>
-     <input value="${escapeHTML(e.id3Album)}"
-      onchange="setField('${e.id}','id3Album',this.value)">
-     ${checkItem(e.id,"id3Album","تگ Album داخل MP3 ثبت شده است")}
-    </div>
-   </div>
-   <div class="checklist">
-    ${checkItem(e.id,"id3Cover","تصویر Cover Art داخل فایل MP3 قرار گرفته است")}
-   </div>
-   <p class="small">ثبت تگ‌ها و تصویر کاور باید در نرم‌افزار ویرایش تگ فایل صوتی انجام شود.</p>
+["ایده","سناریونویسی","ضبط","تدوین","آماده انتشار","منتشرشده"]
+.forEach(s=>{
+let option=document.createElement("option");
+option.value=s;
+option.textContent=s;
+option.selected=e.status===s;
+status.appendChild(option);
+});
 
-   <h3 class="section-title">۴. نتیجه بررسی آمادگی انتشار</h3>
-   <div id="result-${e.id}" class="result ${complete?"good":"bad"}">
-    ${complete?"تمام استانداردهای ثبت‌شده تکمیل شده‌اند. این قسمت آماده انتشار است.":"موارد باقی‌مانده: "+missingItems(e).join("، ")}
-   </div>
-   <label>یادداشت‌های تولید</label>
-   <textarea onchange="setField('${e.id}','notes',this.value)"
-   placeholder="یادداشت‌ها، اصلاحات و نکات انتشار...">${escapeHTML(e.notes)}</textarea>
+status.onchange=()=>changeStatus(e.id,status.value);
+div.appendChild(status);
 
-   <div class="actions">
-    <button onclick="reviewEpisode('${e.id}')">بررسی آمادگی انتشار</button>
-    <button class="secondary" onclick="duplicateEpisode('${e.id}')">کپی قسمت</button>
-    <button class="danger" onclick="deleteEpisode('${e.id}')">حذف قسمت</button>
-   </div>
-  `;
-  root.appendChild(card);
- });
- updateStats();
+if(e.audio){
+let a=document.createElement("a");
+a.href=e.audio;
+a.target="_blank";
+a.textContent="مشاهده فایل صوتی";
+a.className="link";
+div.appendChild(a);
 }
 
-function reviewEpisode(id){
- const e=data.episodes.find(x=>x.id===id);
- const missing=missingItems(e);
- if(missing.length){
-  alert("این قسمت هنوز آماده انتشار نیست:\n\n"+missing.map(x=>"• "+x).join("\n"));
- }else{
-  alert("تأیید شد: تمام موارد چک‌لیست تکمیل شده‌اند.\nاکنون می‌توانید وضعیت را روی «آماده انتشار» قرار دهید.");
- }
- render();
-}
+let del=document.createElement("button");
+del.textContent="حذف قسمت";
+del.onclick=()=>removeEpisode(e.id);
+div.appendChild(del);
 
-function duplicateEpisode(id){
- const original=data.episodes.find(x=>x.id===id);
- if(!original)return;
- const copy=JSON.parse(JSON.stringify(original));
- copy.id=Date.now().toString()+Math.random().toString(16).slice(2);
- copy.number=Math.max(0,...data.episodes.map(e=>Number(e.number)||0))+1;
- copy.title+=" (کپی)";
- copy.status="ایده";
- copy.checks=blankChecks();
- copy.audioFile="";
- copy.coverUrl="";
- copy.profile="";
- copy.id3Title="";
- data.episodes.push(copy);
- persist();
- render();
-}
+box.appendChild(div);
 
-function deleteEpisode(id){
- if(!confirm("این قسمت حذف شود؟"))return;
- data.episodes=data.episodes.filter(e=>e.id!==id);
- persist();
- render();
+});
+
+document.getElementById("count").textContent=episodes.length;
+
+document.getElementById("published").textContent=
+episodes.filter(e=>e.status==="منتشرشده").length;
+
+document.getElementById("pending").textContent=
+episodes.filter(e=>e.status!=="منتشرشده").length;
+
 }
 
 function exportData(){
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;
- a.download="PROJECT-ONE-Podcast-Backup.json";
- a.click();
- URL.revokeObjectURL(url);
+
+let data={
+rss:localStorage.getItem("po_rss")||"",
+episodes:episodes
+};
+
+let blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="PROJECT_ONE_BACKUP.json";
+a.click();
+URL.revokeObjectURL(a.href);
+
 }
 
 function importData(event){
- const file=event.target.files[0];
- if(!file)return;
- const reader=new FileReader();
- reader.onload=()=>{
-  try{
-   const imported=JSON.parse(reader.result);
-   if(!Array.isArray(imported.episodes))throw new Error("ساختار نامعتبر");
-   data=imported;
-   data.settings=data.settings||{};
-   data.episodes.forEach(e=>{
-    e.checks={...blankChecks(),...(e.checks||{})};
-    e.id=e.id||Date.now().toString()+Math.random();
-   });
-   persist();
-   loadSettings();
-   render();
-   alert("اطلاعات بازیابی شد.");
-  }catch(err){alert("فایل پشتیبان معتبر نیست.");}
- };
- reader.readAsText(file);
+
+let file=event.target.files[0];
+if(!file)return;
+
+let reader=new FileReader();
+
+reader.onload=function(){
+
+try{
+let data=JSON.parse(reader.result);
+
+if(!Array.isArray(data.episodes))throw new Error();
+
+episodes=data.episodes;
+localStorage.setItem("po_rss",data.rss||"");
+document.getElementById("rss").value=data.rss||"";
+
+save();
+alert("اطلاعات بازیابی شد.");
+
+}catch{
+alert("فایل پشتیبان معتبر نیست.");
 }
 
-loadSettings();
+};
+
+reader.readAsText(file);
+
+}
+
 render();
 
-const HOME_FOCUS_KEY = "project_one_home_focus_v1";
-function loadHomeFocus(){
-  try{
-    const data=JSON.parse(localStorage.getItem(HOME_FOCUS_KEY)||"{}");
-    document.getElementById("mainGoal").value=data.mainGoal||"";
-    document.getElementById("nextAction").value=data.nextAction||"";
-    document.getElementById("priorities").value=data.priorities||"";
-  }catch(e){}
-}
-function saveHomeFocus(){
-  const data={
-    mainGoal:document.getElementById("mainGoal").value,
-    nextAction:document.getElementById("nextAction").value,
-    priorities:document.getElementById("priorities").value
-  };
-  localStorage.setItem(HOME_FOCUS_KEY,JSON.stringify(data));
-  document.getElementById("focusSaved").textContent="ذخیره شد ✓";
-}
-function syncHomeStats(){
-  const pairs=[
-    ["total","homeEpisodeCount"],
-    ["ready","homeReadyCount"],
-    ["published","homePublishedCount"]
-  ];
-  pairs.forEach(([from,to])=>{
-    const source=document.getElementById(from), target=document.getElementById(to);
-    if(source && target) target.textContent=source.textContent;
-  });
-}
-document.addEventListener("DOMContentLoaded",()=>{
-  loadHomeFocus();
-  syncHomeStats();
-  const ids=["total","ready","published"];
-  ids.forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) new MutationObserver(syncHomeStats).observe(el,{childList:true,characterData:true,subtree:true});
-  });
-});
-
 </script>
+
 </body>
 </html>
