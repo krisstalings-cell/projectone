@@ -148,7 +148,15 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 @media(max-width:650px){.wrap{display:flex;flex-direction:column;width:94%;padding-top:12px}header{padding:14px}.hero{padding:23px 18px;margin:13px 0}.hero:after{font-size:65px;left:15px}nav{position:sticky;top:0;z-index:20;flex-direction:row;overflow-x:auto;padding:9px;border-radius:13px;margin-bottom:17px;gap:7px}.navbtn{width:auto;min-width:max-content;padding:11px 14px;text-align:center}.page{width:100%}.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.sectionhead{margin-top:20px}footer{width:100%}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
-</style>
+
+/* CHANGE HISTORY */
+#historyList{display:grid;gap:12px}
+.history-item{background:linear-gradient(145deg,#181b23,#101116);border:1px solid var(--line);border-radius:14px;padding:16px}
+.history-item h4{margin:0 0 8px;color:var(--gold2);font-size:14px}
+.history-item .meta{margin:8px 0}
+.history-item .history-date{font-size:11px;color:var(--muted)}
+@media(max-width:650px){#history .sectionhead{align-items:flex-start}}
+\n</style>
 </head>
 <body>
 <div class="wrap">
@@ -161,7 +169,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <p>Know Yourself. Transform the World.</p>
 </div>
 </div>
-<div class="badge">CENTRAL HUB · V4 | LUXURY EDITION</div>
+<div class="badge">CENTRAL HUB · V5 | CHANGE HISTORY</div>
 </header>
 
 <section class="hero">
@@ -175,7 +183,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <button class="navbtn" data-page="ideas">بانک ایده‌ها</button>
 <button class="navbtn" data-page="tasks">مدیریت وظایف</button>
 <button class="navbtn" data-page="mothers">محتوای مادر</button>
-<button class="navbtn" data-page="tools">استودیوها</button>
+<button class="navbtn" data-page="tools">استودیوها</button>\n<button class="navbtn" data-page="history">تاریخچه تغییرات</button>
 </nav>
 
 <!-- DASHBOARD -->
@@ -411,9 +419,22 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 </div>
 </section>
 
+<!-- CHANGE HISTORY -->
+<section class="page" id="history">
+<div class="sectionhead">
+<h3>تاریخچه تغییرات</h3>
+<span class="muted" id="historyCount">۰ تغییر ثبت‌شده</span>
+</div>
+<div class="notice">هر بار که ایده‌ها، وظایف یا محتوای مادر ذخیره شوند، نسخه قبلی آن بخش ثبت می‌شود. بازگردانی، اطلاعات فعلی را حذف نمی‌کند؛ ابتدا یک نسخه پشتیبان از وضعیت فعلی در تاریخچه ثبت می‌شود.</div>
+<div class="actions">
+<button class="btn" type="button" id="refreshHistory">به‌روزرسانی تاریخچه</button>
+</div>
+<div class="idea-list" id="historyList" style="margin-top:15px"></div>
+</section>
+
 <footer>
 <span><strong>PROJECT ONE</strong> · فضای آگاهی و تحول درونی</span>
-<span>Central Hub V4</span>
+<span>Central Hub V5</span>
 </footer>
 </div>
 
@@ -422,7 +443,7 @@ const IDEA_KEY="projectone_hub_ideas_v2";
 const TASK_KEY="projectone_hub_tasks_v3";
 const MOTHER_KEY="projectone_hub_mothers_v4";
 
-let ideas=[],tasks=[],mothers=[];
+let ideas=[],tasks=[],mothers=[],historyLog=[];
 const $=id=>document.getElementById(id);
 
 function readStore(key){
@@ -431,12 +452,41 @@ const value=JSON.parse(localStorage.getItem(key)||"[]");
 return Array.isArray(value)?value:[];
 }catch(e){return [];}
 }
+const HISTORY_KEY="projectone_hub_history_v1";
+const HISTORY_LIMIT=100;
+function historySection(key){
+return key===IDEA_KEY?"ایده‌ها":key===TASK_KEY?"وظایف":key===MOTHER_KEY?"محتوای مادر":"";
+}
 function writeStore(key,value){
 try{
-localStorage.setItem(key,JSON.stringify(value));
+const serialized=JSON.stringify(value);
+const section=historySection(key);
+if(section){
+const oldRaw=localStorage.getItem(key);
+let before=[];
+if(oldRaw){
+const parsed=JSON.parse(oldRaw);
+if(!Array.isArray(parsed))throw new Error("Stored data is not an array");
+before=parsed;
+}
+if(oldRaw!==serialized){
+historyLog.unshift({
+id:uid(),key,section,at:Date.now(),
+action:oldRaw===null?"ایجاد اولیه/ثبت":"ویرایش یا تغییر",
+before:JSON.parse(JSON.stringify(before)),
+after:JSON.parse(serialized)
+});
+historyLog=historyLog.slice(0,HISTORY_LIMIT);
+}
+}
+localStorage.setItem(key,serialized);
+if(section){
+try{localStorage.setItem(HISTORY_KEY,JSON.stringify(historyLog));}
+catch(historyError){console.warn("تاریخچه ذخیره نشد؛ داده اصلی ذخیره شده است.",historyError);}
+}
 return true;
 }catch(e){
-alert("ذخیره اطلاعات انجام نشد. فضای مرورگر را بررسی کن.");
+alert("ذخیره اطلاعات انجام نشد. فضای مرورگر را بررسی کن. اطلاعات قبلی تغییر نکرده‌اند.");
 return false;
 }
 }
@@ -455,6 +505,7 @@ $(name).classList.add("active");
 const btn=document.querySelector('[data-page="'+name+'"]');
 if(btn)btn.classList.add("active");
 if(name==="mothers")refreshMotherLinks();
+if(name==="history")renderHistory();
 window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".navbtn").forEach(btn=>{
@@ -474,6 +525,28 @@ function linkedTask(ideaId){
 return tasks.some(t=>t.sourceIdeaId===ideaId);
 }
 
+function renderHistory(){
+const list=$("historyList");
+if(!list)return;
+$("historyCount").textContent=historyLog.length+" تغییر ثبت‌شده";
+list.innerHTML="";
+if(!historyLog.length){
+list.innerHTML='<div class="empty">هنوز تغییری در تاریخچه ثبت نشده است.</div>';
+return;
+}
+historyLog.forEach(item=>{
+const date=new Date(item.at||Date.now()).toLocaleString("fa-IR");
+const count=Array.isArray(item.before)?item.before.length:0;
+const el=document.createElement("article");
+el.className="history-item";
+el.innerHTML=`
+<h4>${esc(item.section)} · ${esc(item.action||"تغییر")}</h4>
+<div class="meta"><span class="tag">نسخه قبلی: ${count} مورد</span><span class="tag">شناسه: ${esc(item.id)}</span></div>
+<div class="history-date">${esc(date)}</div>
+<div class="actions"><button class="btn small primary" data-restore-history="${esc(item.id)}">بازگردانی نسخه قبل</button></div>`;
+list.appendChild(el);
+});
+}
 function renderAll(){
 $("totalCount").textContent=ideas.length;
 $("rawCount").textContent=ideas.filter(x=>x.status==="خام").length;
@@ -965,19 +1038,40 @@ $(id).addEventListener("input",renderMothers);
 $(id).addEventListener("change",renderMothers);
 });
 
+$("refreshHistory").addEventListener("click",()=>{
+try{historyLog=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");}catch(e){historyLog=[];}
+renderHistory();
+});
+$("historyList").addEventListener("click",e=>{
+const btn=e.target.closest("[data-restore-history]");
+if(!btn)return;
+const item=historyLog.find(x=>x.id===btn.dataset.restoreHistory);
+if(!item||!historySection(item.key)||!Array.isArray(item.before)){
+alert("نسخه انتخاب‌شده معتبر نیست.");return;
+}
+if(!confirm("نسخه قبلی بخش «"+item.section+"» بازگردانی شود؟ وضعیت فعلی ابتدا در تاریخچه ثبت خواهد شد."))return;
+const restored=JSON.parse(JSON.stringify(item.before));
+if(!writeStore(item.key,restored))return;
+if(item.key===IDEA_KEY)ideas=restored;
+if(item.key===TASK_KEY)tasks=restored;
+if(item.key===MOTHER_KEY)mothers=restored;
+renderAll();
+alert("نسخه قبلی بازگردانی شد. وضعیت قبل از بازگردانی نیز در تاریخچه باقی ماند.");
+});
+
 /* BACKUP V4 + COMPATIBILITY WITH V3 */
 $("exportBtn").addEventListener("click",()=>{
 const backup={
 app:"PROJECT ONE Central Hub",
-version:4,
+version:5,
 exportedAt:new Date().toISOString(),
-ideas,tasks,mothers
+ideas,tasks,mothers,history:historyLog
 };
 const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
 const url=URL.createObjectURL(blob);
 const a=document.createElement("a");
 a.href=url;
-a.download="projectone-hub-v4-backup.json";
+a.download="projectone-hub-v5-backup.json";
 a.click();
 URL.revokeObjectURL(url);
 });
@@ -1017,6 +1111,10 @@ e.target.value="";
 ideas=readStore(IDEA_KEY);
 tasks=readStore(TASK_KEY);
 mothers=readStore(MOTHER_KEY);
+try{
+historyLog=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");
+if(!Array.isArray(historyLog))historyLog=[];
+}catch(e){historyLog=[];}
 renderAll();
 </script>
 </body>
