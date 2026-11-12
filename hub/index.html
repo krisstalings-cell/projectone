@@ -1,1 +1,264 @@
 
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08090c">
+<title>PROJECT ONE | Central Hub</title>
+<style>
+:root{
+--bg:#08090c;--panel:#12141a;--line:#39332a;
+--gold:#d6b56d;--gold2:#f0d99e;
+--text:#f5f1e8;--muted:#aaa39a;
+}
+*{box-sizing:border-box}
+body{
+margin:0;color:var(--text);
+font-family:Tahoma,Arial,sans-serif;
+background:radial-gradient(ellipse at top,#302617,#111116 40%,#08090c 85%);
+min-height:100vh
+}
+.wrap{width:min(1120px,92%);margin:auto;padding:25px 0 45px}
+header{
+display:flex;justify-content:space-between;
+align-items:center;flex-wrap:wrap;gap:15px;
+border-bottom:1px solid var(--line);padding-bottom:20px
+}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{
+width:48px;height:48px;border:1px solid var(--gold);
+border-radius:50%;display:grid;place-items:center;
+font-size:26px;color:var(--gold2)
+}
+h1{font-size:25px;letter-spacing:2px;color:var(--gold2);margin:0}
+.brand p{font-size:11px;color:var(--muted);margin:7px 0 0}
+.status{
+border:1px solid #705d3a;color:var(--gold2);
+padding:9px 13px;border-radius:30px;font-size:11px
+}
+.hero{padding:42px 0 25px}
+.eyebrow{color:var(--gold);font-size:12px;letter-spacing:2px}
+.hero h2{font-size:clamp(27px,5vw,42px);line-height:1.6;margin:12px 0}
+.hero h2 span{color:var(--gold2)}
+.hero p{color:var(--muted);line-height:2;font-size:13px;max-width:700px}
+.section-title{
+display:flex;justify-content:space-between;
+align-items:center;margin:28px 0 16px
+}
+.section-title h3{font-size:17px;color:var(--gold2)}
+.section-title span{font-size:11px;color:var(--muted)}
+.grid{
+display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px
+}
+.card{
+background:linear-gradient(145deg,#1a1c22,#101116);
+border:1px solid var(--line);border-radius:16px;
+padding:19px;min-height:165px;
+display:flex;flex-direction:column;transition:.2s
+}
+.card.active:hover{
+transform:translateY(-3px);border-color:var(--gold);
+box-shadow:0 12px 30px #0006
+}
+.card.disabled{opacity:.7}
+.icon{
+width:40px;height:40px;border:1px solid #705d3a;
+border-radius:12px;display:grid;place-items:center;
+font-size:20px;color:var(--gold2);margin-bottom:13px
+}
+.card h4{font-size:15px;margin:0 0 8px}
+.card p{font-size:12px;color:var(--muted);line-height:2;margin:0 0 15px}
+.foot{
+margin-top:auto;display:flex;justify-content:space-between;
+align-items:center;color:var(--gold2);font-size:11px
+}
+.pill{
+border:1px solid #45413a;color:var(--muted);
+padding:5px 9px;border-radius:20px;font-size:10px
+}
+a{color:inherit;text-decoration:none}
+.note{
+margin-top:25px;padding:16px 18px;
+border:1px solid #51432b;background:#17140f;
+border-radius:14px;color:#d6c8a7;
+font-size:12px;line-height:2.2
+}
+footer{
+margin-top:35px;padding-top:18px;
+border-top:1px solid var(--line);
+display:flex;justify-content:space-between;
+flex-wrap:wrap;gap:12px;color:var(--muted);font-size:11px
+}
+footer strong{color:var(--gold2)}
+@media(max-width:760px){
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:500px){
+.grid{grid-template-columns:1fr}
+.card{min-height:140px}
+.wrap{width:90%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+<div class="brand">
+<div class="logo">☾</div>
+<div>
+<h1>PROJECT ONE</h1>
+<p>Know Yourself. Transform the World.</p>
+</div>
+</div>
+<div class="status">هاب مرکزی مدیریت محتوا</div>
+</header>
+
+<main>
+<section class="hero">
+<div class="eyebrow">CENTRAL CONTENT HUB</div>
+<h2>از ایده تا انتشار؛<br>
+<span>همه‌چیز در یک مسیر</span></h2>
+<p>
+فضای یکپارچه مدیریت محتوای PROJECT ONE.
+از اینجا می‌توانی به ابزارهای تولید،
+برنامه‌ریزی، انتشار و آرشیو محتوا دسترسی پیدا کنی.
+</p>
+</section>
+
+<div class="section-title">
+<h3>فضاهای کاری</h3>
+<span>نسخه ۱.۰ داشبورد مرکزی</span>
+</div>
+
+<section class="grid">
+
+<a class="card active" href="../">
+<div class="icon">🎙</div>
+<h4>استودیوی پادکست</h4>
+<p>
+مدیریت قسمت‌ها، متن، وضعیت تولید،
+فایل صوتی و آرشیو پادکست.
+</p>
+<div class="foot">
+<span>ورود به ماژول</span><span>←</span>
+</div>
+</a>
+
+<div class="card disabled">
+<div class="icon">✦</div>
+<h4>بانک ایده‌ها</h4>
+<p>
+ثبت، دسته‌بندی و تبدیل ایده‌های خام
+به موضوعات قابل تولید.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+<div class="card disabled">
+<div class="icon">▤</div>
+<h4>مدیریت محتوای مادر</h4>
+<p>
+نگهداری محتوای اصلی و آماده‌سازی
+خروجی‌های متناسب با هر رسانه.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+<div class="card disabled">
+<div class="icon">▶</div>
+<h4>استودیوی ریلز و ویدئو</h4>
+<p>
+مدیریت سناریو، صحنه‌ها،
+کپشن و خروجی‌های ویدئویی.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+<div class="card disabled">
+<div class="icon">▦</div>
+<h4>تقویم انتشار</h4>
+<p>
+برنامه‌ریزی محتوای روزانه و هفتگی
+در کانال‌های مختلف.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+<div class="card disabled">
+<div class="icon">⇧</div>
+<h4>مرکز انتشار</h4>
+<p>
+آماده‌سازی و پیگیری انتشار محتوا
+در تلگرام، اینستاگرام و یوتیوب.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+<div class="card disabled">
+<div class="icon">▣</div>
+<h4>آرشیو مرکزی</h4>
+<p>
+دسترسی منظم به متن‌ها، فایل‌ها،
+تصاویر و خروجی‌های منتشرشده.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+<div class="card disabled">
+<div class="icon">⌁</div>
+<h4>تحلیل عملکرد</h4>
+<p>
+بررسی آمار محتوا و سنجش عملکرد
+هر رسانه.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+<div class="card disabled">
+<div class="icon">⚙</div>
+<h4>تنظیمات و اتصال‌ها</h4>
+<p>
+مدیریت تنظیمات هاب و اتصال سرویس‌ها
+پس از آماده‌سازی زیرساخت.
+</p>
+<div class="foot">
+<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+</div>
+</div>
+
+</section>
+
+<div class="note">
+<strong>وضعیت نسخه:</strong>
+این نسخه پوسته اولیه هاب مرکزی است.
+در حال حاضر فقط استودیوی پادکست به نسخه موجود متصل است.
+سایر ماژول‌ها هنوز قابلیت اجرایی ندارند
+و در مراحل بعدی توسعه داده خواهند شد.
+</div>
+</main>
+
+<footer>
+<span><strong>PROJECT ONE</strong> · فضای آگاهی و تحول درونی</span>
+<span>Central Hub · Version 1.0</span>
+</footer>
+
+</div>
+</body>
+</html>
+
