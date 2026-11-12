@@ -111,6 +111,43 @@ footer strong{color:var(--gold2)}
 .filters{grid-template-columns:1fr}
 .wrap{width:92%}
 }
+
+
+/* =========================================
+   PROJECT ONE — LUXURY COMMAND CENTER
+   VISUAL REDESIGN — appearance only
+   Existing data keys and application logic remain unchanged.
+========================================= */
+:root{--bg:#07080b;--panel:#101218;--panel2:#171a21;--line:rgba(214,181,109,.19);--gold:#d6b56d;--gold2:#f4dfaa;--text:#f6f2e9;--muted:#99969a;--blue:#65baff;--green:#64c69b;--red:#e47c7c}
+*{box-sizing:border-box}
+body{background:radial-gradient(ellipse at 80% 0%,rgba(153,112,43,.15),transparent 35%),radial-gradient(ellipse at 0% 70%,rgba(40,85,130,.09),transparent 35%),#07080b;color:var(--text);font-family:Tahoma,Arial,sans-serif}
+.wrap{width:min(1500px,96%);margin:auto;padding:25px 0 45px;display:grid;grid-template-columns:235px minmax(0,1fr);gap:0 28px}
+header{grid-column:1/-1;border:1px solid var(--line);border-radius:18px;padding:19px 24px;background:linear-gradient(120deg,#17140e,#101116 65%,#101722);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.brand{gap:14px}.logo{position:relative;width:54px;height:54px;border-radius:16px;background:linear-gradient(145deg,#29200f,#111);border:1px solid var(--gold);box-shadow:0 0 25px rgba(214,181,109,.13);font-size:27px;color:var(--gold2)}
+.logo:after{content:"🦋";font-size:15px;position:absolute;right:-7px;bottom:-5px;filter:drop-shadow(0 0 5px rgba(80,170,255,.5))}
+h1{font-size:24px;letter-spacing:3px;text-shadow:0 0 20px rgba(214,181,109,.15)}.brand p{letter-spacing:1px}
+.badge{background:rgba(214,181,109,.08);border:1px solid rgba(214,181,109,.35);color:var(--gold2);padding:11px 18px}
+.hero{grid-column:1/-1;padding:35px 30px 28px;margin:18px 0;border:1px solid var(--line);border-radius:20px;background:radial-gradient(circle at 85% 30%,rgba(214,181,109,.13),transparent 30%),linear-gradient(120deg,#17130d,#0e1118);position:relative;overflow:hidden}
+.hero:after{content:"☾";position:absolute;left:35px;top:5px;font-size:100px;color:rgba(214,181,109,.055);pointer-events:none}
+.hero h2{font-size:clamp(28px,4vw,43px);line-height:1.7;margin:12px 0}.hero h2 span{color:var(--gold2);text-shadow:0 0 25px rgba(214,181,109,.16)}.hero p{max-width:700px;line-height:2.2}
+nav{grid-column:1;align-self:start;position:sticky;top:18px;display:flex;flex-direction:column;gap:9px;padding:14px;border:1px solid var(--line);border-radius:17px;background:rgba(16,18,24,.94);backdrop-filter:blur(15px);box-shadow:0 15px 40px rgba(0,0,0,.25)}
+.navbtn{width:100%;text-align:right;padding:15px 14px;border-radius:11px;background:transparent;border:1px solid transparent;color:#aaa7a0;font-size:13px;transition:.2s ease}
+.navbtn:hover{background:rgba(214,181,109,.07);color:var(--gold2);border-color:var(--line);transform:translateX(-2px)}
+.navbtn.active{color:#f6e4b9;border-color:rgba(214,181,109,.5);background:linear-gradient(100deg,rgba(214,181,109,.17),rgba(214,181,109,.035));box-shadow:inset -3px 0 var(--gold)}
+.page{grid-column:2;min-width:0;animation:poPageIn .3s ease}.page.active{display:block}@keyframes poPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sectionhead{margin:12px 0 19px;padding-bottom:12px;border-bottom:1px solid var(--line)}.sectionhead h3{color:var(--gold2);font-size:18px}
+.stats{gap:13px}.stat{background:linear-gradient(145deg,#191b22,#0e1015);border:1px solid var(--line);border-radius:15px;padding:20px;position:relative;overflow:hidden;transition:.2s}.stat:after{content:"";position:absolute;width:75px;height:75px;left:-25px;bottom:-35px;border:1px solid rgba(214,181,109,.12);border-radius:50%}.stat:hover{border-color:rgba(214,181,109,.55);transform:translateY(-3px)}.stat strong{font-size:30px;color:var(--gold2)}
+.grid{gap:14px}.card,.panel,.idea,.task,.mother,.output-card{background:linear-gradient(145deg,#181b23,#101116);border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:0 8px 25px rgba(0,0,0,.12);transition:border-color .2s,transform .2s}.card:hover,.idea:hover,.task:hover{border-color:rgba(214,181,109,.45);transform:translateY(-2px)}
+.card .symbol{width:48px;height:48px;display:grid;place-items:center;border:1px solid rgba(214,181,109,.25);background:rgba(214,181,109,.07);border-radius:13px;color:var(--gold2);font-size:23px}.card h4{color:#f1e4c7;font-size:15px}.card p{line-height:2.1}.card a{color:var(--gold2)}
+.panel{background:linear-gradient(145deg,#171a21,#0d0f14);padding:22px}input,textarea,select{background:#090b10;border:1px solid #34343a;border-radius:10px;padding:13px;color:#f5f1e8;transition:.2s}input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(214,181,109,.08)}
+.btn{border:1px solid #444044;background:#20222a;border-radius:10px;padding:11px 16px;transition:.2s}.btn:hover{border-color:var(--gold);color:var(--gold2);transform:translateY(-1px)}.btn.primary{background:linear-gradient(135deg,#b18a43,#765726);color:#fff;border:1px solid #d2b16b;box-shadow:0 5px 18px rgba(164,123,49,.16)}.btn.danger{background:rgba(150,50,50,.1);border-color:#754040}
+.idea-list,.task-list,.mother-list{gap:14px}.idea h4,.task h4,.mother h4{color:var(--gold2);line-height:1.9}.tag{background:rgba(214,181,109,.06);border:1px solid rgba(214,181,109,.2);color:#e3d2aa;padding:6px 11px}.output-card{background:linear-gradient(145deg,#191b21,#101116)}.output-card textarea{min-height:200px}
+.notice{background:rgba(214,181,109,.055);border:1px solid rgba(214,181,109,.25);border-radius:13px;padding:17px;line-height:2.2}.empty{background:#11131a;border:1px dashed rgba(214,181,109,.35);border-radius:15px;padding:35px}.filters{gap:10px;margin:18px 0}
+footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid var(--line)}
+@media(max-width:900px){.wrap{grid-template-columns:190px minmax(0,1fr);gap:0 15px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.wrap{display:flex;flex-direction:column;width:94%;padding-top:12px}header{padding:14px}.hero{padding:23px 18px;margin:13px 0}.hero:after{font-size:65px;left:15px}nav{position:sticky;top:0;z-index:20;flex-direction:row;overflow-x:auto;padding:9px;border-radius:13px;margin-bottom:17px;gap:7px}.navbtn{width:auto;min-width:max-content;padding:11px 14px;text-align:center}.page{width:100%}.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.sectionhead{margin-top:20px}footer{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
 </style>
 </head>
 <body>
@@ -124,7 +161,7 @@ footer strong{color:var(--gold2)}
 <p>Know Yourself. Transform the World.</p>
 </div>
 </div>
-<div class="badge">CENTRAL HUB · V4</div>
+<div class="badge">CENTRAL HUB · V4 | LUXURY EDITION</div>
 </header>
 
 <section class="hero">
