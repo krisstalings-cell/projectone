@@ -5,102 +5,240 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08090c">
-<title>PROJECT ONE | Central Hub</title>
+<title>PROJECT ONE | Central Hub V2</title>
+
 <style>
 :root{
---bg:#08090c;--panel:#12141a;--line:#39332a;
---gold:#d6b56d;--gold2:#f0d99e;
---text:#f5f1e8;--muted:#aaa39a;
+--bg:#08090c;
+--panel:#12141a;
+--panel2:#191b21;
+--line:#38332b;
+--gold:#d6b56d;
+--gold2:#f0d99e;
+--text:#f5f1e8;
+--muted:#aaa39a;
+--green:#64c69b;
+--red:#e47c7c;
+--blue:#78aaff;
 }
 *{box-sizing:border-box}
 body{
-margin:0;color:var(--text);
+margin:0;
 font-family:Tahoma,Arial,sans-serif;
-background:radial-gradient(ellipse at top,#302617,#111116 40%,#08090c 85%);
-min-height:100vh
+background:radial-gradient(ellipse at top,#302617,#111116 42%,#08090c 85%);
+color:var(--text);
+min-height:100vh;
 }
-.wrap{width:min(1120px,92%);margin:auto;padding:25px 0 45px}
+button,input,textarea,select{font-family:inherit}
+button{cursor:pointer}
+.wrap{width:min(1150px,94%);margin:auto;padding:22px 0 50px}
 header{
-display:flex;justify-content:space-between;
-align-items:center;flex-wrap:wrap;gap:15px;
-border-bottom:1px solid var(--line);padding-bottom:20px
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+border-bottom:1px solid var(--line);
+padding-bottom:20px;
 }
 .brand{display:flex;align-items:center;gap:13px}
 .logo{
-width:48px;height:48px;border:1px solid var(--gold);
-border-radius:50%;display:grid;place-items:center;
-font-size:26px;color:var(--gold2)
+width:48px;height:48px;
+border:1px solid var(--gold);
+border-radius:50%;
+display:grid;place-items:center;
+font-size:25px;color:var(--gold2);
 }
-h1{font-size:25px;letter-spacing:2px;color:var(--gold2);margin:0}
+h1{font-size:23px;letter-spacing:2px;color:var(--gold2);margin:0}
 .brand p{font-size:11px;color:var(--muted);margin:7px 0 0}
-.status{
-border:1px solid #705d3a;color:var(--gold2);
-padding:9px 13px;border-radius:30px;font-size:11px
+.badge{
+border:1px solid #705d3a;
+color:var(--gold2);
+padding:9px 13px;
+border-radius:30px;
+font-size:11px;
 }
-.hero{padding:42px 0 25px}
-.eyebrow{color:var(--gold);font-size:12px;letter-spacing:2px}
-.hero h2{font-size:clamp(27px,5vw,42px);line-height:1.6;margin:12px 0}
+.hero{padding:32px 0 22px}
+.eyebrow{font-size:11px;letter-spacing:2px;color:var(--gold)}
+.hero h2{font-size:clamp(25px,5vw,39px);line-height:1.6;margin:10px 0}
 .hero h2 span{color:var(--gold2)}
-.hero p{color:var(--muted);line-height:2;font-size:13px;max-width:700px}
-.section-title{
-display:flex;justify-content:space-between;
-align-items:center;margin:28px 0 16px
+.hero p{font-size:13px;color:var(--muted);line-height:2}
+nav{
+display:flex;gap:8px;flex-wrap:wrap;
+border-bottom:1px solid var(--line);
+padding:12px 0 18px;
 }
-.section-title h3{font-size:17px;color:var(--gold2)}
-.section-title span{font-size:11px;color:var(--muted)}
+.navbtn{
+background:var(--panel);
+border:1px solid var(--line);
+color:var(--muted);
+padding:11px 16px;
+border-radius:10px;
+font-size:12px;
+}
+.navbtn.active{
+color:var(--gold2);
+border-color:var(--gold);
+background:#282116;
+}
+.page{display:none}
+.page.active{display:block}
+.sectionhead{
+display:flex;justify-content:space-between;
+align-items:center;gap:12px;flex-wrap:wrap;
+margin:24px 0 16px;
+}
+.sectionhead h3{margin:0;color:var(--gold2);font-size:17px}
+.muted{color:var(--muted);font-size:11px}
+.stats{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:12px;
+}
+.stat{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:13px;
+padding:17px;
+}
+.stat strong{
+display:block;
+font-size:25px;
+color:var(--gold2);
+margin-bottom:8px;
+}
+.stat span{font-size:11px;color:var(--muted)}
 .grid{
-display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:13px;
 }
 .card{
 background:linear-gradient(145deg,#1a1c22,#101116);
-border:1px solid var(--line);border-radius:16px;
-padding:19px;min-height:165px;
-display:flex;flex-direction:column;transition:.2s
+border:1px solid var(--line);
+border-radius:15px;
+padding:18px;
 }
-.card.active:hover{
-transform:translateY(-3px);border-color:var(--gold);
-box-shadow:0 12px 30px #0006
+.card h4{margin:0 0 9px;font-size:14px}
+.card p{font-size:12px;color:var(--muted);line-height:2}
+.card .symbol{font-size:22px;color:var(--gold2);margin-bottom:12px}
+.card a{color:var(--gold2);font-size:12px;text-decoration:none}
+.panel{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:15px;
+padding:18px;
+margin-top:18px;
 }
-.card.disabled{opacity:.7}
-.icon{
-width:40px;height:40px;border:1px solid #705d3a;
-border-radius:12px;display:grid;place-items:center;
-font-size:20px;color:var(--gold2);margin-bottom:13px
+.formgrid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px;
 }
-.card h4{font-size:15px;margin:0 0 8px}
-.card p{font-size:12px;color:var(--muted);line-height:2;margin:0 0 15px}
-.foot{
-margin-top:auto;display:flex;justify-content:space-between;
-align-items:center;color:var(--gold2);font-size:11px
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+label{font-size:11px;color:var(--muted)}
+input,textarea,select{
+width:100%;
+background:#090b10;
+color:var(--text);
+border:1px solid #3d3a34;
+border-radius:9px;
+padding:12px;
+font-size:12px;
+outline:none;
 }
-.pill{
-border:1px solid #45413a;color:var(--muted);
-padding:5px 9px;border-radius:20px;font-size:10px
+input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+textarea{min-height:95px;resize:vertical;line-height:1.9}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.btn{
+border:1px solid var(--line);
+background:#22242b;
+color:var(--text);
+padding:11px 16px;
+border-radius:9px;
+font-size:12px;
 }
-a{color:inherit;text-decoration:none}
-.note{
-margin-top:25px;padding:16px 18px;
-border:1px solid #51432b;background:#17140f;
-border-radius:14px;color:#d6c8a7;
-font-size:12px;line-height:2.2
+.btn.primary{background:#806532;color:white;border-color:#b79758}
+.btn.danger{color:#ffaaaa;border-color:#754040}
+.btn.small{padding:7px 10px;font-size:10px}
+.filters{
+display:grid;
+grid-template-columns:2fr 1fr 1fr;
+gap:10px;
+margin:16px 0;
+}
+.idea-list{display:grid;gap:12px}
+.idea{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:13px;
+padding:16px;
+}
+.idea-top{
+display:flex;justify-content:space-between;
+align-items:flex-start;gap:12px;
+}
+.idea h4{font-size:14px;margin:0 0 8px;color:var(--gold2)}
+.idea-desc{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
+.meta{
+display:flex;flex-wrap:wrap;gap:7px;
+margin:12px 0;
+}
+.tag{
+border:1px solid #4c4436;
+border-radius:20px;
+padding:5px 9px;
+font-size:10px;
+color:#d6c8a7;
+}
+.status-raw{color:#d6c8a7}
+.status-production{color:var(--blue)}
+.status-ready{color:var(--green)}
+.status-published{color:#c6a8ff}
+.empty{
+text-align:center;
+padding:35px 15px;
+border:1px dashed #514936;
+border-radius:13px;
+color:var(--muted);
+font-size:12px;
+line-height:2;
+}
+.hidden{display:none!important}
+.notice{
+margin-top:20px;
+padding:15px;
+border:1px solid #51432b;
+background:#17140f;
+border-radius:12px;
+color:#d6c8a7;
+font-size:11px;
+line-height:2;
 }
 footer{
-margin-top:35px;padding-top:18px;
+margin-top:35px;
+padding-top:17px;
 border-top:1px solid var(--line);
 display:flex;justify-content:space-between;
-flex-wrap:wrap;gap:12px;color:var(--muted);font-size:11px
+flex-wrap:wrap;gap:12px;
+color:var(--muted);font-size:11px;
 }
 footer strong{color:var(--gold2)}
 @media(max-width:760px){
 .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:500px){
 .grid{grid-template-columns:1fr}
-.card{min-height:140px}
-.wrap{width:90%}
+.formgrid{grid-template-columns:1fr}
+.field.full{grid-column:auto}
+.filters{grid-template-columns:1fr}
+.wrap{width:92%}
 }
 </style>
 </head>
+
 <body>
 <div class="wrap">
 
@@ -112,153 +250,554 @@ footer strong{color:var(--gold2)}
 <p>Know Yourself. Transform the World.</p>
 </div>
 </div>
-<div class="status">هاب مرکزی مدیریت محتوا</div>
+<div class="badge">CENTRAL HUB · V2</div>
 </header>
 
-<main>
 <section class="hero">
-<div class="eyebrow">CENTRAL CONTENT HUB</div>
-<h2>از ایده تا انتشار؛<br>
-<span>همه‌چیز در یک مسیر</span></h2>
-<p>
-فضای یکپارچه مدیریت محتوای PROJECT ONE.
-از اینجا می‌توانی به ابزارهای تولید،
-برنامه‌ریزی، انتشار و آرشیو محتوا دسترسی پیدا کنی.
-</p>
+<div class="eyebrow">CENTRAL CONTENT MANAGEMENT</div>
+<h2>از ایده تا انتشار؛<br><span>یک مسیر، یک مرکز</span></h2>
+<p>فضای مدیریت، سازمان‌دهی و توسعه محتوای PROJECT ONE</p>
 </section>
 
-<div class="section-title">
-<h3>فضاهای کاری</h3>
-<span>نسخه ۱.۰ داشبورد مرکزی</span>
+<nav>
+<button class="navbtn active" data-page="dashboard">داشبورد</button>
+<button class="navbtn" data-page="ideas">بانک ایده‌ها</button>
+<button class="navbtn" data-page="tools">استودیوها</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+
+<div class="sectionhead">
+<h3>داشبورد مرکزی</h3>
+<span class="muted">نمای کلی فعالیت‌ها</span>
 </div>
 
-<section class="grid">
-
-<a class="card active" href="../">
-<div class="icon">🎙</div>
-<h4>استودیوی پادکست</h4>
-<p>
-مدیریت قسمت‌ها، متن، وضعیت تولید،
-فایل صوتی و آرشیو پادکست.
-</p>
-<div class="foot">
-<span>ورود به ماژول</span><span>←</span>
+<div class="stats">
+<div class="stat">
+<strong id="totalCount">0</strong>
+<span>کل ایده‌ها</span>
 </div>
-</a>
+<div class="stat">
+<strong id="rawCount">0</strong>
+<span>ایده‌های خام</span>
+</div>
+<div class="stat">
+<strong id="productionCount">0</strong>
+<span>در حال تولید</span>
+</div>
+<div class="stat">
+<strong id="publishedCount">0</strong>
+<span>منتشرشده</span>
+</div>
+</div>
 
-<div class="card disabled">
-<div class="icon">✦</div>
+<div class="sectionhead">
+<h3>دسترسی سریع</h3>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="symbol">✦</div>
 <h4>بانک ایده‌ها</h4>
-<p>
-ثبت، دسته‌بندی و تبدیل ایده‌های خام
-به موضوعات قابل تولید.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
-</div>
+<p>ثبت، جست‌وجو و مدیریت ایده‌های محتوایی.</p>
+<a href="#" onclick="showPage('ideas');return false">ورود به بانک ایده‌ها ←</a>
 </div>
 
-<div class="card disabled">
-<div class="icon">▤</div>
-<h4>مدیریت محتوای مادر</h4>
-<p>
-نگهداری محتوای اصلی و آماده‌سازی
-خروجی‌های متناسب با هر رسانه.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
-</div>
+<div class="card">
+<div class="symbol">🎙</div>
+<h4>استودیوی پادکست</h4>
+<p>مدیریت قسمت‌ها و آرشیو پادکست.</p>
+<a href="../">ورود به استودیوی پادکست ←</a>
 </div>
 
-<div class="card disabled">
-<div class="icon">▶</div>
-<h4>استودیوی ریلز و ویدئو</h4>
-<p>
-مدیریت سناریو، صحنه‌ها،
-کپشن و خروجی‌های ویدئویی.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
-</div>
+<div class="card">
+<div class="symbol">▶</div>
+<h4>استودیوی ریلز</h4>
+<p>مدیریت سناریو و تولید ویدئو.</p>
+<span class="muted">در مرحله توسعه</span>
 </div>
 
-<div class="card disabled">
-<div class="icon">▦</div>
+<div class="card">
+<div class="symbol">▦</div>
 <h4>تقویم انتشار</h4>
-<p>
-برنامه‌ریزی محتوای روزانه و هفتگی
-در کانال‌های مختلف.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
-</div>
+<p>برنامه‌ریزی انتشار محتوا در رسانه‌ها.</p>
+<span class="muted">در مرحله توسعه</span>
 </div>
 
-<div class="card disabled">
-<div class="icon">⇧</div>
+<div class="card">
+<div class="symbol">⇧</div>
 <h4>مرکز انتشار</h4>
-<p>
-آماده‌سازی و پیگیری انتشار محتوا
-در تلگرام، اینستاگرام و یوتیوب.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
-</div>
+<p>مدیریت فرآیند انتشار در پلتفرم‌ها.</p>
+<span class="muted">در مرحله توسعه</span>
 </div>
 
-<div class="card disabled">
-<div class="icon">▣</div>
+<div class="card">
+<div class="symbol">▣</div>
 <h4>آرشیو مرکزی</h4>
-<p>
-دسترسی منظم به متن‌ها، فایل‌ها،
-تصاویر و خروجی‌های منتشرشده.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
-</div>
+<p>مدیریت و نگهداری خروجی‌های محتوا.</p>
+<span class="muted">در مرحله توسعه</span>
 </div>
 
-<div class="card disabled">
-<div class="icon">⌁</div>
-<h4>تحلیل عملکرد</h4>
-<p>
-بررسی آمار محتوا و سنجش عملکرد
-هر رسانه.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
-</div>
 </div>
 
-<div class="card disabled">
-<div class="icon">⚙</div>
-<h4>تنظیمات و اتصال‌ها</h4>
-<p>
-مدیریت تنظیمات هاب و اتصال سرویس‌ها
-پس از آماده‌سازی زیرساخت.
-</p>
-<div class="foot">
-<span>در مرحله بعد</span><span class="pill">به‌زودی</span>
+<div class="notice">
+<strong>وضعیت ذخیره‌سازی:</strong>
+ایده‌ها به‌صورت خودکار در حافظه همین مرورگر ذخیره می‌شوند.
+برای انتقال به دستگاه دیگر از خروجی JSON استفاده کن.
 </div>
+</section>
+
+<!-- IDEAS -->
+<section class="page" id="ideas">
+
+<div class="sectionhead">
+<h3>بانک ایده‌های PROJECT ONE</h3>
+<span class="muted" id="ideaCountLabel">۰ ایده</span>
 </div>
+
+<div class="panel">
+<h3 id="formTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت ایده جدید</h3>
+
+<form id="ideaForm">
+<input type="hidden" id="editId">
+
+<div class="formgrid">
+
+<div class="field">
+<label for="ideaTitle">عنوان ایده *</label>
+<input id="ideaTitle" required maxlength="150" placeholder="عنوان ایده را بنویس">
+</div>
+
+<div class="field">
+<label for="ideaCategory">دسته‌بندی</label>
+<select id="ideaCategory">
+<option value="خودشناسی">خودشناسی</option>
+<option value="آگاهی">آگاهی</option>
+<option value="روابط">روابط</option>
+<option value="روانشناسی">روانشناسی</option>
+<option value="کتاب">کتاب</option>
+<option value="فلسفه">فلسفه</option>
+<option value="کودک">کودک</option>
+<option value="سایر">سایر</option>
+</select>
+</div>
+
+<div class="field">
+<label for="ideaChannel">رسانه مقصد</label>
+<select id="ideaChannel">
+<option value="اینستاگرام">اینستاگرام</option>
+<option value="تلگرام">تلگرام</option>
+<option value="یوتیوب">یوتیوب</option>
+<option value="پادکست">پادکست</option>
+<option value="وب‌سایت">وب‌سایت</option>
+<option value="چند رسانه">چند رسانه</option>
+</select>
+</div>
+
+<div class="field">
+<label for="ideaStatus">وضعیت</label>
+<select id="ideaStatus">
+<option value="خام">ایده خام</option>
+<option value="تولید">در حال تولید</option>
+<option value="آماده">آماده انتشار</option>
+<option value="منتشر">منتشرشده</option>
+</select>
+</div>
+
+<div class="field full">
+<label for="ideaDesc">شرح ایده</label>
+<textarea id="ideaDesc" maxlength="5000" placeholder="توضیحات، نکات و زاویه محتوایی..."></textarea>
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" type="submit" id="saveBtn">ذخیره ایده</button>
+<button class="btn hidden" type="button" id="cancelEdit">لغو ویرایش</button>
+</div>
+</form>
+</div>
+
+<div class="sectionhead">
+<h3>فهرست ایده‌ها</h3>
+<span class="muted">جست‌وجو و مدیریت</span>
+</div>
+
+<div class="filters">
+<input id="searchInput" placeholder="جست‌وجو در عنوان و توضیحات...">
+<select id="filterCategory">
+<option value="">همه دسته‌ها</option>
+<option>خودشناسی</option>
+<option>آگاهی</option>
+<option>روابط</option>
+<option>روانشناسی</option>
+<option>کتاب</option>
+<option>فلسفه</option>
+<option>کودک</option>
+<option>سایر</option>
+</select>
+<select id="filterStatus">
+<option value="">همه وضعیت‌ها</option>
+<option value="خام">ایده خام</option>
+<option value="تولید">در حال تولید</option>
+<option value="آماده">آماده انتشار</option>
+<option value="منتشر">منتشرشده</option>
+</select>
+</div>
+
+<div class="actions">
+<button class="btn" id="exportBtn" type="button">خروجی JSON</button>
+<button class="btn" id="importBtn" type="button">بازیابی JSON</button>
+<input class="hidden" type="file" id="importFile" accept=".json,application/json">
+</div>
+
+<div class="idea-list" id="ideaList" style="margin-top:15px"></div>
 
 </section>
 
-<div class="note">
-<strong>وضعیت نسخه:</strong>
-این نسخه پوسته اولیه هاب مرکزی است.
-در حال حاضر فقط استودیوی پادکست به نسخه موجود متصل است.
-سایر ماژول‌ها هنوز قابلیت اجرایی ندارند
-و در مراحل بعدی توسعه داده خواهند شد.
+<!-- TOOLS -->
+<section class="page" id="tools">
+
+<div class="sectionhead">
+<h3>استودیوهای تولید محتوا</h3>
 </div>
-</main>
+
+<div class="grid">
+
+<div class="card">
+<div class="symbol">🎙</div>
+<h4>استودیوی پادکست</h4>
+<p>نسخه فعلی پادکست بدون تغییر باقی مانده است.</p>
+<a href="../">ورود به پادکست ←</a>
+</div>
+
+<div class="card">
+<div class="symbol">▶</div>
+<h4>استودیوی ریلز</h4>
+<p>ماژول تولید ویدئو در مرحله اتصال به هاب مرکزی است.</p>
+<span class="muted">در حال توسعه</span>
+</div>
+
+<div class="card">
+<div class="symbol">✍</div>
+<h4>استودیوی متن</h4>
+<p>مدیریت سناریو، کپشن و متن محتوایی.</p>
+<span class="muted">در مرحله بعد</span>
+</div>
+
+</div>
+
+<div class="notice">
+ماژول‌های آینده پس از تکمیل، از همین داشبورد قابل دسترسی خواهند بود.
+</div>
+</section>
 
 <footer>
 <span><strong>PROJECT ONE</strong> · فضای آگاهی و تحول درونی</span>
-<span>Central Hub · Version 1.0</span>
+<span>Central Hub V2</span>
 </footer>
 
 </div>
+
+<script>
+const STORAGE_KEY = "projectone_hub_ideas_v2";
+
+let ideas = [];
+
+const $ = id => document.getElementById(id);
+
+function loadIdeas(){
+try{
+const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+ideas = Array.isArray(data) ? data : [];
+}catch(e){
+ideas = [];
+}
+render();
+}
+
+function saveIdeas(){
+try{
+localStorage.setItem(STORAGE_KEY,JSON.stringify(ideas));
+}catch(e){
+alert("ذخیره‌سازی انجام نشد. فضای مرورگر را بررسی کن.");
+}
+render();
+}
+
+function makeId(){
+return "idea_" + Date.now() + "_" + Math.random().toString(36).slice(2,8);
+}
+
+function showPage(name){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
+
+const page = $(name);
+if(page) page.classList.add("active");
+
+const button = document.querySelector('[data-page="'+name+'"]');
+if(button) button.classList.add("active");
+
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll(".navbtn").forEach(btn=>{
+btn.addEventListener("click",()=>showPage(btn.dataset.page));
+});
+
+function statusText(status){
+return {
+"خام":"ایده خام",
+"تولید":"در حال تولید",
+"آماده":"آماده انتشار",
+"منتشر":"منتشرشده"
+}[status] || status;
+}
+
+function statusClass(status){
+return {
+"خام":"status-raw",
+"تولید":"status-production",
+"آماده":"status-ready",
+"منتشر":"status-published"
+}[status] || "";
+}
+
+function escapeHTML(value){
+return String(value ?? "").replace(/[&<>"']/g,char=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[char]));
+}
+
+function render(){
+const total = ideas.length;
+const raw = ideas.filter(x=>x.status==="خام").length;
+const production = ideas.filter(x=>x.status==="تولید").length;
+const published = ideas.filter(x=>x.status==="منتشر").length;
+
+$("totalCount").textContent = total;
+$("rawCount").textContent = raw;
+$("productionCount").textContent = production;
+$("publishedCount").textContent = published;
+$("ideaCountLabel").textContent = total + " ایده";
+
+const search = $("searchInput").value.trim().toLowerCase();
+const category = $("filterCategory").value;
+const status = $("filterStatus").value;
+
+const filtered = ideas.filter(idea=>{
+const text = (idea.title+" "+idea.desc).toLowerCase();
+return (!search || text.includes(search)) &&
+(!category || idea.category===category) &&
+(!status || idea.status===status);
+});
+
+const list = $("ideaList");
+list.innerHTML = "";
+
+if(filtered.length===0){
+list.innerHTML = '<div class="empty">ایده‌ای پیدا نشد.<br>می‌توانی اولین ایده را ثبت کنی.</div>';
+return;
+}
+
+filtered.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+
+filtered.forEach(idea=>{
+const article = document.createElement("article");
+article.className = "idea";
+
+article.innerHTML = `
+<div class="idea-top">
+<div>
+<h4>${escapeHTML(idea.title)}</h4>
+<div class="muted">${escapeHTML(idea.category)} · ${escapeHTML(idea.channel)}</div>
+</div>
+<span class="${statusClass(idea.status)}" style="font-size:11px">${escapeHTML(statusText(idea.status))}</span>
+</div>
+
+${idea.desc ? `<div class="idea-desc">${escapeHTML(idea.desc)}</div>` : ""}
+
+<div class="meta">
+<span class="tag">${escapeHTML(idea.category)}</span>
+<span class="tag">${escapeHTML(idea.channel)}</span>
+<span class="tag">${escapeHTML(statusText(idea.status))}</span>
+</div>
+
+<div class="actions">
+<button class="btn small" data-action="edit" data-id="${escapeHTML(idea.id)}">ویرایش</button>
+<button class="btn small" data-action="next" data-id="${escapeHTML(idea.id)}">تغییر وضعیت</button>
+<button class="btn small danger" data-action="delete" data-id="${escapeHTML(idea.id)}">حذف</button>
+</div>
+`;
+
+list.appendChild(article);
+});
+}
+
+$("ideaForm").addEventListener("submit",event=>{
+event.preventDefault();
+
+const title = $("ideaTitle").value.trim();
+if(!title){
+alert("عنوان ایده را وارد کن.");
+return;
+}
+
+const editId = $("editId").value;
+const now = Date.now();
+
+const record = {
+title,
+category:$("ideaCategory").value,
+channel:$("ideaChannel").value,
+status:$("ideaStatus").value,
+desc:$("ideaDesc").value.trim(),
+updatedAt:now
+};
+
+if(editId){
+const index = ideas.findIndex(x=>x.id===editId);
+if(index!==-1){
+ideas[index] = {...ideas[index],...record};
+}
+}else{
+ideas.push({
+id:makeId(),
+createdAt:now,
+...record
+});
+}
+
+saveIdeas();
+resetForm();
+alert(editId ? "ایده ویرایش شد." : "ایده ذخیره شد.");
+});
+
+function resetForm(){
+$("ideaForm").reset();
+$("editId").value="";
+$("formTitle").textContent="ثبت ایده جدید";
+$("saveBtn").textContent="ذخیره ایده";
+$("cancelEdit").classList.add("hidden");
+}
+
+$("cancelEdit").addEventListener("click",resetForm);
+
+$("ideaList").addEventListener("click",event=>{
+const button = event.target.closest("button[data-action]");
+if(!button) return;
+
+const id = button.dataset.id;
+const action = button.dataset.action;
+const idea = ideas.find(x=>x.id===id);
+if(!idea) return;
+
+if(action==="edit"){
+$("editId").value=idea.id;
+$("ideaTitle").value=idea.title;
+$("ideaCategory").value=idea.category;
+$("ideaChannel").value=idea.channel;
+$("ideaStatus").value=idea.status;
+$("ideaDesc").value=idea.desc;
+$("formTitle").textContent="ویرایش ایده";
+$("saveBtn").textContent="ذخیره تغییرات";
+$("cancelEdit").classList.remove("hidden");
+window.scrollTo({top:document.querySelector(".panel").offsetTop-20,behavior:"smooth"});
+}
+
+if(action==="delete"){
+if(confirm("این ایده حذف شود؟")){
+ideas=ideas.filter(x=>x.id!==id);
+saveIdeas();
+}
+}
+
+if(action==="next"){
+const states=["خام","تولید","آماده","منتشر"];
+const index=states.indexOf(idea.status);
+idea.status=states[(index+1)%states.length];
+idea.updatedAt=Date.now();
+saveIdeas();
+}
+});
+
+["searchInput","filterCategory","filterStatus"].forEach(id=>{
+$(id).addEventListener("input",render);
+$(id).addEventListener("change",render);
+});
+
+$("exportBtn").addEventListener("click",()=>{
+const data = {
+app:"PROJECT ONE Central Hub",
+version:2,
+exportedAt:new Date().toISOString(),
+ideas
+};
+
+const blob = new Blob(
+[JSON.stringify(data,null,2)],
+{type:"application/json"}
+);
+
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="projectone-ideas-backup.json";
+a.click();
+URL.revokeObjectURL(url);
+});
+
+$("importBtn").addEventListener("click",()=>{
+$("importFile").click();
+});
+
+$("importFile").addEventListener("change",async event=>{
+const file=event.target.files[0];
+if(!file) return;
+
+try{
+const text=await file.text();
+const data=JSON.parse(text);
+const incoming=Array.isArray(data) ? data : data.ideas;
+
+if(!Array.isArray(incoming)) throw new Error("Invalid format");
+
+if(!confirm("اطلاعات فایل وارد شود؟ ایده‌های هم‌شماره جایگزین می‌شوند.")) return;
+
+const map=new Map(ideas.map(x=>[x.id,x]));
+
+incoming.forEach(item=>{
+if(item && item.id && item.title){
+map.set(item.id,{
+id:String(item.id),
+title:String(item.title),
+category:String(item.category||"سایر"),
+channel:String(item.channel||"چند رسانه"),
+status:["خام","تولید","آماده","منتشر"].includes(item.status)?item.status:"خام",
+desc:String(item.desc||""),
+createdAt:Number(item.createdAt)||Date.now(),
+updatedAt:Number(item.updatedAt)||Date.now()
+});
+}
+});
+
+ideas=Array.from(map.values());
+saveIdeas();
+alert("بازیابی اطلاعات انجام شد.");
+}catch(error){
+alert("فایل معتبر نیست یا قابل خواندن نیست.");
+}
+event.target.value="";
+});
+
+loadIdeas();
+</script>
 </body>
 </html>
-
