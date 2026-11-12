@@ -169,7 +169,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <p>Know Yourself. Transform the World.</p>
 </div>
 </div>
-<div class="badge">CENTRAL HUB · V6 | PODCAST CONNECTED</div>
+<div class="badge">CENTRAL HUB · V8 | PODCAST DISTRIBUTION</div>
 </header>
 
 <section class="hero">
@@ -185,6 +185,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <button class="navbtn" data-page="mothers">محتوای مادر</button>
 <button class="navbtn" data-page="tools">استودیوها</button>
 <button class="navbtn" data-page="podcast">پادکست</button>
+<button class="navbtn" data-page="episodes">مدیریت قسمت‌ها</button>
 <button class="navbtn" data-page="history">تاریخچه تغییرات</button>
 </nav>
 
@@ -218,6 +219,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <div class="symbol">🎙</div><h4>پادکست PROJECT ONE</h4>
 <p>پخش پادکست، دسترسی به RSS و مدیریت مسیر انتشار.</p>
 <a href="#" onclick="showPage('podcast');return false">ورود به بخش پادکست ←</a>
+<br><a href="#" onclick="showPage('episodes');return false">مدیریت قسمت‌ها ←</a>
 </div>
 <div class="card">
 <div class="symbol">▶</div><h4>استودیوی ریلز</h4>
@@ -438,10 +440,28 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
   </div>
   <div class="card">
     <div class="symbol">⌁</div>
-    <h4>فید RSS اصلی</h4>
-    <p>این آدرس برای اتصال پادکست به دایرکتوری‌ها و پلتفرم‌های پخش استفاده می‌شود.</p>
-    <a href="https://api.rabt.host/podcasts/b5af6e68-b4b1-4124-9fd8-00013b868105/rss" target="_blank" rel="noopener noreferrer">باز کردن RSS ←</a>
+    <h4>فید RSS ربط‌هاست</h4>
+    <p>فید اصلی اعلام‌شده برای توزیع پادکست.</p>
+    <a href="https://api.rabt.host/podcasts/b5af6e68-b4b1-4124-9fd8-00013b868105/rss" target="_blank" rel="noopener noreferrer">باز کردن فید اصلی ←</a>
+    <button class="btn" type="button" id="copyPodcastRss">کپی فید اصلی</button>
   </div>
+  <div class="card">
+    <div class="symbol">🌍</div>
+    <h4>فید پادگیرهای غیرایرانی</h4>
+    <p>آدرس جداگانه معرفی‌شده برای دسترسی پادگیرهای بین‌المللی.</p>
+    <a href="https://player.rabt.space/p/b5af6e68-b4b1-4124-9fd8-00013b868105.xml" target="_blank" rel="noopener noreferrer">باز کردن فید بین‌المللی ←</a>
+    <button class="btn" type="button" id="copyPodcastGlobalRss">کپی فید بین‌المللی</button>
+  </div>
+</div>
+<div class="panel">
+  <div class="sectionhead"><h3>بررسی فیدهای RSS</h3><span class="muted">پیش‌نمایش قسمت‌های موجود</span></div>
+  <p class="muted">برای بررسی، یکی از فیدها را انتخاب کن. اگر میزبان اجازه دریافت مستقیم از مرورگر را بدهد، عنوان قسمت‌ها اینجا نمایش داده می‌شود؛ در غیر این صورت فید در صفحه جداگانه باز می‌شود.</p>
+  <div class="actions">
+    <button class="btn" type="button" id="checkMainRss">بررسی فید ربط‌هاست</button>
+    <button class="btn" type="button" id="checkGlobalRss">بررسی فید بین‌المللی</button>
+  </div>
+  <div id="rssCheckStatus" class="notice" aria-live="polite">هنوز فیدی بررسی نشده است.</div>
+  <div id="rssPreview" class="list"></div>
 </div>
 
 <div class="panel">
@@ -467,10 +487,42 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
     <br>نسخه قدیمی پادکست و سایر بخش‌های هاب در این ارتقا حذف یا بازنویسی نشده‌اند.
   </div>
   <div class="actions">
-    <button class="btn" type="button" id="copyPodcastRss">کپی آدرس RSS</button>
     <button class="btn" type="button" id="copyPodcastPlayer">کپی لینک پلیر</button>
   </div>
 </div>
+</section>
+
+<!-- PODCAST EPISODE MANAGER -->
+<section class="page" id="episodes">
+<div class="sectionhead">
+  <h3>مدیریت قسمت‌های پادکست</h3>
+  <span class="muted" id="episodeCount">۰ قسمت</span>
+</div>
+<div class="notice">این بخش، اطلاعات قسمت‌ها و وضعیت آماده‌سازی انتشار را در همین مرورگر نگه می‌دارد. انتشار مستقیم در ربط‌هاست هنوز فعال نیست؛ برای انتشار نهایی از پنل ربط‌هاست استفاده کن.</div>
+<div class="panel">
+  <h3 id="episodeFormTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت قسمت جدید</h3>
+  <form id="episodeForm">
+    <input type="hidden" id="editEpisodeId">
+    <div class="formgrid">
+      <div class="field"><label>عنوان قسمت *</label><input id="episodeTitle" required maxlength="180" placeholder="عنوان اپیزود"></div>
+      <div class="field"><label>تاریخ انتشار</label><input id="episodeDate" type="date"></div>
+      <div class="field"><label>وضعیت</label><select id="episodeStatus"><option value="draft">پیش‌نویس</option><option value="ready">آماده انتشار</option><option value="published">منتشرشده</option></select></div>
+      <div class="field"><label>لینک صفحه قسمت در ربط‌هاست</label><input id="episodeLink" type="url" placeholder="https://rabt.host/embed/episode/..."></div>
+      <div class="field full"><label>توضیحات قسمت</label><textarea id="episodeDescription" rows="3" placeholder="خلاصه یا توضیحات اپیزود"></textarea></div>
+      <div class="field full"><label>یادداشت داخلی</label><textarea id="episodeNotes" rows="2" placeholder="یادداشت‌های آماده‌سازی؛ برای مخاطب نمایش داده نمی‌شود"></textarea></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" type="submit" id="saveEpisodeBtn">ذخیره قسمت</button>
+      <button class="btn" type="button" id="cancelEpisodeEdit" style="display:none">لغو ویرایش</button>
+      <button class="btn" type="button" id="exportEpisodesBtn">خروجی پشتیبان قسمت‌ها</button>
+    </div>
+  </form>
+</div>
+<div class="filters" style="display:flex;flex-wrap:wrap">
+  <input id="episodeSearch" placeholder="جست‌وجوی عنوان یا توضیحات..." style="flex:1;min-width:190px">
+  <select id="episodeFilter" style="min-width:160px"><option value="all">همه وضعیت‌ها</option><option value="draft">پیش‌نویس</option><option value="ready">آماده انتشار</option><option value="published">منتشرشده</option></select>
+</div>
+<div class="idea-list" id="episodeList"></div>
 </section>
 
 <!-- CHANGE HISTORY -->
@@ -488,7 +540,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 
 <footer>
 <span><strong>PROJECT ONE</strong> · فضای آگاهی و تحول درونی</span>
-<span>Central Hub V6 · Podcast Connected</span>
+<span>Central Hub V8 · Podcast Distribution</span>
 </footer>
 </div>
 
@@ -568,6 +620,7 @@ btn.addEventListener("click",()=>showPage(btn.dataset.page));
 
 /* PODCAST LINKS — independent of existing ideas/tasks/mothers storage */
 const PODCAST_RSS_URL="https://api.rabt.host/podcasts/b5af6e68-b4b1-4124-9fd8-00013b868105/rss";
+const PODCAST_GLOBAL_RSS_URL="https://player.rabt.space/p/b5af6e68-b4b1-4124-9fd8-00013b868105.xml";
 const PODCAST_PLAYER_URL="https://rabt.host/embed/podcast/b5af6e68-b4b1-4124-9fd8-00013b868105";
 async function copyPodcastLink(value){
   try{
@@ -578,7 +631,36 @@ async function copyPodcastLink(value){
   }
 }
 $("copyPodcastRss").addEventListener("click",()=>copyPodcastLink(PODCAST_RSS_URL));
+$("copyPodcastGlobalRss").addEventListener("click",()=>copyPodcastLink(PODCAST_GLOBAL_RSS_URL));
 $("copyPodcastPlayer").addEventListener("click",()=>copyPodcastLink(PODCAST_PLAYER_URL));
+async function checkPodcastFeed(url,label){
+  const status=$("rssCheckStatus"),preview=$("rssPreview");
+  status.textContent="در حال بررسی "+label+"...";preview.innerHTML="";
+  try{
+    const response=await fetch(url,{cache:"no-store"});
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const xmlText=await response.text();
+    const xml=new DOMParser().parseFromString(xmlText,"text/xml");
+    if(xml.querySelector("parsererror"))throw new Error("ساختار XML قابل خواندن نیست");
+    const nodes=[...xml.querySelectorAll("item, entry")];
+    if(!nodes.length)throw new Error("قسمتی در فید پیدا نشد");
+    status.textContent="فید با موفقیت خوانده شد؛ "+nodes.length+" قسمت پیدا شد. این پیش‌نمایش، اطلاعات ذخیره‌شده هاب را تغییر نمی‌دهد.";
+    nodes.slice(0,30).forEach((node,index)=>{
+      const title=node.querySelector("title")?.textContent?.trim()||"بدون عنوان";
+      const linkNode=node.querySelector("link");
+      const link=linkNode?.getAttribute("href")||linkNode?.textContent?.trim()||node.querySelector("enclosure")?.getAttribute("url")||"";
+      const item=document.createElement("div");item.className="item";
+      const heading=document.createElement("strong");heading.textContent=(index+1)+". "+title;item.appendChild(heading);
+      if(link){const a=document.createElement("a");a.href=link;a.target="_blank";a.rel="noopener noreferrer";a.textContent="مشاهده / پخش قسمت";item.appendChild(a);}
+      preview.appendChild(item);
+    });
+  }catch(error){
+    status.textContent="مرورگر نتوانست فید را مستقیم بخواند (ممکن است محدودیت CORS میزبان باشد). این به معنی خراب بودن RSS نیست؛ برای بررسی دستی، فید را در صفحه جداگانه باز کن.";
+    const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";a.textContent="باز کردن "+label;preview.appendChild(a);
+  }
+}
+$("checkMainRss").addEventListener("click",()=>checkPodcastFeed(PODCAST_RSS_URL,"فید ربط‌هاست"));
+$("checkGlobalRss").addEventListener("click",()=>checkPodcastFeed(PODCAST_GLOBAL_RSS_URL,"فید بین‌المللی"));
 
 function persistIdeas(){
 if(writeStore(IDEA_KEY,ideas))renderAll();
@@ -1175,6 +1257,78 @@ alert("فایل پشتیبان معتبر نیست.");
 e.target.value="";
 });
 
+
+/* PODCAST EPISODE MANAGER — separate storage; legacy data keys remain untouched */
+const EPISODE_KEY="projectone_hub_podcast_episodes_v1";
+let podcastEpisodes=[];
+const episodeStatusLabel={draft:"پیش‌نویس",ready:"آماده انتشار",published:"منتشرشده"};
+function persistEpisodes(){
+  try{localStorage.setItem(EPISODE_KEY,JSON.stringify(podcastEpisodes));renderEpisodes();return true;}
+  catch(e){alert("ذخیره قسمت‌ها انجام نشد؛ فضای مرورگر را بررسی کن.");return false;}
+}
+function resetEpisodeForm(){
+  $("episodeForm").reset();$("editEpisodeId").value="";
+  $("episodeFormTitle").textContent="ثبت قسمت جدید";
+  $("saveEpisodeBtn").textContent="ذخیره قسمت";
+  $("cancelEpisodeEdit").style.display="none";
+}
+function renderEpisodes(){
+  const q=($("episodeSearch")?.value||"").trim().toLowerCase();
+  const filter=$("episodeFilter")?.value||"all";
+  const shown=podcastEpisodes.filter(ep=>{
+    const matchesStatus=filter==="all"||ep.status===filter;
+    const hay=[ep.title,ep.description,ep.notes].join(" ").toLowerCase();
+    return matchesStatus&&(!q||hay.includes(q));
+  }).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  $("episodeCount").textContent=podcastEpisodes.length+" قسمت";
+  const list=$("episodeList");
+  if(!shown.length){list.innerHTML='<div class="empty">هنوز قسمتی با این مشخصات ثبت نشده است.</div>';return;}
+  list.innerHTML=shown.map(ep=>`<article class="idea">
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:start">
+      <div><h4>${esc(ep.title)}</h4><span class="tag">${episodeStatusLabel[ep.status]||"پیش‌نویس"}</span>${ep.date?` <span class="muted">· ${esc(ep.date)}</span>`:""}</div>
+      <div class="actions" style="margin:0">
+        ${ep.link?`<a class="btn small" href="${esc(ep.link)}" target="_blank" rel="noopener noreferrer">باز کردن قسمت ↗</a>`:""}
+        <button class="btn small" type="button" onclick="editEpisode('${ep.id}')">ویرایش</button>
+        <button class="btn danger small" type="button" onclick="deleteEpisode('${ep.id}')">حذف</button>
+      </div>
+    </div>
+    ${ep.description?`<p style="line-height:2;color:var(--muted);white-space:pre-wrap">${esc(ep.description)}</p>`:""}
+    ${ep.notes?`<p class="muted" style="font-size:11px;white-space:pre-wrap">یادداشت داخلی: ${esc(ep.notes)}</p>`:""}
+  </article>`).join("");
+}
+function editEpisode(id){
+  const ep=podcastEpisodes.find(x=>x.id===id);if(!ep)return;
+  $("editEpisodeId").value=ep.id;$("episodeTitle").value=ep.title||"";
+  $("episodeDate").value=ep.date||"";$("episodeStatus").value=ep.status||"draft";
+  $("episodeLink").value=ep.link||"";$("episodeDescription").value=ep.description||"";
+  $("episodeNotes").value=ep.notes||"";$("episodeFormTitle").textContent="ویرایش قسمت";
+  $("saveEpisodeBtn").textContent="ذخیره تغییرات";$("cancelEpisodeEdit").style.display="inline-block";
+  $("episodeForm").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function deleteEpisode(id){
+  const ep=podcastEpisodes.find(x=>x.id===id);if(!ep||!confirm("قسمت «"+ep.title+"» از فهرست محلی حذف شود؟"))return;
+  podcastEpisodes=podcastEpisodes.filter(x=>x.id!==id);persistEpisodes();
+}
+$("episodeForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const id=$("editEpisodeId").value;
+  const existing=podcastEpisodes.find(x=>x.id===id);
+  const ep={id:id||uid(),title:$("episodeTitle").value.trim(),date:$("episodeDate").value,
+    status:$("episodeStatus").value,link:$("episodeLink").value.trim(),
+    description:$("episodeDescription").value.trim(),notes:$("episodeNotes").value.trim(),
+    createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};
+  if(!ep.title)return;
+  if(existing)podcastEpisodes=podcastEpisodes.map(x=>x.id===id?ep:x);else podcastEpisodes.unshift(ep);
+  if(persistEpisodes()){resetEpisodeForm();alert("اطلاعات قسمت ذخیره شد.");}
+});
+$("cancelEpisodeEdit").addEventListener("click",resetEpisodeForm);
+$("episodeSearch").addEventListener("input",renderEpisodes);
+$("episodeFilter").addEventListener("change",renderEpisodes);
+$("exportEpisodesBtn").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify({project:"PROJECT ONE",type:"podcast_episodes",version:1,exportedAt:new Date().toISOString(),episodes:podcastEpisodes},null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="projectone-podcast-episodes-backup.json";a.click();URL.revokeObjectURL(url);
+});
+
 /* INITIAL LOAD */
 ideas=readStore(IDEA_KEY);
 tasks=readStore(TASK_KEY);
@@ -1183,7 +1337,16 @@ try{
 historyLog=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");
 if(!Array.isArray(historyLog))historyLog=[];
 }catch(e){historyLog=[];}
+try{
+  const savedEpisodes=localStorage.getItem(EPISODE_KEY);
+  if(savedEpisodes!==null){const parsed=JSON.parse(savedEpisodes);podcastEpisodes=Array.isArray(parsed)?parsed:[];}
+  else{
+    podcastEpisodes=[{id:"rabt_episode_9f161e96",title:"غم نیز می‌گذرد",date:"",status:"published",link:"https://rabt.host/embed/episode/9f161e96-5d17-4b71-ac13-0b9e73cde7ea",description:"",notes:"قسمت منتقل‌شده از میزبان قبلی؛ پخش فایل صوتی آزمایش شده است.",createdAt:Date.now(),updatedAt:Date.now()}];
+    localStorage.setItem(EPISODE_KEY,JSON.stringify(podcastEpisodes));
+  }
+}catch(e){podcastEpisodes=[];console.warn("Podcast episode storage could not be loaded",e);}
 renderAll();
+renderEpisodes();
 </script>
 </body>
 </html>
