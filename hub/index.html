@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08090c">
-<title>PROJECT ONE | Central Hub V4</title>
+<title>PROJECT ONE | Central Hub V6</title>
 <style>
 :root{
 --bg:#08090c;--panel:#12141a;--panel2:#191b21;
@@ -169,7 +169,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <p>Know Yourself. Transform the World.</p>
 </div>
 </div>
-<div class="badge">CENTRAL HUB · V5 | CHANGE HISTORY</div>
+<div class="badge">CENTRAL HUB · V6 | PODCAST CONNECTED</div>
 </header>
 
 <section class="hero">
@@ -183,7 +183,9 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <button class="navbtn" data-page="ideas">بانک ایده‌ها</button>
 <button class="navbtn" data-page="tasks">مدیریت وظایف</button>
 <button class="navbtn" data-page="mothers">محتوای مادر</button>
-<button class="navbtn" data-page="tools">استودیوها</button>\n<button class="navbtn" data-page="history">تاریخچه تغییرات</button>
+<button class="navbtn" data-page="tools">استودیوها</button>
+<button class="navbtn" data-page="podcast">پادکست</button>
+<button class="navbtn" data-page="history">تاریخچه تغییرات</button>
 </nav>
 
 <!-- DASHBOARD -->
@@ -213,9 +215,9 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 <a href="#" onclick="showPage('mothers');return false">ورود به محتوای مادر ←</a>
 </div>
 <div class="card">
-<div class="symbol">🎙</div><h4>استودیوی پادکست</h4>
-<p>مدیریت قسمت‌ها و آرشیو پادکست.</p>
-<a href="../">ورود به پادکست ←</a>
+<div class="symbol">🎙</div><h4>پادکست PROJECT ONE</h4>
+<p>پخش پادکست، دسترسی به RSS و مدیریت مسیر انتشار.</p>
+<a href="#" onclick="showPage('podcast');return false">ورود به بخش پادکست ←</a>
 </div>
 <div class="card">
 <div class="symbol">▶</div><h4>استودیوی ریلز</h4>
@@ -419,6 +421,58 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 </div>
 </section>
 
+
+<!-- PODCAST CENTER -->
+<section class="page" id="podcast">
+<div class="sectionhead">
+  <h3>مرکز پادکست PROJECT ONE International</h3>
+  <span class="muted">میزبانی اصلی: ربط‌هاست</span>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="symbol">▶</div>
+    <h4>پخش آنلاین پادکست</h4>
+    <p>پلیر رسمی پادکست میزبانی‌شده در ربط‌هاست.</p>
+    <a href="https://rabt.host/embed/podcast/b5af6e68-b4b1-4124-9fd8-00013b868105" target="_blank" rel="noopener noreferrer">باز کردن پلیر در صفحه جداگانه ←</a>
+  </div>
+  <div class="card">
+    <div class="symbol">⌁</div>
+    <h4>فید RSS اصلی</h4>
+    <p>این آدرس برای اتصال پادکست به دایرکتوری‌ها و پلتفرم‌های پخش استفاده می‌شود.</p>
+    <a href="https://api.rabt.host/podcasts/b5af6e68-b4b1-4124-9fd8-00013b868105/rss" target="_blank" rel="noopener noreferrer">باز کردن RSS ←</a>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="sectionhead">
+    <h3>پخش‌کننده داخل هاب</h3>
+    <span class="muted">پلیر رسمی ربط‌هاست</span>
+  </div>
+  <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#08090c">
+    <iframe
+      src="https://rabt.host/embed/podcast/b5af6e68-b4b1-4124-9fd8-00013b868105"
+      title="PROJECT ONE International"
+      width="100%"
+      height="480"
+      frameborder="0"
+      allow="autoplay"
+      loading="lazy"
+      style="display:block;max-width:100%">
+    </iframe>
+  </div>
+  <div class="notice">
+    <strong>وضعیت اتصال:</strong> ربط‌هاست به‌عنوان میزبان اصلی ثبت شده است.
+    <br>فید RSS بالا، منبع اصلی توزیع قسمت‌های پادکست است.
+    <br>نسخه قدیمی پادکست و سایر بخش‌های هاب در این ارتقا حذف یا بازنویسی نشده‌اند.
+  </div>
+  <div class="actions">
+    <button class="btn" type="button" id="copyPodcastRss">کپی آدرس RSS</button>
+    <button class="btn" type="button" id="copyPodcastPlayer">کپی لینک پلیر</button>
+  </div>
+</div>
+</section>
+
 <!-- CHANGE HISTORY -->
 <section class="page" id="history">
 <div class="sectionhead">
@@ -434,7 +488,7 @@ footer{grid-column:1/-1;margin-top:35px;padding-top:20px;border-top:1px solid va
 
 <footer>
 <span><strong>PROJECT ONE</strong> · فضای آگاهی و تحول درونی</span>
-<span>Central Hub V5</span>
+<span>Central Hub V6 · Podcast Connected</span>
 </footer>
 </div>
 
@@ -511,6 +565,20 @@ window.scrollTo({top:0,behavior:"smooth"});
 document.querySelectorAll(".navbtn").forEach(btn=>{
 btn.addEventListener("click",()=>showPage(btn.dataset.page));
 });
+
+/* PODCAST LINKS — independent of existing ideas/tasks/mothers storage */
+const PODCAST_RSS_URL="https://api.rabt.host/podcasts/b5af6e68-b4b1-4124-9fd8-00013b868105/rss";
+const PODCAST_PLAYER_URL="https://rabt.host/embed/podcast/b5af6e68-b4b1-4124-9fd8-00013b868105";
+async function copyPodcastLink(value){
+  try{
+    await navigator.clipboard.writeText(value);
+    alert("آدرس کپی شد.");
+  }catch(error){
+    window.prompt("آدرس را کپی کن:",value);
+  }
+}
+$("copyPodcastRss").addEventListener("click",()=>copyPodcastLink(PODCAST_RSS_URL));
+$("copyPodcastPlayer").addEventListener("click",()=>copyPodcastLink(PODCAST_PLAYER_URL));
 
 function persistIdeas(){
 if(writeStore(IDEA_KEY,ideas))renderAll();
