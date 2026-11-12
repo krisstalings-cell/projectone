@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08090c">
-<title>PROJECT ONE | Central Hub V3</title>
+<title>PROJECT ONE | Central Hub V4</title>
 <style>
 :root{
 --bg:#08090c;--panel:#12141a;--panel2:#191b21;
@@ -20,7 +20,7 @@ color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh
 }
 button,input,textarea,select{font-family:inherit}
 button{cursor:pointer}
-.wrap{width:min(1150px,94%);margin:auto;padding:22px 0 50px}
+.wrap{width:min(1200px,94%);margin:auto;padding:22px 0 50px}
 header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:20px}
 .brand{display:flex;align-items:center;gap:13px}
 .logo{width:48px;height:48px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:25px;color:var(--gold2)}
@@ -45,7 +45,10 @@ nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padd
 .stat strong{display:block;font-size:25px;color:var(--gold2);margin-bottom:8px}
 .stat span{font-size:11px;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.card,.panel,.idea,.task{background:linear-gradient(145deg,#1a1c22,#101116);border:1px solid var(--line);border-radius:14px;padding:17px}
+.card,.panel,.idea,.task,.mother,.output-card{
+background:linear-gradient(145deg,#1a1c22,#101116);
+border:1px solid var(--line);border-radius:14px;padding:17px
+}
 .card h4{margin:0 0 9px;font-size:14px}
 .card p{font-size:12px;color:var(--muted);line-height:2}
 .card .symbol{font-size:22px;color:var(--gold2);margin-bottom:12px}
@@ -55,7 +58,11 @@ nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padd
 .field{display:flex;flex-direction:column;gap:7px}
 .field.full{grid-column:1/-1}
 label{font-size:11px;color:var(--muted)}
-input,textarea,select{width:100%;background:#090b10;color:var(--text);border:1px solid #3d3a34;border-radius:9px;padding:12px;font-size:12px;outline:none}
+input,textarea,select{
+width:100%;background:#090b10;color:var(--text);
+border:1px solid #3d3a34;border-radius:9px;padding:12px;
+font-size:12px;outline:none
+}
 input:focus,textarea:focus,select:focus{border-color:var(--gold)}
 textarea{min-height:90px;resize:vertical;line-height:1.9}
 .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
@@ -63,17 +70,18 @@ textarea{min-height:90px;resize:vertical;line-height:1.9}
 .btn.primary{background:#806532;color:white;border-color:#b79758}
 .btn.danger{color:#ffaaaa;border-color:#754040}
 .btn.small{padding:7px 10px;font-size:10px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
 .filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:16px 0}
-.idea-list,.task-list{display:grid;gap:12px}
-.idea-top,.task-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.idea h4,.task h4{font-size:14px;margin:0 0 8px;color:var(--gold2)}
+.idea-list,.task-list,.mother-list{display:grid;gap:12px}
+.idea-top,.task-top,.mother-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.idea h4,.task h4,.mother h4{font-size:14px;margin:0 0 8px;color:var(--gold2)}
 .description{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:10px}
 .meta{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
 .tag{border:1px solid #4c4436;border-radius:20px;padding:5px 9px;font-size:10px;color:#d6c8a7}
 .status{font-size:11px}
 .status-خام{color:#d6c8a7}
 .status-تولید{color:var(--blue)}
-.status-آماده,.status-انجام{color:var(--green)}
+.status-آماده,.status-تکمیل{color:var(--green)}
 .status-منتشر{color:#c6a8ff}
 .status-متوقف{color:var(--red)}
 .empty{text-align:center;padding:32px 15px;border:1px dashed #514936;border-radius:13px;color:var(--muted);font-size:12px;line-height:2}
@@ -81,8 +89,28 @@ textarea{min-height:90px;resize:vertical;line-height:1.9}
 .notice{margin-top:20px;padding:15px;border:1px solid #51432b;background:#17140f;border-radius:12px;color:#d6c8a7;font-size:11px;line-height:2}
 footer{margin-top:35px;padding-top:17px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:11px}
 footer strong{color:var(--gold2)}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:500px){.grid,.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.filters{grid-template-columns:1fr}.wrap{width:92%}}
+.output-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.output-card h4{color:var(--gold2);font-size:13px;margin:0 0 12px}
+.output-card textarea{min-height:190px}
+.output-card .field{margin-top:10px}
+.mother{margin-top:12px}
+.mother.archived{opacity:.65}
+.mother-title{color:var(--gold2);font-size:15px;margin:0}
+.mother-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.mother-details{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.small-note{font-size:10px;color:var(--muted);line-height:1.9}
+.counter{font-size:10px;color:var(--muted)}
+@media(max-width:760px){
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+.output-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+.grid,.formgrid{grid-template-columns:1fr}
+.field.full{grid-column:auto}
+.filters{grid-template-columns:1fr}
+.wrap{width:92%}
+}
 </style>
 </head>
 <body>
@@ -96,32 +124,32 @@ footer strong{color:var(--gold2)}
 <p>Know Yourself. Transform the World.</p>
 </div>
 </div>
-<div class="badge">CENTRAL HUB · V3</div>
+<div class="badge">CENTRAL HUB · V4</div>
 </header>
 
 <section class="hero">
 <div class="eyebrow">CENTRAL CONTENT MANAGEMENT</div>
 <h2>از ایده تا اجرا؛<br><span>یک مسیر، یک مرکز</span></h2>
-<p>مرکز مدیریت ایده‌ها و وظایف تولید محتوای PROJECT ONE</p>
+<p>مرکز مدیریت ایده‌ها، وظایف و تولید محتوای چندرسانه‌ای PROJECT ONE</p>
 </section>
 
 <nav>
 <button class="navbtn active" data-page="dashboard">داشبورد</button>
 <button class="navbtn" data-page="ideas">بانک ایده‌ها</button>
 <button class="navbtn" data-page="tasks">مدیریت وظایف</button>
+<button class="navbtn" data-page="mothers">محتوای مادر</button>
 <button class="navbtn" data-page="tools">استودیوها</button>
 </nav>
 
+<!-- DASHBOARD -->
 <section class="page active" id="dashboard">
 <div class="sectionhead"><h3>داشبورد مرکزی</h3><span class="muted">نمای کلی فعالیت‌ها</span></div>
-
 <div class="stats">
 <div class="stat"><strong id="totalCount">0</strong><span>کل ایده‌ها</span></div>
 <div class="stat"><strong id="rawCount">0</strong><span>ایده‌های خام</span></div>
 <div class="stat"><strong id="taskCount">0</strong><span>کل وظایف</span></div>
 <div class="stat"><strong id="doneCount">0</strong><span>وظایف انجام‌شده</span></div>
 </div>
-
 <div class="sectionhead"><h3>دسترسی سریع</h3></div>
 <div class="grid">
 <div class="card">
@@ -135,6 +163,11 @@ footer strong{color:var(--gold2)}
 <a href="#" onclick="showPage('tasks');return false">ورود به وظایف ←</a>
 </div>
 <div class="card">
+<div class="symbol">✧</div><h4>محتوای مادر</h4>
+<p>تبدیل یک منبع اصلی به چهار پیش‌نویس محتوایی.</p>
+<a href="#" onclick="showPage('mothers');return false">ورود به محتوای مادر ←</a>
+</div>
+<div class="card">
 <div class="symbol">🎙</div><h4>استودیوی پادکست</h4>
 <p>مدیریت قسمت‌ها و آرشیو پادکست.</p>
 <a href="../">ورود به پادکست ←</a>
@@ -145,65 +178,42 @@ footer strong{color:var(--gold2)}
 <span class="muted">در حال توسعه</span>
 </div>
 <div class="card">
-<div class="symbol">▦</div><h4>تقویم انتشار</h4>
-<p>برنامه‌ریزی انتشار محتوا.</p>
-<span class="muted">در مرحله توسعه</span>
-</div>
-<div class="card">
 <div class="symbol">⇧</div><h4>مرکز انتشار</h4>
 <p>مدیریت انتشار در رسانه‌ها.</p>
 <span class="muted">در مرحله توسعه</span>
 </div>
 </div>
-
 <div class="notice">
-ذخیره‌سازی فعلی روی همین مرورگر انجام می‌شود. برای انتقال اطلاعات به دستگاه دیگر از خروجی JSON استفاده کن.
+اطلاعات روی همین مرورگر ذخیره می‌شود. برای انتقال به دستگاه دیگر از خروجی JSON استفاده کن.
+این نسخه انتشار خودکار در شبکه‌های اجتماعی یا همگام‌سازی ابری ندارد.
 </div>
 </section>
 
+<!-- IDEAS -->
 <section class="page" id="ideas">
 <div class="sectionhead">
 <h3>بانک ایده‌های PROJECT ONE</h3>
 <span class="muted" id="ideaCountLabel">۰ ایده</span>
 </div>
-
 <div class="panel">
 <h3 id="ideaFormTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت ایده جدید</h3>
 <form id="ideaForm">
 <input type="hidden" id="editIdeaId">
 <div class="formgrid">
-<div class="field">
-<label>عنوان ایده *</label>
-<input id="ideaTitle" required maxlength="150" placeholder="عنوان ایده">
-</div>
-<div class="field">
-<label>دسته‌بندی</label>
+<div class="field"><label>عنوان ایده *</label><input id="ideaTitle" required maxlength="150" placeholder="عنوان ایده"></div>
+<div class="field"><label>دسته‌بندی</label>
 <select id="ideaCategory">
-<option>خودشناسی</option><option>آگاهی</option><option>روابط</option>
-<option>روانشناسی</option><option>کتاب</option><option>فلسفه</option>
-<option>کودک</option><option>سایر</option>
-</select>
-</div>
-<div class="field">
-<label>رسانه مقصد</label>
+<option>خودشناسی</option><option>آگاهی</option><option>روابط</option><option>روانشناسی</option><option>کتاب</option><option>فلسفه</option><option>کودک</option><option>سایر</option>
+</select></div>
+<div class="field"><label>رسانه مقصد</label>
 <select id="ideaChannel">
-<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option>
-<option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
-</select>
-</div>
-<div class="field">
-<label>وضعیت ایده</label>
+<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option><option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
+</select></div>
+<div class="field"><label>وضعیت ایده</label>
 <select id="ideaStatus">
-<option value="خام">ایده خام</option>
-<option value="تولید">در حال تولید</option>
-<option value="آماده">آماده انتشار</option>
-<option value="منتشر">منتشرشده</option>
-</select>
-</div>
-<div class="field full">
-<label>شرح ایده</label>
-<textarea id="ideaDesc" maxlength="5000" placeholder="توضیحات و زاویه محتوایی..."></textarea>
-</div>
+<option value="خام">ایده خام</option><option value="تولید">در حال تولید</option><option value="آماده">آماده انتشار</option><option value="منتشر">منتشرشده</option>
+</select></div>
+<div class="field full"><label>شرح ایده</label><textarea id="ideaDesc" maxlength="5000" placeholder="توضیحات و زاویه محتوایی..."></textarea></div>
 </div>
 <div class="actions">
 <button class="btn primary" type="submit" id="ideaSaveBtn">ذخیره ایده</button>
@@ -211,20 +221,14 @@ footer strong{color:var(--gold2)}
 </div>
 </form>
 </div>
-
 <div class="sectionhead"><h3>فهرست ایده‌ها</h3></div>
 <div class="filters">
 <input id="ideaSearch" placeholder="جست‌وجو در ایده‌ها...">
 <select id="ideaFilterCategory">
-<option value="">همه دسته‌ها</option>
-<option>خودشناسی</option><option>آگاهی</option><option>روابط</option>
-<option>روانشناسی</option><option>کتاب</option><option>فلسفه</option>
-<option>کودک</option><option>سایر</option>
+<option value="">همه دسته‌ها</option><option>خودشناسی</option><option>آگاهی</option><option>روابط</option><option>روانشناسی</option><option>کتاب</option><option>فلسفه</option><option>کودک</option><option>سایر</option>
 </select>
 <select id="ideaFilterStatus">
-<option value="">همه وضعیت‌ها</option>
-<option value="خام">ایده خام</option><option value="تولید">در حال تولید</option>
-<option value="آماده">آماده انتشار</option><option value="منتشر">منتشرشده</option>
+<option value="">همه وضعیت‌ها</option><option value="خام">ایده خام</option><option value="تولید">در حال تولید</option><option value="آماده">آماده انتشار</option><option value="منتشر">منتشرشده</option>
 </select>
 </div>
 <div class="actions">
@@ -235,49 +239,31 @@ footer strong{color:var(--gold2)}
 <div class="idea-list" id="ideaList" style="margin-top:15px"></div>
 </section>
 
+<!-- TASKS -->
 <section class="page" id="tasks">
 <div class="sectionhead">
 <h3>مدیریت وظایف تولید محتوا</h3>
 <span class="muted" id="taskCountLabel">۰ وظیفه</span>
 </div>
-
 <div class="panel">
 <h3 id="taskFormTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت وظیفه جدید</h3>
 <form id="taskForm">
 <input type="hidden" id="editTaskId">
 <div class="formgrid">
-<div class="field">
-<label>عنوان وظیفه *</label>
-<input id="taskTitle" required maxlength="150" placeholder="عنوان وظیفه">
-</div>
-<div class="field">
-<label>دسته‌بندی</label>
+<div class="field"><label>عنوان وظیفه *</label><input id="taskTitle" required maxlength="150" placeholder="عنوان وظیفه"></div>
+<div class="field"><label>دسته‌بندی</label>
 <select id="taskCategory">
-<option>خودشناسی</option><option>آگاهی</option><option>روابط</option>
-<option>روانشناسی</option><option>کتاب</option><option>فلسفه</option>
-<option>کودک</option><option>سایر</option>
-</select>
-</div>
-<div class="field">
-<label>رسانه مقصد</label>
+<option>خودشناسی</option><option>آگاهی</option><option>روابط</option><option>روانشناسی</option><option>کتاب</option><option>فلسفه</option><option>کودک</option><option>سایر</option>
+</select></div>
+<div class="field"><label>رسانه مقصد</label>
 <select id="taskChannel">
-<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option>
-<option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
-</select>
-</div>
-<div class="field">
-<label>وضعیت وظیفه</label>
+<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option><option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
+</select></div>
+<div class="field"><label>وضعیت وظیفه</label>
 <select id="taskStatus">
-<option value="جدید">جدید</option>
-<option value="انجام">در حال انجام</option>
-<option value="تکمیل">انجام‌شده</option>
-<option value="متوقف">متوقف‌شده</option>
-</select>
-</div>
-<div class="field full">
-<label>توضیحات وظیفه</label>
-<textarea id="taskDesc" maxlength="5000" placeholder="شرح کار و خروجی مورد انتظار..."></textarea>
-</div>
+<option value="جدید">جدید</option><option value="انجام">در حال انجام</option><option value="تکمیل">انجام‌شده</option><option value="متوقف">متوقف‌شده</option>
+</select></div>
+<div class="field full"><label>توضیحات وظیفه</label><textarea id="taskDesc" maxlength="5000" placeholder="شرح کار و خروجی مورد انتظار..."></textarea></div>
 </div>
 <div class="actions">
 <button class="btn primary" type="submit" id="taskSaveBtn">ثبت وظیفه</button>
@@ -286,27 +272,87 @@ footer strong{color:var(--gold2)}
 <p class="muted">مسئول: تعیین نشده · این وظیفه به هیچ فردی واگذار نمی‌شود.</p>
 </form>
 </div>
-
-<div class="sectionhead">
-<h3>فهرست وظایف</h3>
-<span class="muted">پیگیری و مدیریت</span>
-</div>
+<div class="sectionhead"><h3>فهرست وظایف</h3><span class="muted">پیگیری و مدیریت</span></div>
 <div class="filters">
 <input id="taskSearch" placeholder="جست‌وجوی وظایف...">
 <select id="taskFilterChannel">
-<option value="">همه رسانه‌ها</option>
-<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option>
-<option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
+<option value="">همه رسانه‌ها</option><option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option><option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
 </select>
 <select id="taskFilterStatus">
-<option value="">همه وضعیت‌ها</option>
-<option value="جدید">جدید</option><option value="انجام">در حال انجام</option>
-<option value="تکمیل">انجام‌شده</option><option value="متوقف">متوقف‌شده</option>
+<option value="">همه وضعیت‌ها</option><option value="جدید">جدید</option><option value="انجام">در حال انجام</option><option value="تکمیل">انجام‌شده</option><option value="متوقف">متوقف‌شده</option>
 </select>
 </div>
 <div class="task-list" id="taskList"></div>
 </section>
 
+<!-- CONTENT MOTHER -->
+<section class="page" id="mothers">
+<div class="sectionhead">
+<h3>محتوای مادر</h3>
+<span class="muted" id="motherCountLabel">۰ محتوای مادر</span>
+</div>
+
+<div class="notice">
+یک منبع اصلی ثبت کن و چهار پیش‌نویس اولیه برای رسانه‌های مختلف بساز.
+این پیش‌نویس‌ها با قالب‌های داخلی ساخته می‌شوند و خروجی هوش مصنوعی نیستند.
+ویرایش منبع مادر، متن‌های قبلی را تغییر نمی‌دهد.
+</div>
+
+<div class="panel">
+<h3 id="motherFormTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت محتوای مادر جدید</h3>
+<form id="motherForm">
+<input type="hidden" id="editMotherId">
+<div class="formgrid">
+<div class="field">
+<label>عنوان محتوای مادر *</label>
+<input id="motherTitle" required maxlength="180" placeholder="مثلاً چرخه فکر، تفسیر و رنج">
+</div>
+<div class="field">
+<label>دسته‌بندی</label>
+<select id="motherCategory">
+<option>خودشناسی</option><option>آگاهی</option><option>روابط</option><option>روانشناسی</option><option>کتاب</option><option>فلسفه</option><option>کودک</option><option>سایر</option>
+</select>
+</div>
+<div class="field">
+<label>اتصال اختیاری به ایده</label>
+<select id="motherIdea"><option value="">بدون اتصال به ایده</option></select>
+</div>
+<div class="field">
+<label>اتصال اختیاری به وظیفه</label>
+<select id="motherTask"><option value="">بدون اتصال به وظیفه</option></select>
+</div>
+<div class="field full">
+<label>متن منبع اصلی *</label>
+<textarea id="motherSource" required maxlength="20000" style="min-height:220px" placeholder="متن اصلی، یادداشت، ایده یا محتوایی که قرار است مبنای تولید چهار خروجی باشد..."></textarea>
+</div>
+</div>
+<div class="actions">
+<button class="btn primary" type="submit" id="motherSaveBtn">ذخیره محتوای مادر و ساخت چهار پیش‌نویس</button>
+<button class="btn hidden" type="button" id="motherCancel">لغو ویرایش</button>
+</div>
+<p class="small-note">در زمان ویرایش منبع، پیش‌نویس‌های موجود حفظ می‌شوند. برای جایگزینی آن‌ها باید جداگانه گزینه بازتولید را انتخاب کنی.</p>
+</form>
+</div>
+
+<div class="sectionhead">
+<h3>آرشیو محتوای مادر</h3>
+<span class="muted">جست‌وجو، ویرایش و مدیریت خروجی‌ها</span>
+</div>
+<div class="filters">
+<input id="motherSearch" placeholder="جست‌وجو در عنوان و متن محتوا...">
+<select id="motherFilter">
+<option value="active">محتواهای فعال</option>
+<option value="archived">آرشیوشده‌ها</option>
+<option value="all">همه محتواها</option>
+</select>
+<select id="motherCategoryFilter">
+<option value="">همه دسته‌ها</option><option>خودشناسی</option><option>آگاهی</option><option>روابط</option><option>روانشناسی</option><option>کتاب</option><option>فلسفه</option><option>کودک</option><option>سایر</option>
+</select>
+</div>
+<div class="mother-list" id="motherList"></div>
+</section>
+
+<!-- TOOLS -->
 <section class="page" id="tools">
 <div class="sectionhead"><h3>استودیوهای تولید محتوا</h3></div>
 <div class="grid">
@@ -330,15 +376,16 @@ footer strong{color:var(--gold2)}
 
 <footer>
 <span><strong>PROJECT ONE</strong> · فضای آگاهی و تحول درونی</span>
-<span>Central Hub V3</span>
+<span>Central Hub V4</span>
 </footer>
 </div>
 
 <script>
 const IDEA_KEY="projectone_hub_ideas_v2";
 const TASK_KEY="projectone_hub_tasks_v3";
-let ideas=[],tasks=[];
+const MOTHER_KEY="projectone_hub_mothers_v4";
 
+let ideas=[],tasks=[],mothers=[];
 const $=id=>document.getElementById(id);
 
 function readStore(key){
@@ -370,6 +417,7 @@ document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
 $(name).classList.add("active");
 const btn=document.querySelector('[data-page="'+name+'"]');
 if(btn)btn.classList.add("active");
+if(name==="mothers")refreshMotherLinks();
 window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".navbtn").forEach(btn=>{
@@ -377,12 +425,13 @@ btn.addEventListener("click",()=>showPage(btn.dataset.page));
 });
 
 function persistIdeas(){
-writeStore(IDEA_KEY,ideas);
-renderAll();
+if(writeStore(IDEA_KEY,ideas))renderAll();
 }
 function persistTasks(){
-writeStore(TASK_KEY,tasks);
-renderAll();
+if(writeStore(TASK_KEY,tasks))renderAll();
+}
+function persistMothers(){
+if(writeStore(MOTHER_KEY,mothers))renderAll();
 }
 function linkedTask(ideaId){
 return tasks.some(t=>t.sourceIdeaId===ideaId);
@@ -395,8 +444,11 @@ $("taskCount").textContent=tasks.length;
 $("doneCount").textContent=tasks.filter(x=>x.status==="تکمیل").length;
 $("ideaCountLabel").textContent=ideas.length+" ایده";
 $("taskCountLabel").textContent=tasks.length+" وظیفه";
+$("motherCountLabel").textContent=mothers.filter(m=>!m.archived).length+" محتوای مادر";
 renderIdeas();
 renderTasks();
+renderMothers();
+refreshMotherLinks();
 }
 
 function renderIdeas(){
@@ -450,9 +502,7 @@ list.innerHTML='<div class="empty">هنوز وظیفه‌ای ثبت نشده ا
 filtered.forEach(t=>{
 const el=document.createElement("article");
 el.className="task";
-const statusName={
-"جدید":"جدید","انجام":"در حال انجام","تکمیل":"انجام‌شده","متوقف":"متوقف‌شده"
-}[t.status]||t.status;
+const statusName={"جدید":"جدید","انجام":"در حال انجام","تکمیل":"انجام‌شده","متوقف":"متوقف‌شده"}[t.status]||t.status;
 el.innerHTML=`
 <div class="task-top">
 <div><h4>${esc(t.title)}</h4><span class="muted">${esc(t.category)} · ${esc(t.channel)}</span></div>
@@ -474,6 +524,7 @@ list.appendChild(el);
 });
 }
 
+/* IDEAS FORM */
 $("ideaForm").addEventListener("submit",e=>{
 e.preventDefault();
 const title=$("ideaTitle").value.trim();
@@ -493,7 +544,6 @@ ideas.push({id:uid(),createdAt:now,...data});
 }
 persistIdeas();resetIdeaForm();
 });
-
 function resetIdeaForm(){
 $("ideaForm").reset();$("editIdeaId").value="";
 $("ideaFormTitle").textContent="ثبت ایده جدید";
@@ -524,9 +574,8 @@ if(b.dataset.action==="convert"){
 if(linkedTask(id)){alert("این ایده قبلاً به وظیفه تبدیل شده است.");return;}
 tasks.push({
 id:uid(),sourceIdeaId:x.id,title:x.title,
-category:x.category,channel:x.channel,
-desc:x.desc||"",status:"جدید",
-createdAt:Date.now(),updatedAt:Date.now()
+category:x.category,channel:x.channel,desc:x.desc||"",
+status:"جدید",createdAt:Date.now(),updatedAt:Date.now()
 });
 persistTasks();
 alert("وظیفه ساخته شد. مسئول آن تعیین نشده است.");
@@ -540,6 +589,7 @@ persistIdeas();
 }
 });
 
+/* TASKS FORM */
 $("taskForm").addEventListener("submit",e=>{
 e.preventDefault();
 const title=$("taskTitle").value.trim();
@@ -559,7 +609,6 @@ tasks.push({id:uid(),createdAt:now,...data});
 }
 persistTasks();resetTaskForm();
 });
-
 function resetTaskForm(){
 $("taskForm").reset();$("editTaskId").value="";
 $("taskFormTitle").textContent="ثبت وظیفه جدید";
@@ -601,6 +650,271 @@ persistTasks();
 }
 });
 
+/* CONTENT MOTHER: TEMPLATES */
+const OUTPUT_TYPES=[
+{key:"telegram",title:"پست تلگرام"},
+{key:"instagram",title:"سناریوی ریلز اینستاگرام"},
+{key:"youtube",title:"ویدئوی یوتیوب"},
+{key:"podcast",title:"طرح قسمت پادکست"}
+];
+const OUTPUT_STATUSES=["پیش‌نویس","در حال ویرایش","آماده انتشار","منتشرشده"];
+
+function makeDrafts(title,source){
+return {
+telegram:{
+title:"پست تلگرام",
+status:"پیش‌نویس",
+text:`${title}\n\n${source}\n\nبرای تأمل بیشتر و ادامه مسیر همراه PROJECT ONE باش.\n@projectone_global`
+},
+instagram:{
+title:"سناریوی ریلز اینستاگرام",
+status:"پیش‌نویس",
+text:`قلاب شروع:\n${title}\n\nبدنه:\n${source}\n\nپایان و دعوت به تعامل:\nتو این موضوع را چگونه تجربه کرده‌ای؟ دیدگاهت را بنویس.\n\nپیشنهاد اجرا:\nشروع قدرتمند در ۳ ثانیه اول؛ جملات کوتاه؛ زیرنویس خوانا؛ پایان با یک پرسش.`
+},
+youtube:{
+title:"ویدئوی یوتیوب",
+status:"پیش‌نویس",
+text:`عنوان پیشنهادی:\n${title}\n\nمتن اصلی ویدئو:\n${source}\n\nپایان:\nاگر این موضوع برایت معنادار بود، تجربه و دیدگاهت را در بخش نظرات بنویس و PROJECT ONE را دنبال کن.`
+},
+podcast:{
+title:"طرح قسمت پادکست",
+status:"پیش‌نویس",
+text:`عنوان قسمت:\n${title}\n\nمقدمه:\nدر این قسمت می‌خواهیم به موضوع «${title}» نگاه کنیم.\n\nمحور اصلی گفت‌وگو:\n${source}\n\nپرسش‌های پیشنهادی:\n۱. تجربه مستقیم ما از این موضوع چیست؟\n۲. چه فرض‌هایی را درباره آن بدیهی می‌دانیم؟\n۳. تفاوت مشاهده با تفسیر در این موضوع چیست؟\n۴. شنونده چگونه می‌تواند آن را در زندگی خود بررسی کند؟\n\nجمع‌بندی:\nبازگشت به تجربه مستقیم و دعوت شنونده به مشاهده و تأمل.`
+}
+};
+}
+
+function refreshMotherLinks(){
+const ideaSelect=$("motherIdea");
+const taskSelect=$("motherTask");
+if(!ideaSelect||!taskSelect)return;
+const oldIdea=ideaSelect.value,oldTask=taskSelect.value;
+ideaSelect.innerHTML='<option value="">بدون اتصال به ایده</option>'+
+ideas.map(x=>`<option value="${esc(x.id)}">${esc(x.title)}</option>`).join("");
+taskSelect.innerHTML='<option value="">بدون اتصال به وظیفه</option>'+
+tasks.map(x=>`<option value="${esc(x.id)}">${esc(x.title)}</option>`).join("");
+if([...ideaSelect.options].some(o=>o.value===oldIdea))ideaSelect.value=oldIdea;
+if([...taskSelect.options].some(o=>o.value===oldTask))taskSelect.value=oldTask;
+}
+
+$("motherForm").addEventListener("submit",e=>{
+e.preventDefault();
+const title=$("motherTitle").value.trim();
+const source=$("motherSource").value.trim();
+if(!title||!source)return;
+const id=$("editMotherId").value;
+const now=Date.now();
+if(id){
+const m=mothers.find(x=>x.id===id);
+if(!m)return;
+m.title=title;
+m.category=$("motherCategory").value;
+m.source=source;
+m.ideaId=$("motherIdea").value;
+m.taskId=$("motherTask").value;
+m.updatedAt=now;
+/* خروجی‌های قبلی عمداً دست‌نخورده می‌مانند. */
+persistMothers();
+alert("منبع مادر به‌روزرسانی شد. پیش‌نویس‌های قبلی حفظ شدند.");
+}else{
+const item={
+id:uid(),
+title,
+category:$("motherCategory").value,
+source,
+ideaId:$("motherIdea").value,
+taskId:$("motherTask").value,
+drafts:makeDrafts(title,source),
+archived:false,
+createdAt:now,
+updatedAt:now
+};
+mothers.unshift(item);
+persistMothers();
+alert("محتوای مادر و چهار پیش‌نویس اولیه ساخته شدند.");
+}
+resetMotherForm();
+});
+
+function resetMotherForm(){
+$("motherForm").reset();
+$("editMotherId").value="";
+$("motherFormTitle").textContent="ثبت محتوای مادر جدید";
+$("motherSaveBtn").textContent="ذخیره محتوای مادر و ساخت چهار پیش‌نویس";
+$("motherCancel").classList.add("hidden");
+refreshMotherLinks();
+}
+$("motherCancel").addEventListener("click",resetMotherForm);
+
+function editMother(id){
+const m=mothers.find(x=>x.id===id);
+if(!m)return;
+$("editMotherId").value=m.id;
+$("motherTitle").value=m.title;
+$("motherCategory").value=m.category||"سایر";
+$("motherSource").value=m.source||"";
+refreshMotherLinks();
+$("motherIdea").value=m.ideaId||"";
+$("motherTask").value=m.taskId||"";
+$("motherFormTitle").textContent="ویرایش منبع محتوای مادر";
+$("motherSaveBtn").textContent="ذخیره تغییرات منبع";
+$("motherCancel").classList.remove("hidden");
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function regenerateMother(id){
+const m=mothers.find(x=>x.id===id);
+if(!m)return;
+if(!confirm("تمام چهار پیش‌نویس فعلی این محتوا با نسخه‌های جدید جایگزین می‌شوند. این کار قابل بازگشت نیست. ادامه می‌دهی؟"))return;
+m.drafts=makeDrafts(m.title,m.source);
+m.updatedAt=Date.now();
+persistMothers();
+alert("چهار پیش‌نویس از منبع فعلی بازتولید شدند.");
+}
+
+function updateDraft(id,key,field,value){
+const m=mothers.find(x=>x.id===id);
+if(!m||!m.drafts||!m.drafts[key])return;
+m.drafts[key][field]=value;
+m.updatedAt=Date.now();
+writeStore(MOTHER_KEY,mothers);
+}
+
+function renderMothers(){
+const list=$("motherList");
+if(!list)return;
+list.innerHTML="";
+const search=$("motherSearch").value.trim().toLowerCase();
+const filter=$("motherFilter").value;
+const category=$("motherCategoryFilter").value;
+let items=mothers.filter(m=>{
+const text=(m.title+" "+(m.source||"")).toLowerCase();
+return (!search||text.includes(search))&&
+(!category||m.category===category)&&
+(filter==="all"||(filter==="archived"?m.archived:!m.archived));
+});
+items.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+if(!items.length){
+list.innerHTML='<div class="empty">محتوایی در این فهرست وجود ندارد.<br>از فرم بالا یک محتوای مادر بساز.</div>';
+return;
+}
+items.forEach(m=>{
+if(!m.drafts)m.drafts=makeDrafts(m.title,m.source||"");
+const el=document.createElement("article");
+el.className="mother"+(m.archived?" archived":"");
+const idea=ideas.find(x=>x.id===m.ideaId);
+const task=tasks.find(x=>x.id===m.taskId);
+const draftsHtml=OUTPUT_TYPES.map(type=>{
+const d=m.drafts[type.key]||{title:type.title,text:"",status:"پیش‌نویس"};
+return `
+<div class="output-card">
+<h4>${esc(type.title)}</h4>
+<div class="field">
+<label>عنوان خروجی</label>
+<input data-draft-key="${type.key}" data-draft-field="title" value="${esc(d.title||type.title)}">
+</div>
+<div class="field">
+<label>متن قابل ویرایش</label>
+<textarea data-draft-key="${type.key}" data-draft-field="text">${esc(d.text||"")}</textarea>
+</div>
+<div class="field">
+<label>وضعیت خروجی</label>
+<select data-draft-key="${type.key}" data-draft-field="status">
+${OUTPUT_STATUSES.map(s=>`<option ${d.status===s?"selected":""}>${s}</option>`).join("")}
+</select>
+</div>
+<div class="actions">
+<button class="btn small primary" data-save-draft="${type.key}">ذخیره این خروجی</button>
+<span class="counter">ذخیره مستقل</span>
+</div>
+</div>`;
+}).join("");
+el.innerHTML=`
+<div class="mother-head">
+<div>
+<h4 class="mother-title">${esc(m.title)}</h4>
+<div class="meta">
+<span class="tag">${esc(m.category||"بدون دسته")}</span>
+<span class="tag">${m.archived?"آرشیوشده":"فعال"}</span>
+${idea?`<span class="tag">ایده: ${esc(idea.title)}</span>`:""}
+${task?`<span class="tag">وظیفه: ${esc(task.title)}</span>`:""}
+</div>
+</div>
+<span class="muted">${new Date(m.updatedAt||m.createdAt||Date.now()).toLocaleDateString("fa-IR")}</span>
+</div>
+<div class="description">${esc((m.source||"").slice(0,350))}${(m.source||"").length>350?"…":""}</div>
+<div class="mother-actions">
+<button class="btn small" data-mother-edit="${esc(m.id)}">ویرایش منبع</button>
+<button class="btn small primary" data-regenerate="${esc(m.id)}">بازتولید چهار خروجی</button>
+<button class="btn small" data-archive="${esc(m.id)}">${m.archived?"بازگردانی از آرشیو":"انتقال به آرشیو"}</button>
+<button class="btn small danger" data-mother-delete="${esc(m.id)}">حذف کامل</button>
+</div>
+<div class="mother-details">
+<div class="sectionhead"><h3>چهار خروجی مستقل</h3><span class="muted">هر متن و وضعیت جداگانه ذخیره می‌شود</span></div>
+<div class="output-grid">${draftsHtml}</div>
+</div>`;
+list.appendChild(el);
+});
+}
+
+$("motherList").addEventListener("click",e=>{
+const edit=e.target.closest("[data-mother-edit]");
+const regen=e.target.closest("[data-regenerate]");
+const archive=e.target.closest("[data-archive]");
+const del=e.target.closest("[data-mother-delete]");
+const save=e.target.closest("[data-save-draft]");
+if(edit){editMother(edit.dataset.motherEdit);return;}
+if(regen){regenerateMother(regen.dataset.regenerate);return;}
+if(archive){
+const m=mothers.find(x=>x.id===archive.dataset.archive);
+if(!m)return;
+m.archived=!m.archived;
+m.updatedAt=Date.now();
+persistMothers();
+return;
+}
+if(del){
+const id=del.dataset.motherDelete;
+if(confirm("محتوای مادر و هر چهار خروجی آن حذف شوند؟ ایده و وظیفه مرتبط حذف نخواهند شد.")){
+mothers=mothers.filter(x=>x.id!==id);
+persistMothers();
+}
+return;
+}
+if(save){
+const card=save.closest(".mother");
+const id=card.dataset.id||card.querySelector("[data-mother-edit]")?.dataset.motherEdit;
+const m=mothers.find(x=>x.id===id);
+if(!m)return;
+const key=save.dataset.saveDraft;
+const fields=card.querySelectorAll(`[data-draft-key="${key}"]`);
+fields.forEach(input=>{
+const field=input.dataset.draftField;
+m.drafts[key][field]=input.value;
+});
+m.updatedAt=Date.now();
+if(writeStore(MOTHER_KEY,mothers)){
+save.textContent="ذخیره شد ✓";
+setTimeout(()=>{save.textContent="ذخیره این خروجی";},1200);
+}
+}
+});
+
+/* ذخیره با تغییر فیلدها و دکمه ذخیره مستقل */
+$("motherList").addEventListener("change",e=>{
+const field=e.target.closest("[data-draft-key]");
+if(!field)return;
+const card=field.closest(".mother");
+const id=card.querySelector("[data-mother-edit]")?.dataset.motherEdit;
+const m=mothers.find(x=>x.id===id);
+if(!m)return;
+const key=field.dataset.draftKey;
+const prop=field.dataset.draftField;
+m.drafts[key][prop]=field.value;
+m.updatedAt=Date.now();
+writeStore(MOTHER_KEY,mothers);
+});
+
 ["ideaSearch","ideaFilterCategory","ideaFilterStatus"].forEach(id=>{
 $(id).addEventListener("input",renderIdeas);
 $(id).addEventListener("change",renderIdeas);
@@ -609,18 +923,25 @@ $(id).addEventListener("change",renderIdeas);
 $(id).addEventListener("input",renderTasks);
 $(id).addEventListener("change",renderTasks);
 });
+["motherSearch","motherFilter","motherCategoryFilter"].forEach(id=>{
+$(id).addEventListener("input",renderMothers);
+$(id).addEventListener("change",renderMothers);
+});
 
+/* BACKUP V4 + COMPATIBILITY WITH V3 */
 $("exportBtn").addEventListener("click",()=>{
 const backup={
 app:"PROJECT ONE Central Hub",
-version:3,
+version:4,
 exportedAt:new Date().toISOString(),
-ideas,tasks
+ideas,tasks,mothers
 };
 const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
 const url=URL.createObjectURL(blob);
 const a=document.createElement("a");
-a.href=url;a.download="projectone-hub-backup.json";a.click();
+a.href=url;
+a.download="projectone-hub-v4-backup.json";
+a.click();
 URL.revokeObjectURL(url);
 });
 
@@ -633,11 +954,20 @@ const data=JSON.parse(await file.text());
 if(!Array.isArray(data.ideas)||!Array.isArray(data.tasks)){
 throw new Error("Invalid backup");
 }
-if(!confirm("اطلاعات پشتیبان جایگزین اطلاعات فعلی شود؟"))return;
+if(!confirm("اطلاعات ایده‌ها و وظایف پشتیبان جایگزین اطلاعات فعلی شود؟"))return;
 ideas=data.ideas;
 tasks=data.tasks;
+/* اگر فایل V3 باشد، محتوای مادر فعلی حفظ می‌شود. */
+if(Array.isArray(data.mothers)){
+if(!confirm("فایل شامل محتوای مادر نیز هست. محتوای مادر فعلی با اطلاعات فایل جایگزین شود؟")){
+/* mothers فعلی حفظ می‌شود */
+}else{
+mothers=data.mothers;
+}
+}
 writeStore(IDEA_KEY,ideas);
 writeStore(TASK_KEY,tasks);
+writeStore(MOTHER_KEY,mothers);
 renderAll();
 alert("بازیابی اطلاعات انجام شد.");
 }catch(err){
@@ -646,8 +976,10 @@ alert("فایل پشتیبان معتبر نیست.");
 e.target.value="";
 });
 
+/* INITIAL LOAD */
 ideas=readStore(IDEA_KEY);
 tasks=readStore(TASK_KEY);
+mothers=readStore(MOTHER_KEY);
 renderAll();
 </script>
 </body>
