@@ -5,240 +5,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08090c">
-<title>PROJECT ONE | Central Hub V2</title>
-
+<title>PROJECT ONE | Central Hub V3</title>
 <style>
 :root{
---bg:#08090c;
---panel:#12141a;
---panel2:#191b21;
---line:#38332b;
---gold:#d6b56d;
---gold2:#f0d99e;
---text:#f5f1e8;
---muted:#aaa39a;
---green:#64c69b;
---red:#e47c7c;
---blue:#78aaff;
+--bg:#08090c;--panel:#12141a;--panel2:#191b21;
+--line:#38332b;--gold:#d6b56d;--gold2:#f0d99e;
+--text:#f5f1e8;--muted:#aaa39a;
+--green:#64c69b;--red:#e47c7c;--blue:#78aaff;
 }
 *{box-sizing:border-box}
 body{
-margin:0;
-font-family:Tahoma,Arial,sans-serif;
-background:radial-gradient(ellipse at top,#302617,#111116 42%,#08090c 85%);
-color:var(--text);
-min-height:100vh;
+margin:0;background:radial-gradient(ellipse at top,#302617,#111116 45%,#08090c 90%);
+color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh
 }
 button,input,textarea,select{font-family:inherit}
 button{cursor:pointer}
 .wrap{width:min(1150px,94%);margin:auto;padding:22px 0 50px}
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-flex-wrap:wrap;
-border-bottom:1px solid var(--line);
-padding-bottom:20px;
-}
+header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:20px}
 .brand{display:flex;align-items:center;gap:13px}
-.logo{
-width:48px;height:48px;
-border:1px solid var(--gold);
-border-radius:50%;
-display:grid;place-items:center;
-font-size:25px;color:var(--gold2);
-}
+.logo{width:48px;height:48px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:25px;color:var(--gold2)}
 h1{font-size:23px;letter-spacing:2px;color:var(--gold2);margin:0}
 .brand p{font-size:11px;color:var(--muted);margin:7px 0 0}
-.badge{
-border:1px solid #705d3a;
-color:var(--gold2);
-padding:9px 13px;
-border-radius:30px;
-font-size:11px;
-}
-.hero{padding:32px 0 22px}
+.badge{border:1px solid #705d3a;color:var(--gold2);padding:9px 13px;border-radius:30px;font-size:11px}
+.hero{padding:30px 0 20px}
 .eyebrow{font-size:11px;letter-spacing:2px;color:var(--gold)}
-.hero h2{font-size:clamp(25px,5vw,39px);line-height:1.6;margin:10px 0}
+.hero h2{font-size:clamp(25px,5vw,38px);line-height:1.6;margin:10px 0}
 .hero h2 span{color:var(--gold2)}
 .hero p{font-size:13px;color:var(--muted);line-height:2}
-nav{
-display:flex;gap:8px;flex-wrap:wrap;
-border-bottom:1px solid var(--line);
-padding:12px 0 18px;
-}
-.navbtn{
-background:var(--panel);
-border:1px solid var(--line);
-color:var(--muted);
-padding:11px 16px;
-border-radius:10px;
-font-size:12px;
-}
-.navbtn.active{
-color:var(--gold2);
-border-color:var(--gold);
-background:#282116;
-}
+nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:12px 0 18px}
+.navbtn{background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:11px 15px;border-radius:10px;font-size:12px}
+.navbtn.active{color:var(--gold2);border-color:var(--gold);background:#282116}
 .page{display:none}
 .page.active{display:block}
-.sectionhead{
-display:flex;justify-content:space-between;
-align-items:center;gap:12px;flex-wrap:wrap;
-margin:24px 0 16px;
-}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 16px}
 .sectionhead h3{margin:0;color:var(--gold2);font-size:17px}
 .muted{color:var(--muted);font-size:11px}
-.stats{
-display:grid;
-grid-template-columns:repeat(4,minmax(0,1fr));
-gap:12px;
-}
-.stat{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:13px;
-padding:17px;
-}
-.stat strong{
-display:block;
-font-size:25px;
-color:var(--gold2);
-margin-bottom:8px;
-}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px}
+.stat strong{display:block;font-size:25px;color:var(--gold2);margin-bottom:8px}
 .stat span{font-size:11px;color:var(--muted)}
-.grid{
-display:grid;
-grid-template-columns:repeat(3,minmax(0,1fr));
-gap:13px;
-}
-.card{
-background:linear-gradient(145deg,#1a1c22,#101116);
-border:1px solid var(--line);
-border-radius:15px;
-padding:18px;
-}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.card,.panel,.idea,.task{background:linear-gradient(145deg,#1a1c22,#101116);border:1px solid var(--line);border-radius:14px;padding:17px}
 .card h4{margin:0 0 9px;font-size:14px}
 .card p{font-size:12px;color:var(--muted);line-height:2}
 .card .symbol{font-size:22px;color:var(--gold2);margin-bottom:12px}
 .card a{color:var(--gold2);font-size:12px;text-decoration:none}
-.panel{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:15px;
-padding:18px;
-margin-top:18px;
-}
-.formgrid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:12px;
-}
+.panel{margin-top:18px;background:var(--panel)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .field{display:flex;flex-direction:column;gap:7px}
 .field.full{grid-column:1/-1}
 label{font-size:11px;color:var(--muted)}
-input,textarea,select{
-width:100%;
-background:#090b10;
-color:var(--text);
-border:1px solid #3d3a34;
-border-radius:9px;
-padding:12px;
-font-size:12px;
-outline:none;
-}
+input,textarea,select{width:100%;background:#090b10;color:var(--text);border:1px solid #3d3a34;border-radius:9px;padding:12px;font-size:12px;outline:none}
 input:focus,textarea:focus,select:focus{border-color:var(--gold)}
-textarea{min-height:95px;resize:vertical;line-height:1.9}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
-.btn{
-border:1px solid var(--line);
-background:#22242b;
-color:var(--text);
-padding:11px 16px;
-border-radius:9px;
-font-size:12px;
-}
+textarea{min-height:90px;resize:vertical;line-height:1.9}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.btn{border:1px solid var(--line);background:#22242b;color:var(--text);padding:10px 14px;border-radius:9px;font-size:12px}
 .btn.primary{background:#806532;color:white;border-color:#b79758}
 .btn.danger{color:#ffaaaa;border-color:#754040}
 .btn.small{padding:7px 10px;font-size:10px}
-.filters{
-display:grid;
-grid-template-columns:2fr 1fr 1fr;
-gap:10px;
-margin:16px 0;
-}
-.idea-list{display:grid;gap:12px}
-.idea{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:13px;
-padding:16px;
-}
-.idea-top{
-display:flex;justify-content:space-between;
-align-items:flex-start;gap:12px;
-}
-.idea h4{font-size:14px;margin:0 0 8px;color:var(--gold2)}
-.idea-desc{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
-.meta{
-display:flex;flex-wrap:wrap;gap:7px;
-margin:12px 0;
-}
-.tag{
-border:1px solid #4c4436;
-border-radius:20px;
-padding:5px 9px;
-font-size:10px;
-color:#d6c8a7;
-}
-.status-raw{color:#d6c8a7}
-.status-production{color:var(--blue)}
-.status-ready{color:var(--green)}
-.status-published{color:#c6a8ff}
-.empty{
-text-align:center;
-padding:35px 15px;
-border:1px dashed #514936;
-border-radius:13px;
-color:var(--muted);
-font-size:12px;
-line-height:2;
-}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:16px 0}
+.idea-list,.task-list{display:grid;gap:12px}
+.idea-top,.task-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.idea h4,.task h4{font-size:14px;margin:0 0 8px;color:var(--gold2)}
+.description{font-size:12px;color:var(--muted);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:10px}
+.meta{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.tag{border:1px solid #4c4436;border-radius:20px;padding:5px 9px;font-size:10px;color:#d6c8a7}
+.status{font-size:11px}
+.status-خام{color:#d6c8a7}
+.status-تولید{color:var(--blue)}
+.status-آماده,.status-انجام{color:var(--green)}
+.status-منتشر{color:#c6a8ff}
+.status-متوقف{color:var(--red)}
+.empty{text-align:center;padding:32px 15px;border:1px dashed #514936;border-radius:13px;color:var(--muted);font-size:12px;line-height:2}
 .hidden{display:none!important}
-.notice{
-margin-top:20px;
-padding:15px;
-border:1px solid #51432b;
-background:#17140f;
-border-radius:12px;
-color:#d6c8a7;
-font-size:11px;
-line-height:2;
-}
-footer{
-margin-top:35px;
-padding-top:17px;
-border-top:1px solid var(--line);
-display:flex;justify-content:space-between;
-flex-wrap:wrap;gap:12px;
-color:var(--muted);font-size:11px;
-}
+.notice{margin-top:20px;padding:15px;border:1px solid #51432b;background:#17140f;border-radius:12px;color:#d6c8a7;font-size:11px;line-height:2}
+footer{margin-top:35px;padding-top:17px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:11px}
 footer strong{color:var(--gold2)}
-@media(max-width:760px){
-.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:500px){
-.grid{grid-template-columns:1fr}
-.formgrid{grid-template-columns:1fr}
-.field.full{grid-column:auto}
-.filters{grid-template-columns:1fr}
-.wrap{width:92%}
-}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.grid,.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.filters{grid-template-columns:1fr}.wrap{width:92%}}
 </style>
 </head>
-
 <body>
 <div class="wrap">
 
@@ -250,154 +96,103 @@ footer strong{color:var(--gold2)}
 <p>Know Yourself. Transform the World.</p>
 </div>
 </div>
-<div class="badge">CENTRAL HUB · V2</div>
+<div class="badge">CENTRAL HUB · V3</div>
 </header>
 
 <section class="hero">
 <div class="eyebrow">CENTRAL CONTENT MANAGEMENT</div>
-<h2>از ایده تا انتشار؛<br><span>یک مسیر، یک مرکز</span></h2>
-<p>فضای مدیریت، سازمان‌دهی و توسعه محتوای PROJECT ONE</p>
+<h2>از ایده تا اجرا؛<br><span>یک مسیر، یک مرکز</span></h2>
+<p>مرکز مدیریت ایده‌ها و وظایف تولید محتوای PROJECT ONE</p>
 </section>
 
 <nav>
 <button class="navbtn active" data-page="dashboard">داشبورد</button>
 <button class="navbtn" data-page="ideas">بانک ایده‌ها</button>
+<button class="navbtn" data-page="tasks">مدیریت وظایف</button>
 <button class="navbtn" data-page="tools">استودیوها</button>
 </nav>
 
-<!-- DASHBOARD -->
 <section class="page active" id="dashboard">
-
-<div class="sectionhead">
-<h3>داشبورد مرکزی</h3>
-<span class="muted">نمای کلی فعالیت‌ها</span>
-</div>
+<div class="sectionhead"><h3>داشبورد مرکزی</h3><span class="muted">نمای کلی فعالیت‌ها</span></div>
 
 <div class="stats">
-<div class="stat">
-<strong id="totalCount">0</strong>
-<span>کل ایده‌ها</span>
-</div>
-<div class="stat">
-<strong id="rawCount">0</strong>
-<span>ایده‌های خام</span>
-</div>
-<div class="stat">
-<strong id="productionCount">0</strong>
-<span>در حال تولید</span>
-</div>
-<div class="stat">
-<strong id="publishedCount">0</strong>
-<span>منتشرشده</span>
-</div>
+<div class="stat"><strong id="totalCount">0</strong><span>کل ایده‌ها</span></div>
+<div class="stat"><strong id="rawCount">0</strong><span>ایده‌های خام</span></div>
+<div class="stat"><strong id="taskCount">0</strong><span>کل وظایف</span></div>
+<div class="stat"><strong id="doneCount">0</strong><span>وظایف انجام‌شده</span></div>
 </div>
 
-<div class="sectionhead">
-<h3>دسترسی سریع</h3>
-</div>
-
+<div class="sectionhead"><h3>دسترسی سریع</h3></div>
 <div class="grid">
-
 <div class="card">
-<div class="symbol">✦</div>
-<h4>بانک ایده‌ها</h4>
-<p>ثبت، جست‌وجو و مدیریت ایده‌های محتوایی.</p>
+<div class="symbol">✦</div><h4>بانک ایده‌ها</h4>
+<p>ثبت، جست‌وجو و تبدیل ایده به وظیفه.</p>
 <a href="#" onclick="showPage('ideas');return false">ورود به بانک ایده‌ها ←</a>
 </div>
-
 <div class="card">
-<div class="symbol">🎙</div>
-<h4>استودیوی پادکست</h4>
+<div class="symbol">✓</div><h4>مدیریت وظایف</h4>
+<p>پیگیری وظایف تولید محتوا بدون تعیین مسئول.</p>
+<a href="#" onclick="showPage('tasks');return false">ورود به وظایف ←</a>
+</div>
+<div class="card">
+<div class="symbol">🎙</div><h4>استودیوی پادکست</h4>
 <p>مدیریت قسمت‌ها و آرشیو پادکست.</p>
-<a href="../">ورود به استودیوی پادکست ←</a>
+<a href="../">ورود به پادکست ←</a>
 </div>
-
 <div class="card">
-<div class="symbol">▶</div>
-<h4>استودیوی ریلز</h4>
-<p>مدیریت سناریو و تولید ویدئو.</p>
+<div class="symbol">▶</div><h4>استودیوی ریلز</h4>
+<p>ماژول تولید ویدئو در مرحله اتصال است.</p>
+<span class="muted">در حال توسعه</span>
+</div>
+<div class="card">
+<div class="symbol">▦</div><h4>تقویم انتشار</h4>
+<p>برنامه‌ریزی انتشار محتوا.</p>
 <span class="muted">در مرحله توسعه</span>
 </div>
-
 <div class="card">
-<div class="symbol">▦</div>
-<h4>تقویم انتشار</h4>
-<p>برنامه‌ریزی انتشار محتوا در رسانه‌ها.</p>
+<div class="symbol">⇧</div><h4>مرکز انتشار</h4>
+<p>مدیریت انتشار در رسانه‌ها.</p>
 <span class="muted">در مرحله توسعه</span>
 </div>
-
-<div class="card">
-<div class="symbol">⇧</div>
-<h4>مرکز انتشار</h4>
-<p>مدیریت فرآیند انتشار در پلتفرم‌ها.</p>
-<span class="muted">در مرحله توسعه</span>
-</div>
-
-<div class="card">
-<div class="symbol">▣</div>
-<h4>آرشیو مرکزی</h4>
-<p>مدیریت و نگهداری خروجی‌های محتوا.</p>
-<span class="muted">در مرحله توسعه</span>
-</div>
-
 </div>
 
 <div class="notice">
-<strong>وضعیت ذخیره‌سازی:</strong>
-ایده‌ها به‌صورت خودکار در حافظه همین مرورگر ذخیره می‌شوند.
-برای انتقال به دستگاه دیگر از خروجی JSON استفاده کن.
+ذخیره‌سازی فعلی روی همین مرورگر انجام می‌شود. برای انتقال اطلاعات به دستگاه دیگر از خروجی JSON استفاده کن.
 </div>
 </section>
 
-<!-- IDEAS -->
 <section class="page" id="ideas">
-
 <div class="sectionhead">
 <h3>بانک ایده‌های PROJECT ONE</h3>
 <span class="muted" id="ideaCountLabel">۰ ایده</span>
 </div>
 
 <div class="panel">
-<h3 id="formTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت ایده جدید</h3>
-
+<h3 id="ideaFormTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت ایده جدید</h3>
 <form id="ideaForm">
-<input type="hidden" id="editId">
-
+<input type="hidden" id="editIdeaId">
 <div class="formgrid">
-
 <div class="field">
-<label for="ideaTitle">عنوان ایده *</label>
-<input id="ideaTitle" required maxlength="150" placeholder="عنوان ایده را بنویس">
+<label>عنوان ایده *</label>
+<input id="ideaTitle" required maxlength="150" placeholder="عنوان ایده">
 </div>
-
 <div class="field">
-<label for="ideaCategory">دسته‌بندی</label>
+<label>دسته‌بندی</label>
 <select id="ideaCategory">
-<option value="خودشناسی">خودشناسی</option>
-<option value="آگاهی">آگاهی</option>
-<option value="روابط">روابط</option>
-<option value="روانشناسی">روانشناسی</option>
-<option value="کتاب">کتاب</option>
-<option value="فلسفه">فلسفه</option>
-<option value="کودک">کودک</option>
-<option value="سایر">سایر</option>
+<option>خودشناسی</option><option>آگاهی</option><option>روابط</option>
+<option>روانشناسی</option><option>کتاب</option><option>فلسفه</option>
+<option>کودک</option><option>سایر</option>
 </select>
 </div>
-
 <div class="field">
-<label for="ideaChannel">رسانه مقصد</label>
+<label>رسانه مقصد</label>
 <select id="ideaChannel">
-<option value="اینستاگرام">اینستاگرام</option>
-<option value="تلگرام">تلگرام</option>
-<option value="یوتیوب">یوتیوب</option>
-<option value="پادکست">پادکست</option>
-<option value="وب‌سایت">وب‌سایت</option>
-<option value="چند رسانه">چند رسانه</option>
+<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option>
+<option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
 </select>
 </div>
-
 <div class="field">
-<label for="ideaStatus">وضعیت</label>
+<label>وضعیت ایده</label>
 <select id="ideaStatus">
 <option value="خام">ایده خام</option>
 <option value="تولید">در حال تولید</option>
@@ -405,399 +200,455 @@ footer strong{color:var(--gold2)}
 <option value="منتشر">منتشرشده</option>
 </select>
 </div>
-
 <div class="field full">
-<label for="ideaDesc">شرح ایده</label>
-<textarea id="ideaDesc" maxlength="5000" placeholder="توضیحات، نکات و زاویه محتوایی..."></textarea>
+<label>شرح ایده</label>
+<textarea id="ideaDesc" maxlength="5000" placeholder="توضیحات و زاویه محتوایی..."></textarea>
 </div>
-
 </div>
-
 <div class="actions">
-<button class="btn primary" type="submit" id="saveBtn">ذخیره ایده</button>
-<button class="btn hidden" type="button" id="cancelEdit">لغو ویرایش</button>
+<button class="btn primary" type="submit" id="ideaSaveBtn">ذخیره ایده</button>
+<button class="btn hidden" type="button" id="ideaCancel">لغو ویرایش</button>
 </div>
 </form>
 </div>
 
-<div class="sectionhead">
-<h3>فهرست ایده‌ها</h3>
-<span class="muted">جست‌وجو و مدیریت</span>
-</div>
-
+<div class="sectionhead"><h3>فهرست ایده‌ها</h3></div>
 <div class="filters">
-<input id="searchInput" placeholder="جست‌وجو در عنوان و توضیحات...">
-<select id="filterCategory">
+<input id="ideaSearch" placeholder="جست‌وجو در ایده‌ها...">
+<select id="ideaFilterCategory">
 <option value="">همه دسته‌ها</option>
-<option>خودشناسی</option>
-<option>آگاهی</option>
-<option>روابط</option>
-<option>روانشناسی</option>
-<option>کتاب</option>
-<option>فلسفه</option>
-<option>کودک</option>
-<option>سایر</option>
+<option>خودشناسی</option><option>آگاهی</option><option>روابط</option>
+<option>روانشناسی</option><option>کتاب</option><option>فلسفه</option>
+<option>کودک</option><option>سایر</option>
 </select>
-<select id="filterStatus">
+<select id="ideaFilterStatus">
 <option value="">همه وضعیت‌ها</option>
-<option value="خام">ایده خام</option>
-<option value="تولید">در حال تولید</option>
-<option value="آماده">آماده انتشار</option>
-<option value="منتشر">منتشرشده</option>
+<option value="خام">ایده خام</option><option value="تولید">در حال تولید</option>
+<option value="آماده">آماده انتشار</option><option value="منتشر">منتشرشده</option>
 </select>
 </div>
-
 <div class="actions">
-<button class="btn" id="exportBtn" type="button">خروجی JSON</button>
-<button class="btn" id="importBtn" type="button">بازیابی JSON</button>
+<button class="btn" id="exportBtn" type="button">خروجی پشتیبان JSON</button>
+<button class="btn" id="importBtn" type="button">بازیابی پشتیبان</button>
 <input class="hidden" type="file" id="importFile" accept=".json,application/json">
 </div>
-
 <div class="idea-list" id="ideaList" style="margin-top:15px"></div>
-
 </section>
 
-<!-- TOOLS -->
-<section class="page" id="tools">
+<section class="page" id="tasks">
+<div class="sectionhead">
+<h3>مدیریت وظایف تولید محتوا</h3>
+<span class="muted" id="taskCountLabel">۰ وظیفه</span>
+</div>
+
+<div class="panel">
+<h3 id="taskFormTitle" style="font-size:14px;color:var(--gold2);margin-top:0">ثبت وظیفه جدید</h3>
+<form id="taskForm">
+<input type="hidden" id="editTaskId">
+<div class="formgrid">
+<div class="field">
+<label>عنوان وظیفه *</label>
+<input id="taskTitle" required maxlength="150" placeholder="عنوان وظیفه">
+</div>
+<div class="field">
+<label>دسته‌بندی</label>
+<select id="taskCategory">
+<option>خودشناسی</option><option>آگاهی</option><option>روابط</option>
+<option>روانشناسی</option><option>کتاب</option><option>فلسفه</option>
+<option>کودک</option><option>سایر</option>
+</select>
+</div>
+<div class="field">
+<label>رسانه مقصد</label>
+<select id="taskChannel">
+<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option>
+<option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
+</select>
+</div>
+<div class="field">
+<label>وضعیت وظیفه</label>
+<select id="taskStatus">
+<option value="جدید">جدید</option>
+<option value="انجام">در حال انجام</option>
+<option value="تکمیل">انجام‌شده</option>
+<option value="متوقف">متوقف‌شده</option>
+</select>
+</div>
+<div class="field full">
+<label>توضیحات وظیفه</label>
+<textarea id="taskDesc" maxlength="5000" placeholder="شرح کار و خروجی مورد انتظار..."></textarea>
+</div>
+</div>
+<div class="actions">
+<button class="btn primary" type="submit" id="taskSaveBtn">ثبت وظیفه</button>
+<button class="btn hidden" type="button" id="taskCancel">لغو ویرایش</button>
+</div>
+<p class="muted">مسئول: تعیین نشده · این وظیفه به هیچ فردی واگذار نمی‌شود.</p>
+</form>
+</div>
 
 <div class="sectionhead">
-<h3>استودیوهای تولید محتوا</h3>
+<h3>فهرست وظایف</h3>
+<span class="muted">پیگیری و مدیریت</span>
 </div>
+<div class="filters">
+<input id="taskSearch" placeholder="جست‌وجوی وظایف...">
+<select id="taskFilterChannel">
+<option value="">همه رسانه‌ها</option>
+<option>اینستاگرام</option><option>تلگرام</option><option>یوتیوب</option>
+<option>پادکست</option><option>وب‌سایت</option><option>چند رسانه</option>
+</select>
+<select id="taskFilterStatus">
+<option value="">همه وضعیت‌ها</option>
+<option value="جدید">جدید</option><option value="انجام">در حال انجام</option>
+<option value="تکمیل">انجام‌شده</option><option value="متوقف">متوقف‌شده</option>
+</select>
+</div>
+<div class="task-list" id="taskList"></div>
+</section>
 
+<section class="page" id="tools">
+<div class="sectionhead"><h3>استودیوهای تولید محتوا</h3></div>
 <div class="grid">
-
 <div class="card">
-<div class="symbol">🎙</div>
-<h4>استودیوی پادکست</h4>
-<p>نسخه فعلی پادکست بدون تغییر باقی مانده است.</p>
+<div class="symbol">🎙</div><h4>استودیوی پادکست</h4>
+<p>نسخه قبلی پادکست بدون تغییر باقی مانده است.</p>
 <a href="../">ورود به پادکست ←</a>
 </div>
-
 <div class="card">
-<div class="symbol">▶</div>
-<h4>استودیوی ریلز</h4>
-<p>ماژول تولید ویدئو در مرحله اتصال به هاب مرکزی است.</p>
+<div class="symbol">▶</div><h4>استودیوی ریلز</h4>
+<p>ماژول تولید ویدئو در مرحله اتصال است.</p>
 <span class="muted">در حال توسعه</span>
 </div>
-
 <div class="card">
-<div class="symbol">✍</div>
-<h4>استودیوی متن</h4>
-<p>مدیریت سناریو، کپشن و متن محتوایی.</p>
-<span class="muted">در مرحله بعد</span>
+<div class="symbol">✍</div><h4>استودیوی متن</h4>
+<p>مدیریت سناریو، کپشن و متن محتوا.</p>
+<span class="muted">در مرحله توسعه</span>
 </div>
-
-</div>
-
-<div class="notice">
-ماژول‌های آینده پس از تکمیل، از همین داشبورد قابل دسترسی خواهند بود.
 </div>
 </section>
 
 <footer>
 <span><strong>PROJECT ONE</strong> · فضای آگاهی و تحول درونی</span>
-<span>Central Hub V2</span>
+<span>Central Hub V3</span>
 </footer>
-
 </div>
 
 <script>
-const STORAGE_KEY = "projectone_hub_ideas_v2";
+const IDEA_KEY="projectone_hub_ideas_v2";
+const TASK_KEY="projectone_hub_tasks_v3";
+let ideas=[],tasks=[];
 
-let ideas = [];
+const $=id=>document.getElementById(id);
 
-const $ = id => document.getElementById(id);
-
-function loadIdeas(){
+function readStore(key){
 try{
-const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-ideas = Array.isArray(data) ? data : [];
-}catch(e){
-ideas = [];
+const value=JSON.parse(localStorage.getItem(key)||"[]");
+return Array.isArray(value)?value:[];
+}catch(e){return [];}
 }
-render();
-}
-
-function saveIdeas(){
+function writeStore(key,value){
 try{
-localStorage.setItem(STORAGE_KEY,JSON.stringify(ideas));
+localStorage.setItem(key,JSON.stringify(value));
+return true;
 }catch(e){
-alert("ذخیره‌سازی انجام نشد. فضای مرورگر را بررسی کن.");
+alert("ذخیره اطلاعات انجام نشد. فضای مرورگر را بررسی کن.");
+return false;
 }
-render();
 }
-
-function makeId(){
-return "idea_" + Date.now() + "_" + Math.random().toString(36).slice(2,8);
+function uid(){
+return "po_"+Date.now()+"_"+Math.random().toString(36).slice(2,8);
 }
-
+function esc(value){
+return String(value??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[c]));
+}
 function showPage(name){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
-
-const page = $(name);
-if(page) page.classList.add("active");
-
-const button = document.querySelector('[data-page="'+name+'"]');
-if(button) button.classList.add("active");
-
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
+$(name).classList.add("active");
+const btn=document.querySelector('[data-page="'+name+'"]');
+if(btn)btn.classList.add("active");
 window.scrollTo({top:0,behavior:"smooth"});
 }
-
 document.querySelectorAll(".navbtn").forEach(btn=>{
 btn.addEventListener("click",()=>showPage(btn.dataset.page));
 });
 
-function statusText(status){
-return {
-"خام":"ایده خام",
-"تولید":"در حال تولید",
-"آماده":"آماده انتشار",
-"منتشر":"منتشرشده"
-}[status] || status;
+function persistIdeas(){
+writeStore(IDEA_KEY,ideas);
+renderAll();
+}
+function persistTasks(){
+writeStore(TASK_KEY,tasks);
+renderAll();
+}
+function linkedTask(ideaId){
+return tasks.some(t=>t.sourceIdeaId===ideaId);
 }
 
-function statusClass(status){
-return {
-"خام":"status-raw",
-"تولید":"status-production",
-"آماده":"status-ready",
-"منتشر":"status-published"
-}[status] || "";
+function renderAll(){
+$("totalCount").textContent=ideas.length;
+$("rawCount").textContent=ideas.filter(x=>x.status==="خام").length;
+$("taskCount").textContent=tasks.length;
+$("doneCount").textContent=tasks.filter(x=>x.status==="تکمیل").length;
+$("ideaCountLabel").textContent=ideas.length+" ایده";
+$("taskCountLabel").textContent=tasks.length+" وظیفه";
+renderIdeas();
+renderTasks();
 }
 
-function escapeHTML(value){
-return String(value ?? "").replace(/[&<>"']/g,char=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[char]));
-}
-
-function render(){
-const total = ideas.length;
-const raw = ideas.filter(x=>x.status==="خام").length;
-const production = ideas.filter(x=>x.status==="تولید").length;
-const published = ideas.filter(x=>x.status==="منتشر").length;
-
-$("totalCount").textContent = total;
-$("rawCount").textContent = raw;
-$("productionCount").textContent = production;
-$("publishedCount").textContent = published;
-$("ideaCountLabel").textContent = total + " ایده";
-
-const search = $("searchInput").value.trim().toLowerCase();
-const category = $("filterCategory").value;
-const status = $("filterStatus").value;
-
-const filtered = ideas.filter(idea=>{
-const text = (idea.title+" "+idea.desc).toLowerCase();
-return (!search || text.includes(search)) &&
-(!category || idea.category===category) &&
-(!status || idea.status===status);
-});
-
-const list = $("ideaList");
-list.innerHTML = "";
-
-if(filtered.length===0){
-list.innerHTML = '<div class="empty">ایده‌ای پیدا نشد.<br>می‌توانی اولین ایده را ثبت کنی.</div>';
-return;
-}
-
+function renderIdeas(){
+const search=$("ideaSearch").value.trim().toLowerCase();
+const cat=$("ideaFilterCategory").value;
+const status=$("ideaFilterStatus").value;
+const list=$("ideaList");
+list.innerHTML="";
+let filtered=ideas.filter(x=>
+(!search||(x.title+" "+(x.desc||"")).toLowerCase().includes(search))&&
+(!cat||x.category===cat)&&(!status||x.status===status)
+);
 filtered.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
-
-filtered.forEach(idea=>{
-const article = document.createElement("article");
-article.className = "idea";
-
-article.innerHTML = `
+if(!filtered.length){
+list.innerHTML='<div class="empty">ایده‌ای پیدا نشد.</div>';return;
+}
+filtered.forEach(x=>{
+const converted=linkedTask(x.id);
+const el=document.createElement("article");
+el.className="idea";
+el.innerHTML=`
 <div class="idea-top">
-<div>
-<h4>${escapeHTML(idea.title)}</h4>
-<div class="muted">${escapeHTML(idea.category)} · ${escapeHTML(idea.channel)}</div>
+<div><h4>${esc(x.title)}</h4><span class="muted">${esc(x.category)} · ${esc(x.channel)}</span></div>
+<span class="status">${esc(x.status==="خام"?"ایده خام":x.status==="تولید"?"در حال تولید":x.status==="آماده"?"آماده انتشار":"منتشرشده")}</span>
 </div>
-<span class="${statusClass(idea.status)}" style="font-size:11px">${escapeHTML(statusText(idea.status))}</span>
-</div>
-
-${idea.desc ? `<div class="idea-desc">${escapeHTML(idea.desc)}</div>` : ""}
-
-<div class="meta">
-<span class="tag">${escapeHTML(idea.category)}</span>
-<span class="tag">${escapeHTML(idea.channel)}</span>
-<span class="tag">${escapeHTML(statusText(idea.status))}</span>
-</div>
-
+${x.desc?`<div class="description">${esc(x.desc)}</div>`:""}
+<div class="meta"><span class="tag">${esc(x.category)}</span><span class="tag">${esc(x.channel)}</span></div>
 <div class="actions">
-<button class="btn small" data-action="edit" data-id="${escapeHTML(idea.id)}">ویرایش</button>
-<button class="btn small" data-action="next" data-id="${escapeHTML(idea.id)}">تغییر وضعیت</button>
-<button class="btn small danger" data-action="delete" data-id="${escapeHTML(idea.id)}">حذف</button>
+<button class="btn small" data-action="edit" data-id="${esc(x.id)}">ویرایش</button>
+<button class="btn small primary" data-action="convert" data-id="${esc(x.id)}" ${converted?"disabled":""}>${converted?"تبدیل شده ✓":"تبدیل به وظیفه"}</button>
+<button class="btn small danger" data-action="delete" data-id="${esc(x.id)}">حذف</button>
+</div>`;
+list.appendChild(el);
+});
+}
+
+function renderTasks(){
+const search=$("taskSearch").value.trim().toLowerCase();
+const channel=$("taskFilterChannel").value;
+const status=$("taskFilterStatus").value;
+const list=$("taskList");
+list.innerHTML="";
+let filtered=tasks.filter(t=>
+(!search||(t.title+" "+(t.desc||"")).toLowerCase().includes(search))&&
+(!channel||t.channel===channel)&&(!status||t.status===status)
+);
+filtered.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+if(!filtered.length){
+list.innerHTML='<div class="empty">هنوز وظیفه‌ای ثبت نشده است.<br>از بانک ایده‌ها یک ایده را به وظیفه تبدیل کن یا وظیفه جدید بساز.</div>';return;
+}
+filtered.forEach(t=>{
+const el=document.createElement("article");
+el.className="task";
+const statusName={
+"جدید":"جدید","انجام":"در حال انجام","تکمیل":"انجام‌شده","متوقف":"متوقف‌شده"
+}[t.status]||t.status;
+el.innerHTML=`
+<div class="task-top">
+<div><h4>${esc(t.title)}</h4><span class="muted">${esc(t.category)} · ${esc(t.channel)}</span></div>
+<span class="status status-${esc(t.status)}">${esc(statusName)}</span>
 </div>
-`;
-
-list.appendChild(article);
+${t.desc?`<div class="description">${esc(t.desc)}</div>`:""}
+<div class="meta">
+<span class="tag">${esc(t.channel)}</span>
+<span class="tag">${esc(t.category)}</span>
+<span class="tag">مسئول: تعیین نشده</span>
+${t.sourceIdeaId?'<span class="tag">ساخته‌شده از ایده</span>':''}
+</div>
+<div class="actions">
+<button class="btn small" data-task-action="edit" data-id="${esc(t.id)}">ویرایش</button>
+<button class="btn small" data-task-action="next" data-id="${esc(t.id)}">تغییر وضعیت</button>
+<button class="btn small danger" data-task-action="delete" data-id="${esc(t.id)}">حذف</button>
+</div>`;
+list.appendChild(el);
 });
 }
 
-$("ideaForm").addEventListener("submit",event=>{
-event.preventDefault();
-
-const title = $("ideaTitle").value.trim();
-if(!title){
-alert("عنوان ایده را وارد کن.");
-return;
-}
-
-const editId = $("editId").value;
-const now = Date.now();
-
-const record = {
-title,
-category:$("ideaCategory").value,
-channel:$("ideaChannel").value,
-status:$("ideaStatus").value,
-desc:$("ideaDesc").value.trim(),
-updatedAt:now
+$("ideaForm").addEventListener("submit",e=>{
+e.preventDefault();
+const title=$("ideaTitle").value.trim();
+if(!title)return;
+const id=$("editIdeaId").value;
+const now=Date.now();
+const data={
+title,category:$("ideaCategory").value,
+channel:$("ideaChannel").value,status:$("ideaStatus").value,
+desc:$("ideaDesc").value.trim(),updatedAt:now
 };
-
-if(editId){
-const index = ideas.findIndex(x=>x.id===editId);
-if(index!==-1){
-ideas[index] = {...ideas[index],...record};
-}
+if(id){
+const i=ideas.findIndex(x=>x.id===id);
+if(i>=0)ideas[i]={...ideas[i],...data};
 }else{
-ideas.push({
-id:makeId(),
-createdAt:now,
-...record
-});
+ideas.push({id:uid(),createdAt:now,...data});
 }
-
-saveIdeas();
-resetForm();
-alert(editId ? "ایده ویرایش شد." : "ایده ذخیره شد.");
+persistIdeas();resetIdeaForm();
 });
 
-function resetForm(){
-$("ideaForm").reset();
-$("editId").value="";
-$("formTitle").textContent="ثبت ایده جدید";
-$("saveBtn").textContent="ذخیره ایده";
-$("cancelEdit").classList.add("hidden");
+function resetIdeaForm(){
+$("ideaForm").reset();$("editIdeaId").value="";
+$("ideaFormTitle").textContent="ثبت ایده جدید";
+$("ideaSaveBtn").textContent="ذخیره ایده";
+$("ideaCancel").classList.add("hidden");
 }
+$("ideaCancel").addEventListener("click",resetIdeaForm);
 
-$("cancelEdit").addEventListener("click",resetForm);
+$("ideaList").addEventListener("click",e=>{
+const b=e.target.closest("button[data-action]");
+if(!b)return;
+const id=b.dataset.id;
+const x=ideas.find(i=>i.id===id);
+if(!x)return;
+if(b.dataset.action==="edit"){
+$("editIdeaId").value=x.id;
+$("ideaTitle").value=x.title;
+$("ideaCategory").value=x.category;
+$("ideaChannel").value=x.channel;
+$("ideaStatus").value=x.status;
+$("ideaDesc").value=x.desc||"";
+$("ideaFormTitle").textContent="ویرایش ایده";
+$("ideaSaveBtn").textContent="ذخیره تغییرات";
+$("ideaCancel").classList.remove("hidden");
+window.scrollTo({top:0,behavior:"smooth"});
+}
+if(b.dataset.action==="convert"){
+if(linkedTask(id)){alert("این ایده قبلاً به وظیفه تبدیل شده است.");return;}
+tasks.push({
+id:uid(),sourceIdeaId:x.id,title:x.title,
+category:x.category,channel:x.channel,
+desc:x.desc||"",status:"جدید",
+createdAt:Date.now(),updatedAt:Date.now()
+});
+persistTasks();
+alert("وظیفه ساخته شد. مسئول آن تعیین نشده است.");
+showPage("tasks");
+}
+if(b.dataset.action==="delete"){
+if(confirm("ایده حذف شود؟ وظیفه احتمالی مرتبط حذف نخواهد شد.")){
+ideas=ideas.filter(i=>i.id!==id);
+persistIdeas();
+}
+}
+});
 
-$("ideaList").addEventListener("click",event=>{
-const button = event.target.closest("button[data-action]");
-if(!button) return;
+$("taskForm").addEventListener("submit",e=>{
+e.preventDefault();
+const title=$("taskTitle").value.trim();
+if(!title)return;
+const id=$("editTaskId").value;
+const now=Date.now();
+const data={
+title,category:$("taskCategory").value,
+channel:$("taskChannel").value,status:$("taskStatus").value,
+desc:$("taskDesc").value.trim(),updatedAt:now
+};
+if(id){
+const i=tasks.findIndex(t=>t.id===id);
+if(i>=0)tasks[i]={...tasks[i],...data};
+}else{
+tasks.push({id:uid(),createdAt:now,...data});
+}
+persistTasks();resetTaskForm();
+});
 
-const id = button.dataset.id;
-const action = button.dataset.action;
-const idea = ideas.find(x=>x.id===id);
-if(!idea) return;
+function resetTaskForm(){
+$("taskForm").reset();$("editTaskId").value="";
+$("taskFormTitle").textContent="ثبت وظیفه جدید";
+$("taskSaveBtn").textContent="ثبت وظیفه";
+$("taskCancel").classList.add("hidden");
+}
+$("taskCancel").addEventListener("click",resetTaskForm);
 
+$("taskList").addEventListener("click",e=>{
+const b=e.target.closest("button[data-task-action]");
+if(!b)return;
+const id=b.dataset.id;
+const t=tasks.find(x=>x.id===id);
+if(!t)return;
+const action=b.dataset.taskAction;
 if(action==="edit"){
-$("editId").value=idea.id;
-$("ideaTitle").value=idea.title;
-$("ideaCategory").value=idea.category;
-$("ideaChannel").value=idea.channel;
-$("ideaStatus").value=idea.status;
-$("ideaDesc").value=idea.desc;
-$("formTitle").textContent="ویرایش ایده";
-$("saveBtn").textContent="ذخیره تغییرات";
-$("cancelEdit").classList.remove("hidden");
-window.scrollTo({top:document.querySelector(".panel").offsetTop-20,behavior:"smooth"});
+$("editTaskId").value=t.id;
+$("taskTitle").value=t.title;
+$("taskCategory").value=t.category;
+$("taskChannel").value=t.channel;
+$("taskStatus").value=t.status;
+$("taskDesc").value=t.desc||"";
+$("taskFormTitle").textContent="ویرایش وظیفه";
+$("taskSaveBtn").textContent="ذخیره تغییرات";
+$("taskCancel").classList.remove("hidden");
+window.scrollTo({top:0,behavior:"smooth"});
 }
-
-if(action==="delete"){
-if(confirm("این ایده حذف شود؟")){
-ideas=ideas.filter(x=>x.id!==id);
-saveIdeas();
-}
-}
-
 if(action==="next"){
-const states=["خام","تولید","آماده","منتشر"];
-const index=states.indexOf(idea.status);
-idea.status=states[(index+1)%states.length];
-idea.updatedAt=Date.now();
-saveIdeas();
+const states=["جدید","انجام","تکمیل","متوقف"];
+t.status=states[(states.indexOf(t.status)+1)%states.length];
+t.updatedAt=Date.now();
+persistTasks();
+}
+if(action==="delete"){
+if(confirm("این وظیفه حذف شود؟")){
+tasks=tasks.filter(x=>x.id!==id);
+persistTasks();
+}
 }
 });
 
-["searchInput","filterCategory","filterStatus"].forEach(id=>{
-$(id).addEventListener("input",render);
-$(id).addEventListener("change",render);
+["ideaSearch","ideaFilterCategory","ideaFilterStatus"].forEach(id=>{
+$(id).addEventListener("input",renderIdeas);
+$(id).addEventListener("change",renderIdeas);
+});
+["taskSearch","taskFilterChannel","taskFilterStatus"].forEach(id=>{
+$(id).addEventListener("input",renderTasks);
+$(id).addEventListener("change",renderTasks);
 });
 
 $("exportBtn").addEventListener("click",()=>{
-const data = {
+const backup={
 app:"PROJECT ONE Central Hub",
-version:2,
+version:3,
 exportedAt:new Date().toISOString(),
-ideas
+ideas,tasks
 };
-
-const blob = new Blob(
-[JSON.stringify(data,null,2)],
-{type:"application/json"}
-);
-
+const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
 const url=URL.createObjectURL(blob);
 const a=document.createElement("a");
-a.href=url;
-a.download="projectone-ideas-backup.json";
-a.click();
+a.href=url;a.download="projectone-hub-backup.json";a.click();
 URL.revokeObjectURL(url);
 });
 
-$("importBtn").addEventListener("click",()=>{
-$("importFile").click();
-});
-
-$("importFile").addEventListener("change",async event=>{
-const file=event.target.files[0];
-if(!file) return;
-
+$("importBtn").addEventListener("click",()=>$("importFile").click());
+$("importFile").addEventListener("change",async e=>{
+const file=e.target.files[0];
+if(!file)return;
 try{
-const text=await file.text();
-const data=JSON.parse(text);
-const incoming=Array.isArray(data) ? data : data.ideas;
-
-if(!Array.isArray(incoming)) throw new Error("Invalid format");
-
-if(!confirm("اطلاعات فایل وارد شود؟ ایده‌های هم‌شماره جایگزین می‌شوند.")) return;
-
-const map=new Map(ideas.map(x=>[x.id,x]));
-
-incoming.forEach(item=>{
-if(item && item.id && item.title){
-map.set(item.id,{
-id:String(item.id),
-title:String(item.title),
-category:String(item.category||"سایر"),
-channel:String(item.channel||"چند رسانه"),
-status:["خام","تولید","آماده","منتشر"].includes(item.status)?item.status:"خام",
-desc:String(item.desc||""),
-createdAt:Number(item.createdAt)||Date.now(),
-updatedAt:Number(item.updatedAt)||Date.now()
-});
+const data=JSON.parse(await file.text());
+if(!Array.isArray(data.ideas)||!Array.isArray(data.tasks)){
+throw new Error("Invalid backup");
 }
-});
-
-ideas=Array.from(map.values());
-saveIdeas();
+if(!confirm("اطلاعات پشتیبان جایگزین اطلاعات فعلی شود؟"))return;
+ideas=data.ideas;
+tasks=data.tasks;
+writeStore(IDEA_KEY,ideas);
+writeStore(TASK_KEY,tasks);
+renderAll();
 alert("بازیابی اطلاعات انجام شد.");
-}catch(error){
-alert("فایل معتبر نیست یا قابل خواندن نیست.");
+}catch(err){
+alert("فایل پشتیبان معتبر نیست.");
 }
-event.target.value="";
+e.target.value="";
 });
 
-loadIdeas();
+ideas=readStore(IDEA_KEY);
+tasks=readStore(TASK_KEY);
+renderAll();
 </script>
 </body>
 </html>
